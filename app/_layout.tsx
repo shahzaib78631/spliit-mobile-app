@@ -1,39 +1,60 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import "@/theme/unistyles";
+import { useStyles } from "react-native-unistyles";
+import { Stack } from "expo-router";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+// Import fonts
+import * as Font from "expo-font";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+// Import translations
+import { initI18n } from "@/strings/translations";
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+const App: React.FC = () => {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const { theme } = useStyles();
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    async function loadFonts() {
+      await Font.loadAsync({
+        "e-Ukraine-Regular": require("../assets/fonts/e-Ukraine-Regular.otf"),
+        "e-Ukraine-Bold": require("../assets/fonts/e-Ukraine-Bold.otf"),
+        "e-Ukraine-Light": require("../assets/fonts/e-Ukraine-Light.otf"),
+        "e-Ukraine-Thin": require("../assets/fonts/e-Ukraine-Thin.otf"),
+        "e-Ukraine-Medium": require("../assets/fonts/e-Ukraine-Medium.otf"),
+        "e-Ukraine-UltraLight": require("../assets/fonts/e-Ukraine-UltraLight.otf"),
+      });
+      setFontsLoaded(true);
     }
-  }, [loaded]);
+    initI18n();
+    loadFonts();
+  }, []);
 
-  if (!loaded) {
-    return null;
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="(tabs)" />
+    </Stack>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
+
+export default App;

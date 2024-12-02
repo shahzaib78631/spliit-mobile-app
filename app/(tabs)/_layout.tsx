@@ -1,45 +1,71 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import React from "react";
+import { StyleSheet } from "react-native";
+import "@/theme/unistyles";
+import { Tabs } from "expo-router";
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+// Icons
+import { AntDesign } from "@expo/vector-icons";
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+// Translation
+import { getString } from "@/strings/translations";
+import CustomTabBar from "@/components/CustomTabbar";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
+const App: React.FC = () => {
   return (
     <Tabs
+      initialRouteName="index"
+      tabBar={(props: BottomTabBarProps) => <CustomTabBar {...props} />}
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
+        tabBarShowLabel: false,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: getString("screen.home.title"),
+          headerTitle: getString("screen.home.title"),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="history"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: getString("screen.history.title"),
+          headerTitle: getString("screen.history.title"),
+        }}
+      />
+      <Tabs.Screen
+        name="create"
+        options={{
+          title: getString("screen.create.title"),
+          headerTitle: getString("screen.create.title"),
+        }}
+      />
+      <Tabs.Screen
+        name="groups"
+        options={{
+          title: getString("screen.groups.title"),
+          headerTitle: getString("screen.groups.title"),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: getString("screen.profile.title"),
+          headerTitle: getString("screen.profile.title"),
         }}
       />
     </Tabs>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
+
+export default App;

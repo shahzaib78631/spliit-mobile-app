@@ -1,74 +1,110 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import ThemedView from "@/components/ui/ThemedView";
+import RecientBillCard from "@/components/RecientBillCard";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
+import ThemedText from "@/components/ui/ThemedText";
+import { getString } from "@/strings/translations";
+import ThemedButton from "@/components/ui/ThemedButton";
+import StackedAvatars from "@/components/StackedAvatars";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+export default function Home() {
+  const { styles } = useStyles(stylesheet);
 
-export default function HomeScreen() {
+  const data = {
+    title: "KFC Cafe",
+    group: [
+      {
+        name: "John Doe",
+        avatar: "https://www.tapback.co/api/avatar.webp",
+      },
+      {
+        name: "Jane Doe",
+        avatar: "https://www.tapback.co/api/avatar.webp",
+      },
+      {
+        name: "Jack Doe",
+        avatar: "https://www.tapback.co/api/avatar.webp",
+      },
+      {
+        name: "Jill Doe",
+        avatar: "https://www.tapback.co/api/avatar.webp",
+      },
+      {
+        name: "Jenny Doe",
+        avatar: "https://www.tapback.co/api/avatar.webp",
+      },
+    ],
+    friends: [
+      {
+        name: "John Doe",
+        avatar: "https://www.tapback.co/api/avatar.webp",
+      },
+      {
+        name: "Jane Doe",
+        avatar: "https://www.tapback.co/api/avatar.webp",
+      },
+      {
+        name: "Jack Doe",
+        avatar: "https://www.tapback.co/api/avatar.webp",
+      },
+      {
+        name: "Jenny Doe",
+        avatar: "https://www.tapback.co/api/avatar.webp",
+      },
+    ],
+    onSplitBtnPress: () => console.log("Split Bill"),
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <ThemedView style={styles.container}>
+      <RecientBillCard
+        title={data.title}
+        group={data.group}
+        onSplitBtnPress={() => console.log("Split Bill")}
+      />
+      <View style={styles.friendsSectionContainer}>
+        <View style={styles.sectionHeader}>
+          <View>
+            <ThemedText type="regular" fontSize="lg">
+              {getString("common.friends")}
+            </ThemedText>
+          </View>
+          <View>
+            <ThemedButton variant="text" buttonStyle={styles.seeMoreBtn}>
+              <ThemedText fontSize="xs" color="secondary">
+                {getString("common.see_more")}
+              </ThemedText>
+            </ThemedButton>
+          </View>
+        </View>
+        <StackedAvatars
+          avatarSize={55}
+          overlap={16}
+          avatars={data.friends.map((i) => i.avatar)}
+          names={data.friends.map((i) => i.name)}
+          showNames
+          addLabel={getString("common.add_friend")}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      </View>
+    </ThemedView>
   );
 }
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+const stylesheet = createStyleSheet((theme) => ({
+  container: {
+    paddingHorizontal: theme.padding.xl,
+    gap: theme.spacing.xl,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  friendsSectionContainer: {
+    gap: theme.spacing.md,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  sectionHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
-});
+  seeMoreBtn: {
+    paddingRight: theme.padding.none,
+  },
+}));

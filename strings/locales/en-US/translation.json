@@ -1,0 +1,36 @@
+{
+  "screen": {
+    "home": {
+      "title": "Home"
+    },
+    "groups": {
+      "title": "Groups"
+    },
+    "profile": {
+      "title": "Profile"
+    },
+    "history": {
+      "title": "History"
+    },
+    "notifications": {
+      "title": "Notifications"
+    },
+    "create": {
+      "title": "Create"
+    },
+    "settings": {
+      "title": "Settings"
+    },
+    "login": {
+      "title": "Login"
+    },
+    "register": {
+      "title": "Register"
+    }
+  },
+  "common": {
+    "friends": "Friends",
+    "see_more": "See More",
+    "add_friend": "Add Friend"
+  }
+}
