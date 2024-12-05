@@ -7,6 +7,7 @@ import {
   TouchableOpacityProps,
   ViewStyle,
   TextStyle,
+  ActivityIndicator, // Import the ActivityIndicator for loading state
 } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
@@ -21,6 +22,8 @@ interface ThemedButtonProps extends TouchableOpacityProps {
   borderRadius?: keyof BorderRadius;
   /** Font size for the button label */
   fontSize?: keyof FontSize;
+  /** Whether the button is in a loading state */
+  loading?: boolean;
 }
 
 const ThemedButton: React.FC<ThemedButtonProps> = ({
@@ -29,6 +32,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
   variant = "primary",
   borderRadius = "md",
   fontSize = "md",
+  loading = false, // Default loading is false
   ...props
 }) => {
   const { styles, theme } = useStyles(stylesheet);
@@ -68,22 +72,27 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
         { borderRadius: theme.borderRadius[borderRadius] },
         buttonStyle,
       ]}
+      disabled={loading} // Disable the button when loading is true
       {...props}
     >
-      {title && (
-        <Text
-          style={[
-            styles.title,
-            { fontSize: theme.fontSize[fontSize] },
-            variant === "text" ||
-            variant === "outline" ||
-            variant === "dashed-outline"
-              ? { color: theme.colors.primary }
-              : { color: theme.colors.onPrimary },
-          ]}
-        >
-          {title}
-        </Text>
+      {loading ? (
+        <ActivityIndicator color={theme.colors.onPrimary} />
+      ) : (
+        title && (
+          <Text
+            style={[
+              styles.title,
+              { fontSize: theme.fontSize[fontSize] },
+              variant === "text" ||
+              variant === "outline" ||
+              variant === "dashed-outline"
+                ? { color: theme.colors.primary }
+                : { color: theme.colors.onPrimary },
+            ]}
+          >
+            {title}
+          </Text>
+        )
       )}
       {props.children}
     </TouchableOpacity>

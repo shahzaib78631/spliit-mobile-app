@@ -7,7 +7,7 @@ interface SeperatorProps {
   height?: DimensionValue | undefined;
   width?: DimensionValue | undefined;
   color?: string;
-  margin: DimensionValue | undefined;
+  margin?: DimensionValue | undefined;
 }
 
 const Seperator: React.FC<SeperatorProps> = ({

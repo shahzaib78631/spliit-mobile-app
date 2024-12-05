@@ -1,0 +1,17 @@
+export const errorMessages: Record<string, string> = {
+  min1: "schema_errors.min1", // "Enter at least one character."
+  min2: "schema_errors.min2", // "Enter at least two characters."
+  max5: "schema_errors.max5", // "Enter at most five characters."
+  max50: "schema_errors.max50", // "Enter at most 50 characters."
+  duplicateParticipantName: "schema_errors.duplicate_participant_name", // "Another participant already has this name."
+  titleRequired: "schema_errors.title_required", // "Please enter a title."
+  invalidNumber: "schema_errors.invalid_number", // "Invalid number."
+  amountRequired: "schema_errors.amount_required", // "You must enter an amount."
+  amountNotZero: "schema_errors.amount_not_zero", // "The amount must not be zero."
+  amountTenMillion: "schema_errors.amount_ten_million", // "The amount must be lower than 10,000,000."
+  paidByRequired: "schema_errors.paid_by_required", // "You must select a participant."
+  paidForMin1: "schema_errors.paid_for_min1", // "The expense must be paid for at least one participant."
+  noZeroShares: "schema_errors.no_zero_shares", // "All shares must be higher than 0."
+  amountSum: "schema_errors.amount_sum", // "Sum of amounts must equal the expense amount."
+  percentageSum: "schema_errors.percentage_sum", // "Sum of percentages must equal 100."
+};

@@ -3,33 +3,39 @@ import React from "react";
 // Styles
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
+// Context
+import { useGroupContext } from "@/context/GroupContext";
+
+// Hooks
+import { useGroupForm } from "@/hooks/useGroupForm";
+
 // Components
 import ThemedView from "@/components/ui/ThemedView";
 import GroupForm from "@/components/form/GroupForm";
-import { useGroupForm } from "@/hooks/useGroupForm";
+import ThemedActivityIndicator from "@/components/ui/ThemedActivityIndicator";
 
-export default function CreateGroupScreen() {
-  const { styles, theme } = useStyles(stylesheet);
+const GroupLayout: React.FC = () => {
+  const { activeGroup } = useGroupContext();
+  const { styles } = useStyles(stylesheet);
+  const { handleSaveGroup } = useGroupForm({ groupDetails: activeGroup });
 
-  const { handleSaveGroup } = useGroupForm({ groupDetails: null });
+  if (!activeGroup) {
+    return <ThemedActivityIndicator />;
+  }
 
   return (
     <ThemedView
-      title="Create Group"
       scrollable
-      style={styles.container}
+      title={activeGroup?.name}
       statusBarHeaderStyle={styles.statusBarHeader}
       contentContainerStyle={styles.contentContainer}
     >
-      <GroupForm groupDetails={null} onSave={handleSaveGroup} />
+      <GroupForm groupDetails={activeGroup} onSave={handleSaveGroup} />
     </ThemedView>
   );
-}
+};
 
 const stylesheet = createStyleSheet((theme) => ({
-  container: {
-    padding: theme.padding.none,
-  },
   contentContainer: {
     gap: theme.spacing.xl,
     paddingVertical: theme.padding.xl,
@@ -38,3 +44,5 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.surface2,
   },
 }));
+
+export default GroupLayout;

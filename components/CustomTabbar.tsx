@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { Tabs } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 
 // Translation
@@ -8,26 +7,29 @@ import { getString } from "@/strings/translations";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import ThemedText from "./ui/ThemedText";
 
 // Custom TabBar Component
-const CustomTabBar = ({
-  state,
-  descriptors,
-  navigation,
-  insets,
-}: BottomTabBarProps) => {
+const CustomTabBar = ({ state, navigation }: BottomTabBarProps) => {
   const { theme, styles } = useStyles(stylesheet);
-  const { bottom } = insets;
+  const { bottom } = useSafeAreaInsets();
+
   return (
     <View style={[styles.tabBar, { paddingBottom: bottom }]}>
       {state.routes.map((route: any, index: number) => {
-        const { options } = descriptors[route.key];
+        if (
+          !["index", "history", "create", "groups", "profile"].includes(
+            route.name
+          )
+        ) {
+          return;
+        }
+
         const isFocused = state.index === index;
-        const iconSize = 24; // Larger icon for the selected tab
+        const iconSize = 20;
 
         const activeColor = theme.colors.primary;
-
-        console.log(theme.colors.primary);
+        const inactiveColor = theme.colors.outline;
 
         return (
           <TouchableOpacity
@@ -38,41 +40,75 @@ const CustomTabBar = ({
             <View style={styles.iconContainer}>
               {/* Render the icon based on the route */}
               {route.name === "index" && (
-                <AntDesign
-                  name="home"
-                  size={iconSize}
-                  color={isFocused ? activeColor : "gray"}
-                />
+                <>
+                  <AntDesign
+                    name="home"
+                    size={iconSize}
+                    color={isFocused ? activeColor : inactiveColor}
+                  />
+                  <ThemedText
+                    color={isFocused ? "primary" : "outline"}
+                    fontSize="xs"
+                  >
+                    {getString(`screen.home.title`)}
+                  </ThemedText>
+                </>
               )}
               {route.name === "history" && (
-                <AntDesign
-                  name="clockcircleo"
-                  size={iconSize}
-                  color={isFocused ? activeColor : "gray"}
-                />
+                <>
+                  <AntDesign
+                    name="clockcircleo"
+                    size={iconSize}
+                    color={isFocused ? activeColor : inactiveColor}
+                  />
+                  <ThemedText
+                    color={isFocused ? "primary" : "outline"}
+                    fontSize="xs"
+                  >
+                    {getString(`screen.history.title`)}
+                  </ThemedText>
+                </>
               )}
               {route.name === "create" && (
-                <View style={styles.createGroupBtn}>
-                  <AntDesign
-                    name="plus"
-                    size={iconSize}
-                    color={theme.colors.inverseOnSurface}
-                  />
-                </View>
+                <>
+                  <View style={styles.createGroupBtn}>
+                    <AntDesign
+                      name="plus"
+                      size={iconSize}
+                      color={theme.colors.inverseOnSurface}
+                    />
+                  </View>
+                </>
               )}
               {route.name === "groups" && (
-                <AntDesign
-                  name="team"
-                  size={iconSize}
-                  color={isFocused ? activeColor : "gray"}
-                />
+                <>
+                  <AntDesign
+                    name="team"
+                    size={iconSize}
+                    color={isFocused ? activeColor : inactiveColor}
+                  />
+                  <ThemedText
+                    color={isFocused ? "primary" : "outline"}
+                    fontSize="xs"
+                  >
+                    {getString(`screen.groups.title`)}
+                  </ThemedText>
+                </>
               )}
               {route.name === "profile" && (
-                <AntDesign
-                  name="user"
-                  size={iconSize}
-                  color={isFocused ? activeColor : "gray"}
-                />
+                <>
+                  <AntDesign
+                    name="user"
+                    size={iconSize}
+                    color={isFocused ? activeColor : inactiveColor}
+                  />
+                  <ThemedText
+                    color={isFocused ? "primary" : "outline"}
+                    fontSize="xs"
+                  >
+                    {getString(`screen.profile.title`)}
+                  </ThemedText>
+                </>
               )}
             </View>
           </TouchableOpacity>
@@ -103,10 +139,7 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: 25, // Optional: makes the icon container circular
     justifyContent: "center",
     alignItems: "center",
-  },
-  tabLabel: {
-    marginTop: 4,
-    color: "gray",
+    gap: theme.spacing.xs,
   },
   createGroupBtn: {
     backgroundColor: theme.colors.primary,

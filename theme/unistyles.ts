@@ -20,6 +20,8 @@ declare module "react-native-unistyles" {
 const extendThemes = (colors: ThemeColors) => {
   return {
     ...colors,
+    primaryOutline: getColorWithAlpha(colors.primary, 0.2),
+    primaryOutlineVariant: getColorWithAlpha(colors.primary, 0.5),
     surface2: getElevationColor(colors, 0.08),
     rippleColor: getColorWithAlpha(colors.primary, 0.12),
     surfaceReader: getColorWithAlpha(colors.surface, 0.9),

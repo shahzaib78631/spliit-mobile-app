@@ -29,6 +29,7 @@ export const tabbieTheme: ThemeType = {
     inverseSurface: "#1B1B1B",
     inverseOnSurface: "#FAFAFA",
     inversePrimary: "#007944",
+    danger: "#ff4444",
   },
   dark: {
     id: 4,
@@ -58,5 +59,6 @@ export const tabbieTheme: ThemeType = {
     inverseSurface: "#FAFAFA",
     inverseOnSurface: "#1B1B1B",
     inversePrimary: "#00D17A",
+    danger: "#ff4444",
   },
 };

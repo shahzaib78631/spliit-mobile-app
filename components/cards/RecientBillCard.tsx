@@ -8,54 +8,63 @@ import {
   ViewStyle,
   TextStyle,
   ImageStyle,
+  Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import Seperator from "./Seperator";
-import ThemedText from "./ui/ThemedText";
+import Seperator from "../Seperator";
+import ThemedText from "../ui/ThemedText";
 import { AntDesign } from "@expo/vector-icons";
-import ThemedButton from "./ui/ThemedButton";
-import StackedAvatars from "./StackedAvatars";
+import ThemedButton from "../ui/ThemedButton";
+import StackedAvatars from "../StackedAvatars";
+import { getString } from "@/strings/translations";
+import { useGroupStats } from "@/hooks/useGroupStats";
+import { useGroupDetails } from "@/hooks/useGroupDetails";
+import PopupMenu from "../PopupMenu";
 
-type Group = {
-  name: string;
-  avatar: string;
-};
+const { width } = Dimensions.get("window");
 
 // Define prop types for the component to make it reusable
 interface RecientBillCardProps {
-  title: string;
-  group: Group[];
+  groupId: string; // Group ID
   onSplitBtnPress: () => void; // Function to handle button press
 }
 
 const RecientBillCard: React.FC<RecientBillCardProps> = ({
-  title,
-  group = [],
+  groupId,
   onSplitBtnPress,
 }) => {
   const { styles, theme } = useStyles(stylesheet);
+
+  const { data: stats, refetch: refetchStats } = useGroupStats({ groupId });
+  const { data: details, refetch: refetchDetails } = useGroupDetails({
+    groupId,
+  });
+
+  if (!stats && !details) {
+    return (
+      <View style={[styles.cardContainer, styles.center]}>
+        <ActivityIndicator size={"small"} />
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.cardContainer]}>
       <View style={styles.contentContainer}>
         <View style={styles.header}>
           <ThemedText numberOfLines={1} type="medium" style={styles.title}>
-            {title}
+            {details?.name}
           </ThemedText>
-          <TouchableOpacity style={styles.shareIconBtn}>
-            <AntDesign
-              name="sharealt"
-              size={18}
-              color={theme.colors.onSurface}
-            />
-          </TouchableOpacity>
+          <PopupMenu groupId={groupId} />
         </View>
         <Seperator margin={theme.margin.sm} />
         <View style={styles.billSection}>
           <ThemedText type="medium" style={styles.totalText}>
-            Total Bill
+            Total Spending
           </ThemedText>
           <ThemedText numberOfLines={1} type="bold" style={styles.amountText}>
-            $ 43.27
+            {`${details?.currency} ${stats?.totalGroupSpendings}`}
           </ThemedText>
         </View>
 
@@ -63,12 +72,13 @@ const RecientBillCard: React.FC<RecientBillCardProps> = ({
           <View style={styles.header}>
             <ThemedText style={[styles.subText]}>Split with</ThemedText>
             <ThemedText style={[styles.subText]}>
-              {group.length} Persons
+              {details?.participants?.length} Persons
             </ThemedText>
           </View>
           <View style={styles.stackedAvatars}>
             <StackedAvatars
-              avatars={group.map((person) => person.avatar)}
+              nameKey="name"
+              avatars={details?.participants}
               avatarSize={40}
               overlap={-8}
             />
@@ -76,7 +86,7 @@ const RecientBillCard: React.FC<RecientBillCardProps> = ({
         </View>
         <View style={styles.footer}>
           <ThemedButton
-            title="Split Now"
+            title={getString("expenses.add")}
             borderRadius="lg"
             fontSize="sm"
             onPress={onSplitBtnPress}
@@ -94,6 +104,9 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.borderRadius.xxl,
     overflow: "hidden",
     height: 270,
+    minWidth: width - theme.padding.lg * 2,
+    borderWidth: 1,
+    borderColor: theme.colors.primaryOutline,
   },
   contentContainer: {
     flex: 1,
@@ -115,7 +128,6 @@ const stylesheet = createStyleSheet((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    gap: theme.spacing.lg,
   },
   totalText: {
     fontSize: theme.fontSize.sm,
@@ -125,7 +137,6 @@ const stylesheet = createStyleSheet((theme) => ({
     fontSize: theme.fontSize.xl,
     color: theme.colors.primary,
     textAlign: "right",
-    width: "50%",
   },
   subText: {
     fontSize: theme.fontSize.xs,
@@ -147,6 +158,10 @@ const stylesheet = createStyleSheet((theme) => ({
   footer: {
     width: "100%",
     marginTop: theme.margin.auto,
+  },
+  center: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));
 

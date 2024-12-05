@@ -13,9 +13,15 @@ import { AntDesign } from "@expo/vector-icons";
 import Avatar from "./Avatar";
 import ThemedText from "./ui/ThemedText";
 
+type Avatar = {
+  uri?: string;
+  name?: string;
+  [key: string]: string | undefined;
+};
+
 interface StackedAvatarsProps {
   /** Array of avatar image URLs */
-  avatars: string[];
+  avatars: Avatar[] | undefined;
   /** Array of names corresponding to the avatars */
   names?: string[];
   /** Whether to display names alongside avatars (default: false) */
@@ -34,11 +40,12 @@ interface StackedAvatarsProps {
   onAddPress?: () => void;
   /** Label text for the add button */
   addLabel?: string;
+  /** Key to use for names in the avatar object */
+  nameKey?: string;
 }
 
 const StackedAvatars: React.FC<StackedAvatarsProps> = ({
   avatars = [],
-  names = [],
   showNames = false,
   avatarSize = 50,
   overlap = -20,
@@ -47,6 +54,7 @@ const StackedAvatars: React.FC<StackedAvatarsProps> = ({
   nameStyle,
   onAddPress = () => {},
   addLabel,
+  nameKey = "name",
 }) => {
   const { styles, theme } = useStyles(stylesheet);
 
@@ -55,12 +63,13 @@ const StackedAvatars: React.FC<StackedAvatarsProps> = ({
       {avatars.map((avatar, index) => (
         <View key={index} style={[styles.avatarContainer]}>
           <Avatar
-            uri={avatar}
+            uri={avatar?.uri}
+            name={avatar?.[nameKey]}
             size={avatarSize}
             overlap={index !== 0 ? overlap : 0}
             style={avatarStyle}
           />
-          {showNames && names[index] && (
+          {showNames && avatar?.[nameKey] && (
             <ThemedText
               style={[
                 styles.nameText,
@@ -70,7 +79,7 @@ const StackedAvatars: React.FC<StackedAvatarsProps> = ({
               type="thin"
               fontSize="xs"
             >
-              {names[index]}
+              {avatar?.[nameKey]}
             </ThemedText>
           )}
         </View>

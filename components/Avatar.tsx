@@ -1,21 +1,62 @@
 import React from "react";
-import { Image, ImageStyle, StyleProp, StyleSheet } from "react-native";
+import {
+  Text,
+  Image,
+  View,
+  StyleProp,
+  ImageStyle,
+  ViewStyle,
+} from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
+import Color from "color";
+import ThemedText from "./ui/ThemedText";
 
 interface AvatarProps {
   /** Image URL for the avatar */
-  uri: string;
+  uri?: string;
+  /** Full name to use for generating initials when no URI is provided */
+  name?: string;
   /** Size of the avatar */
   size: number;
   /** Overlap margin for the avatar */
   overlap?: number;
   /** Additional styles for the avatar */
   style?: StyleProp<ImageStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ uri, size, overlap = 0, style }) => {
+const generateColorFromName = (name: string): string => {
+  // Simple hash function to generate a consistent color for a name
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  // Convert hash to a color
+  const c = (hash & 0x00ffffff).toString(16).toUpperCase();
+  return "#" + "00000".substring(0, 6 - c.length) + c;
+};
+
+const getInitials = (name: string): string => {
+  const nameParts = name.split(" ");
+  return nameParts.length > 1
+    ? nameParts[0].charAt(0).toUpperCase() +
+        nameParts[1].charAt(0).toUpperCase()
+    : name.charAt(0).toUpperCase();
+};
+
+const Avatar: React.FC<AvatarProps> = ({
+  uri,
+  name,
+  size,
+  overlap = 0,
+  style,
+  containerStyle,
+}) => {
   const { styles } = useStyles(stylesheet);
-  return (
+
+  // Avatar content: Image or Placeholder
+  const avatarContent = uri ? (
     <Image
       source={{ uri }}
       style={[
@@ -23,19 +64,57 @@ const Avatar: React.FC<AvatarProps> = ({ uri, size, overlap = 0, style }) => {
         {
           width: size,
           height: size,
-          borderRadius: size / 2, // Circular shape
-          marginLeft: overlap, // Overlap margin
+          borderRadius: size / 2,
+          marginLeft: overlap,
         },
         style,
       ]}
     />
+  ) : (
+    <View
+      style={[
+        styles.avatar,
+        styles.placeholderAvatar,
+        {
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          marginLeft: overlap,
+          backgroundColor: name ? generateColorFromName(name) : undefined,
+        },
+        containerStyle,
+      ]}
+    >
+      {name && (
+        <ThemedText
+          type="light"
+          style={[
+            {
+              fontSize: size / 3,
+              color: Color(generateColorFromName(name)).isDark()
+                ? "white"
+                : "black",
+            },
+          ]}
+        >
+          {getInitials(name)}
+        </ThemedText>
+      )}
+    </View>
   );
+
+  return avatarContent;
 };
 
 const stylesheet = createStyleSheet((theme) => ({
   avatar: {
     borderWidth: 1,
-    borderColor: theme.colors.outline, // Default outline color
+    borderColor: theme.colors.outline,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  placeholderAvatar: {
+    backgroundColor: theme.colors.surface,
   },
 }));
 

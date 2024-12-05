@@ -29,6 +29,7 @@ export const defaultTheme: ThemeType = {
     inverseSurface: "#313033",
     inverseOnSurface: "#F4EFF4",
     inversePrimary: "#D0BCFF",
+    danger: "#ff4444",
   },
   dark: {
     id: 2,
@@ -58,5 +59,6 @@ export const defaultTheme: ThemeType = {
     inverseSurface: "#E6E1E5",
     inverseOnSurface: "#313033",
     inversePrimary: "#6750A4",
+    danger: "#ff4444",
   },
 };

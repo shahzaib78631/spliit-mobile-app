@@ -1,9 +1,9 @@
-import { FontSize, MD3ThemeType } from "@/theme/types";
+import { FontSize, MD3ThemeType, ThemeColors } from "@/theme/types";
 import React from "react";
 import { StyleProp, Text, TextProps, TextStyle } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-type Colors = Omit<MD3ThemeType, "id" | "name" | "isDark">;
+type Colors = Omit<ThemeColors, "id" | "name" | "isDark">;
 
 interface ThemedTextProps extends TextProps {
   /** Content of the text */
@@ -14,6 +14,8 @@ interface ThemedTextProps extends TextProps {
   fontSize?: keyof FontSize;
   /** Text color to apply from theme */
   color?: keyof Colors;
+  /** Text alignment */
+  textAlign?: TextStyle["textAlign"];
 }
 
 const ThemedText: React.FC<ThemedTextProps> = ({
@@ -22,6 +24,7 @@ const ThemedText: React.FC<ThemedTextProps> = ({
   type = "light",
   fontSize = "md",
   color = "onSurface", // Default color
+  textAlign = "auto", // Default alignment
   ...otherProps
 }) => {
   const { theme } = useStyles();
@@ -72,6 +75,7 @@ const ThemedText: React.FC<ThemedTextProps> = ({
           fontFamily: getFontFamily(),
           fontSize: getFontSize(),
           color: getColor(),
+          textAlign, // Apply textAlign prop here
         },
         style,
       ]}

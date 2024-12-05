@@ -28,6 +28,7 @@ export interface MD3ThemeType {
   inverseSurface: string;
   inverseOnSurface: string;
   inversePrimary: string;
+  danger: string;
 }
 
 export interface ThemeColors extends MD3ThemeType {
@@ -35,6 +36,8 @@ export interface ThemeColors extends MD3ThemeType {
   surface2?: string;
   overlay3?: string;
   surfaceReader?: string;
+  primaryOutline?: string;
+  primaryOutlineVariant?: string;
 }
 
 export interface ThemeType {
