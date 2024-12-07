@@ -2,14 +2,13 @@ import { BorderRadius, FontSize } from "@/theme/types";
 import React from "react";
 import {
   TouchableOpacity,
-  Text,
   StyleProp,
   TouchableOpacityProps,
   ViewStyle,
-  TextStyle,
   ActivityIndicator, // Import the ActivityIndicator for loading state
 } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import ThemedText from "./ThemedText";
+import { useThemeContext } from "@/context/ThemeContext";
 
 interface ThemedButtonProps extends TouchableOpacityProps {
   /** The text to display on the button */
@@ -35,7 +34,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
   loading = false, // Default loading is false
   ...props
 }) => {
-  const { styles, theme } = useStyles(stylesheet);
+  const { commonStyles, theme } = useThemeContext();
 
   // Get dynamic styles based on the variant
   const getVariantStyles = (): ViewStyle => {
@@ -67,7 +66,8 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
   return (
     <TouchableOpacity
       style={[
-        styles.button,
+        commonStyles.paddingMd,
+        commonStyles.center,
         getVariantStyles(),
         { borderRadius: theme.borderRadius[borderRadius] },
         buttonStyle,
@@ -79,9 +79,9 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
         <ActivityIndicator color={theme.colors.onPrimary} />
       ) : (
         title && (
-          <Text
+          <ThemedText
+            type="bold"
             style={[
-              styles.title,
               { fontSize: theme.fontSize[fontSize] },
               variant === "text" ||
               variant === "outline" ||
@@ -91,23 +91,12 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
             ]}
           >
             {title}
-          </Text>
+          </ThemedText>
         )
       )}
       {props.children}
     </TouchableOpacity>
   );
 };
-
-const stylesheet = createStyleSheet((theme) => ({
-  button: {
-    padding: theme.spacing.md,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontWeight: "bold",
-  },
-}));
 
 export default ThemedButton;

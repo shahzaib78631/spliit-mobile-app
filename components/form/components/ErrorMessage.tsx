@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import ThemedText from "../ui/ThemedText"; // Assuming you have a styled text component
+import ThemedText from "../../ui/ThemedText"; // Assuming you have a styled text component
 import { getString } from "@/strings/translations";
 import { StringMap } from "@/strings/types";
 import { errorMessages } from "@/validations"; // Assuming this is where your error messages are mapped

@@ -2,27 +2,37 @@ import { getColorWithAlpha } from "@/utils/colors";
 import React, { useState } from "react";
 import {
   View,
-  Text,
   TextInput,
-  StyleSheet,
-  TextInputProps,
   StyleProp,
   ViewStyle,
   TextStyle,
+  TextInputProps,
 } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import ThemedText from "./ThemedText";
+import useCommonStyles from "@/theme/styles";
+import { useThemeContext } from "@/context/ThemeContext";
 
+/**
+ * Props interface for ThemedTextInput component
+ */
 interface ThemedTextInputProps extends TextInputProps {
-  label?: string; // Optional label text
-  isLabelVisible?: boolean; // Control whether the label is visible
-  containerStyle?: StyleProp<ViewStyle>; // Additional styles for the container
-  inputStyle?: StyleProp<TextStyle>; // Additional styles for the TextInput
-  labelStyle?: StyleProp<TextStyle>; // Additional styles for the label
-  prepend?: React.ReactNode; // Content to be displayed before the TextInput
-  append?: React.ReactNode; // Content to be displayed after the TextInput
+  label?: string;
+  isLabelVisible?: boolean;
+  containerStyle?: StyleProp<ViewStyle>;
+  inputStyle?: StyleProp<TextStyle>;
+  labelStyle?: StyleProp<TextStyle>;
+  prepend?: React.ReactNode;
+  append?: React.ReactNode;
 }
 
+/**
+ * Themed text input component with customizable label and addons
+ *
+ * @component
+ * @param {ThemedTextInputProps} props - Component configuration
+ * @returns {React.ReactElement} Styled text input with optional label and addons
+ */
 const ThemedTextInput: React.FC<ThemedTextInputProps> = ({
   label,
   placeholder,
@@ -35,7 +45,8 @@ const ThemedTextInput: React.FC<ThemedTextInputProps> = ({
   prepend,
   append,
   ...rest
-}) => {
+}: ThemedTextInputProps): React.ReactElement => {
+  const { commonStyles } = useThemeContext();
   const { styles, theme } = useStyles(stylesheet);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -56,29 +67,44 @@ const ThemedTextInput: React.FC<ThemedTextInputProps> = ({
       <View
         style={[
           styles.inputContainer,
-          prepend || append ? styles.inputWithAddon : null,
+          prepend || append ? commonStyles.paddingHorizontalNone : null,
         ]}
       >
-        {prepend && <View style={styles.prepend}>{prepend}</View>}
+        {prepend && (
+          <View style={[commonStyles.center, commonStyles.paddingRightMd]}>
+            {prepend}
+          </View>
+        )}
 
         <TextInput
-          style={[styles.input, inputStyle]}
+          style={[styles.input, commonStyles.flex1, inputStyle]}
           placeholderTextColor={getColorWithAlpha(theme.colors.onSurface, 0.5)}
           placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          {...rest} // Spread remaining TextInputProps
+          {...rest}
         />
-        {append && <View style={styles.append}>{append}</View>}
+        {append && (
+          <View style={[commonStyles.center, commonStyles.paddingLeftMd]}>
+            {append}
+          </View>
+        )}
       </View>
     </View>
   );
 };
 
+/**
+ * Stylesheet for ThemedTextInput using theme-based styling
+ *
+ * @param {Object} theme - The current application theme
+ * @returns {Object} Styled object for themed text input components
+ */
 const stylesheet = createStyleSheet((theme) => ({
   container: {
+    flexGrow: 1,
     marginVertical: theme.spacing.sm,
     gap: theme.spacing.sm,
     borderWidth: 1,
@@ -88,31 +114,18 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.surface2,
     paddingVertical: theme.spacing.sm,
     overflow: "hidden",
+    height: 48,
   },
   inputContainer: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     borderRadius: theme.borderRadius.md,
     backgroundColor: theme.colors.surface2,
     position: "relative",
   },
-  inputWithAddon: {
-    paddingHorizontal: theme.padding.none, // Avoid padding if prepend/append are present
-  },
   input: {
-    minHeight: 25,
-    flex: 1, // Allow input to take up available space
     color: theme.colors.onSurface,
-  },
-  prepend: {
-    paddingRight: theme.spacing.md,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  append: {
-    paddingLeft: theme.spacing.md,
-    justifyContent: "center",
-    alignItems: "center",
   },
 }));
 

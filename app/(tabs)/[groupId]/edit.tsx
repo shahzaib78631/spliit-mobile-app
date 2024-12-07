@@ -13,12 +13,26 @@ import { useGroupForm } from "@/hooks/useGroupForm";
 import ThemedView from "@/components/ui/ThemedView";
 import GroupForm from "@/components/form/GroupForm";
 import ThemedActivityIndicator from "@/components/ui/ThemedActivityIndicator";
+import { GroupFormValues } from "spliit-api/src/lib/schemas";
 
+/**
+ * Group Layout Component
+ * Renders group editing form for the active group
+ *
+ * @component
+ * @returns Themed view with group form or loading indicator
+ */
 const GroupLayout: React.FC = () => {
+  /** Access active group from context */
   const { activeGroup } = useGroupContext();
-  const { styles } = useStyles(stylesheet);
-  const { handleSaveGroup } = useGroupForm({ groupDetails: activeGroup });
 
+  /** Apply component-specific styles */
+  const { styles } = useStyles(stylesheet);
+
+  /** Hook for group update functionality */
+  const { handleUpdateGroup } = useGroupForm({ groupDetails: activeGroup });
+
+  /** Show loading indicator if no active group */
   if (!activeGroup) {
     return <ThemedActivityIndicator />;
   }
@@ -26,23 +40,23 @@ const GroupLayout: React.FC = () => {
   return (
     <ThemedView
       scrollable
+      statusbarBackgroundColor="surface2"
       title={activeGroup?.name}
-      statusBarHeaderStyle={styles.statusBarHeader}
-      contentContainerStyle={styles.contentContainer}
     >
-      <GroupForm groupDetails={activeGroup} onSave={handleSaveGroup} />
+      <GroupForm
+        groupDetails={activeGroup}
+        onSave={(groupDetails: GroupFormValues) =>
+          handleUpdateGroup(activeGroup.id, groupDetails)
+        }
+      />
     </ThemedView>
   );
 };
 
-const stylesheet = createStyleSheet((theme) => ({
-  contentContainer: {
-    gap: theme.spacing.xl,
-    paddingVertical: theme.padding.xl,
-  },
-  statusBarHeader: {
-    backgroundColor: theme.colors.surface2,
-  },
-}));
+/**
+ * Stylesheet for component
+ * Currently empty, reserved for future styling
+ */
+const stylesheet = createStyleSheet((theme) => ({}));
 
 export default GroupLayout;

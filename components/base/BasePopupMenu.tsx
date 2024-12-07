@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { ReactNode } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View } from "react-native";
 import {
   MenuProvider,
   Menu,
@@ -8,24 +8,38 @@ import {
   MenuOptions,
   MenuOption,
   renderers,
-  MenuOptionProps,
 } from "react-native-popup-menu";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 const { Popover } = renderers;
 
+/**
+ * Base menu option type definition
+ */
 export type BaseMenuOptions = Array<{
   label: string;
   value: string;
   render?: ReactNode;
-  handle: Function;
+  handle: () => void;
 }>;
 
+/**
+ * Props interface for BasePopupMenu component
+ */
 interface BasePopupMenuProps {
-  menuOptions: BaseMenuOptions;
+  menuOptions?: BaseMenuOptions;
 }
 
-const BasePopupMenu: React.FC<BasePopupMenuProps> = ({ menuOptions = [] }) => {
+/**
+ * Reusable popup menu component with configurable options
+ *
+ * @component
+ * @param {BasePopupMenuProps} props - Menu configuration options
+ * @returns {React.ReactElement} Popup menu with vertical dots trigger
+ */
+const BasePopupMenu: React.FC<BasePopupMenuProps> = ({
+  menuOptions = [],
+}: BasePopupMenuProps): React.ReactElement => {
   const { styles, theme } = useStyles(stylesheet);
 
   return (
@@ -67,6 +81,12 @@ const BasePopupMenu: React.FC<BasePopupMenuProps> = ({ menuOptions = [] }) => {
   );
 };
 
+/**
+ * Stylesheet for BasePopupMenu using theme-based styling
+ *
+ * @param {Object} theme - The current application theme
+ * @returns {Object} Styled object for popup menu components
+ */
 const stylesheet = createStyleSheet((theme) => ({
   triggerText: {
     fontSize: 18,

@@ -14,4 +14,6 @@ export const errorMessages: Record<string, string> = {
   noZeroShares: "schema_errors.no_zero_shares", // "All shares must be higher than 0."
   amountSum: "schema_errors.amount_sum", // "Sum of amounts must equal the expense amount."
   percentageSum: "schema_errors.percentage_sum", // "Sum of percentages must equal 100."
+  invalidUrlFormat: "schema_errors.invalid_url_format", // "Invalid URL format."
+  groupNotFound: "groups.addbyurl.error", // "Invalid URL format."
 };

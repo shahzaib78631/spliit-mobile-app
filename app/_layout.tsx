@@ -19,12 +19,21 @@ import { httpBatchLink } from "@trpc/client";
 import SuperJSON from "superjson";
 import { MenuProvider } from "react-native-popup-menu";
 import { GroupProvider } from "@/context/GroupContext";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ThemeProvider } from "@/context/ThemeContext";
 
+/**
+ * Root application component
+ * Handles global configuration, font loading, and app initialization
+ *
+ * @component
+ * @returns Configured application with all providers
+ */
 const App: React.FC = () => {
-  // State for font loading
+  /** Track font loading state */
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
-  // Create a single instance of QueryClient and tRPC client
+  /** Initialize QueryClient and tRPC client */
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
@@ -37,7 +46,7 @@ const App: React.FC = () => {
     })
   );
 
-  // Load custom fonts and initialize translations
+  /** Load custom fonts and initialize translations on mount */
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
@@ -55,7 +64,7 @@ const App: React.FC = () => {
     loadFonts(); // Load fonts
   }, []);
 
-  // Display a loading indicator until fonts are loaded
+  /** Show loading indicator while fonts are loading */
   if (!fontsLoaded) {
     return (
       <View style={styles.loadingContainer}>
@@ -64,31 +73,35 @@ const App: React.FC = () => {
     );
   }
 
-  // Main application render
+  /** Render application with all providers */
   return (
     <trpc.Provider queryClient={queryClient} client={trpcClient}>
       <QueryClientProvider client={queryClient}>
-        <GroupProvider>
-          <MenuProvider>
-            <KeyboardProvider>
-              <Stack
-                screenOptions={{
-                  headerShown: false, // Hide header globally
-                  animation: "slide_from_bottom",
-                }}
-              >
-                {/* Load the main tabs screen */}
-                <Stack.Screen name="(tabs)" />
-              </Stack>
-            </KeyboardProvider>
-          </MenuProvider>
-        </GroupProvider>
+        <KeyboardProvider>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <ThemeProvider>
+              <GroupProvider>
+                <MenuProvider>
+                  <Stack
+                    screenOptions={{
+                      headerShown: false, // Hide header globally
+                      animation: "slide_from_bottom",
+                    }}
+                  >
+                    {/* Load the main tabs screen */}
+                    <Stack.Screen name="(tabs)" />
+                  </Stack>
+                </MenuProvider>
+              </GroupProvider>
+            </ThemeProvider>
+          </GestureHandlerRootView>
+        </KeyboardProvider>
       </QueryClientProvider>
     </trpc.Provider>
   );
 };
 
-// Styles for the component
+/** Styles for loading state */
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,

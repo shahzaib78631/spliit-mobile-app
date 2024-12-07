@@ -8,33 +8,23 @@ import ThemedView from "@/components/ui/ThemedView";
 import GroupForm from "@/components/form/GroupForm";
 import { useGroupForm } from "@/hooks/useGroupForm";
 
-export default function CreateGroupScreen() {
-  const { styles, theme } = useStyles(stylesheet);
-
+/**
+ * Screen for creating a new group
+ *
+ * @component
+ * @returns {React.ReactElement} Renders the group creation form within a themed view
+ */
+export default function CreateGroupScreen(): React.ReactElement {
+  // Hook to handle group saving logic
   const { handleSaveGroup } = useGroupForm({ groupDetails: null });
 
   return (
     <ThemedView
       title="Create Group"
       scrollable
-      style={styles.container}
-      statusBarHeaderStyle={styles.statusBarHeader}
-      contentContainerStyle={styles.contentContainer}
+      statusbarBackgroundColor="surface2"
     >
       <GroupForm groupDetails={null} onSave={handleSaveGroup} />
     </ThemedView>
   );
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  container: {
-    padding: theme.padding.none,
-  },
-  contentContainer: {
-    gap: theme.spacing.xl,
-    paddingVertical: theme.padding.xl,
-  },
-  statusBarHeader: {
-    backgroundColor: theme.colors.surface2,
-  },
-}));

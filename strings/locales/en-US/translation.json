@@ -83,6 +83,7 @@
     "addbyurl": {
       "button": "Add by URL",
       "title": "Add a group by URL",
+      "placeholder": "https://spliit.app/...",
       "description": "If a group was shared with you, you can paste its URL here to add it to your list.",
       "error": "Oops, we are not able to find the group from the URL you provided…"
     },
@@ -112,6 +113,7 @@
       "description": "Enter the name for each participant.",
       "protectedparticipant": "This participant is part of expenses, and can not be removed.",
       "new": "New",
+      "name": "Participant name",
       "add": "Add participant",
       "john": "John",
       "jane": "Jane",
@@ -343,7 +345,8 @@
     "paid_for_min1": "The expense must be paid for at least one participant.",
     "no_zero_shares": "All shares must be higher than 0.",
     "amount_sum": "Sum of amounts must equal the expense amount.",
-    "percentage_sum": "Sum of percentages must equal 100."
+    "percentage_sum": "Sum of percentages must equal 100.",
+    "invalid_url_format": "The URL format is invalid."
   },
   "categories": {
     "search": "Search category...",

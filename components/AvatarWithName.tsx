@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  StyleProp,
-  TextStyle,
-  ImageStyle,
-} from "react-native";
+import { View, StyleProp, TextStyle, ImageStyle } from "react-native";
 import Avatar from "./Avatar";
 import ThemedText from "./ui/ThemedText";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { useThemeContext } from "@/context/ThemeContext";
 
 interface AvatarWithNameProps {
   /** Image URL for the avatar */
@@ -34,13 +27,19 @@ const AvatarWithName: React.FC<AvatarWithNameProps> = ({
   avatarStyle,
   nameStyle,
 }) => {
-  const { styles } = useStyles(stylesheet);
+  const { commonStyles } = useThemeContext();
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        commonStyles.col,
+        commonStyles.alignCenter,
+        commonStyles.marginMd,
+      ]}
+    >
       <Avatar uri={uri} size={size} overlap={overlap} style={avatarStyle} />
       <ThemedText
-        style={[styles.name, nameStyle]}
+        style={[commonStyles.marginTopMd, nameStyle]}
         numberOfLines={1}
         fontSize="md"
       >
@@ -49,16 +48,5 @@ const AvatarWithName: React.FC<AvatarWithNameProps> = ({
     </View>
   );
 };
-
-const stylesheet = createStyleSheet((theme) => ({
-  container: {
-    alignItems: "center", // Center-align avatar and name
-    flexDirection: "column", // Stack avatar and name vertically
-    margin: theme.margin.md, // Add some spacing
-  },
-  name: {
-    marginTop: theme.margin.md, // Space between avatar and name
-  },
-}));
 
 export default AvatarWithName;

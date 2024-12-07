@@ -53,6 +53,7 @@ export interface StringMap {
   "groups.recentremovedtoast.undo": string;
   "groups.addbyurl.button": string;
   "groups.addbyurl.title": string;
+  "groups.addbyurl.placeholder": string;
   "groups.addbyurl.description": string;
   "groups.addbyurl.error": string;
   "groups.notfound.text": string;
@@ -70,6 +71,7 @@ export interface StringMap {
   "groupform.participants.description": string;
   "groupform.participants.protectedparticipant": string;
   "groupform.participants.new": string;
+  "groupform.participants.name": string;
   "groupform.participants.add": string;
   "groupform.participants.john": string;
   "groupform.participants.jane": string;
@@ -227,6 +229,7 @@ export interface StringMap {
   "schema_errors.no_zero_shares": string;
   "schema_errors.amount_sum": string;
   "schema_errors.percentage_sum": string;
+  "schema_errors.invalid_url_format": string;
   "categories.search": string;
   "categories.nocategory": string;
   "categories.uncategorized.heading": string;

@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ThemedView from "@/components/ui/ThemedView";
 import RecientBillCard from "@/components/cards/RecientBillCard";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
@@ -14,135 +14,127 @@ import CreateSplitCard from "@/components/cards/CreateSplitCard";
 
 // Utils
 import { trpc } from "@/utils/trpc";
-import { getRecentGroups, RecentGroup } from "@/services/recentGroups";
-import { RelativePathString, useRouter } from "expo-router";
+import {
+  getRecentGroups,
+  initRecentGroup,
+  RecentGroup,
+} from "@/services/recentGroups";
+import {
+  RelativePathString,
+  useNavigation,
+  usePathname,
+  useRouter,
+} from "expo-router";
+import AddGroupByUrlSheet from "@/components/sheets/AddGroupByUrlSheet";
 
+/**
+ * Home screen component displaying recent groups, split options, and friends
+ *
+ * @component
+ * @returns Scrollable home screen with various sections
+ */
 export default function Home() {
+  /** Apply component-specific styles */
   const { styles } = useStyles(stylesheet);
 
+  /** Navigation and routing hooks */
   const router = useRouter();
+  const navigation = useNavigation();
+  const pathname = usePathname();
 
+  /** State to manage recent groups */
   const [recentGroups, setRecentGroups] = useState<RecentGroup[] | null>(null);
 
-  // const { data, refetch } = trpc.groups.list.useQuery({
-  //   groupIds: recentGroups?.map(({ groupId }) => groupId) ?? [],
-  // });
+  /** Reference to the AddGroupByUrlSheet */
+  const addGroupByUrlSheetRef = useRef({
+    open: () => {},
+    close: () => {},
+  });
 
+  /** Fetch recent groups from storage */
   const fetchGroups = useCallback(() => {
     getRecentGroups().then((recentGroups: RecentGroup[]) => {
       setRecentGroups(recentGroups);
     });
   }, []);
 
+  /** Sync recent groups on screen focus and path changes */
   useEffect(() => {
     fetchGroups();
-  }, [fetchGroups]);
+  }, [fetchGroups, navigation.isFocused, pathname]);
 
+  /** Dummy data for demonstration */
   const dummyData = {
-    title: "KFC Cafe",
-    group: [
-      {
-        name: "John Doe",
-        avatar: "https://www.tapback.co/api/avatar.webp",
-      },
-      {
-        name: "Jane Doe",
-        avatar: "https://www.tapback.co/api/avatar.webp",
-      },
-      {
-        name: "Jack Doe",
-        avatar: "https://www.tapback.co/api/avatar.webp",
-      },
-      {
-        name: "Jill Doe",
-        avatar: "https://www.tapback.co/api/avatar.webp",
-      },
-      {
-        name: "Jenny Doe",
-        avatar: "https://www.tapback.co/api/avatar.webp",
-      },
-    ],
-    friends: [
-      {
-        name: "John Doe",
-        avatar: "https://www.tapback.co/api/avatar.webp",
-      },
-      {
-        name: "Jane Doe",
-        avatar: "https://www.tapback.co/api/avatar.webp",
-      },
-      {
-        name: "Jack Doe",
-        avatar: "https://www.tapback.co/api/avatar.webp",
-      },
-      {
-        name: "Jenny Doe",
-        avatar: "https://www.tapback.co/api/avatar.webp",
-      },
-    ],
-    onSplitBtnPress: () => console.log("Split Bill"),
+    friends: [{ name: "John Doe" }, { name: "Jane Doe" }],
   };
 
+  /** Navigate to specified screen */
   const handleNavigation = (screen: RelativePathString) => {
     router.navigate(screen);
   };
 
+  /** Open the AddGroupByUrl sheet */
+  const openAddGroupByUrlSheet = () => {
+    addGroupByUrlSheetRef.current?.open();
+  };
+
   return (
-    <ThemedView scrollable contentContainerStyle={styles.container}>
-      <CreateSplitCard
-        onAddUrlPress={() => console.log("Add URL Press")}
-        onCreateGroupPress={() => handleNavigation("./create")}
-      />
-      {recentGroups && recentGroups?.length > 0 && (
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <View>
+    <>
+      <ThemedView scrollable contentContainerStyle={styles.container}>
+        {/* Create split bill/group section */}
+        <CreateSplitCard
+          onAddUrlPress={() => openAddGroupByUrlSheet()}
+          onCreateGroupPress={() => handleNavigation("./create")}
+        />
+
+        {/* Recent groups section */}
+        {recentGroups && recentGroups?.length > 0 && (
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
               <ThemedText type="regular" fontSize="lg">
                 {getString("groups.recent")}
               </ThemedText>
-            </View>
-            <View>
               <ThemedButton variant="text" buttonStyle={styles.seeMoreBtn}>
                 <ThemedText fontSize="xs" color="secondary">
                   {getString("common.see_more")}
                 </ThemedText>
               </ThemedButton>
             </View>
-          </View>
 
-          <RecientBillCard
-            groupId={recentGroups?.[0]?.groupId}
-            onSplitBtnPress={() => console.log("Split Bill")}
-          />
-        </View>
-      )}
-      <View style={styles.section}>
-        <View style={styles.sectionHeader}>
-          <View>
+            <RecientBillCard
+              groupId={recentGroups?.[0]?.groupId}
+              onSplitBtnPress={() => console.log("Split Bill")}
+            />
+          </View>
+        )}
+
+        {/* Friends section */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
             <ThemedText type="regular" fontSize="lg">
               {getString("common.friends")}
             </ThemedText>
-          </View>
-          <View>
             <ThemedButton variant="text" buttonStyle={styles.seeMoreBtn}>
               <ThemedText fontSize="xs" color="secondary">
                 {getString("common.see_more")}
               </ThemedText>
             </ThemedButton>
           </View>
+          <StackedAvatars
+            avatarSize={55}
+            overlap={16}
+            avatars={dummyData.friends}
+            showNames
+            addLabel={getString("common.add_friend")}
+          />
         </View>
-        <StackedAvatars
-          avatarSize={55}
-          overlap={16}
-          avatars={dummyData.friends}
-          showNames
-          addLabel={getString("common.add_friend")}
-        />
-      </View>
-    </ThemedView>
+      </ThemedView>
+      <AddGroupByUrlSheet reference={addGroupByUrlSheetRef} />
+    </>
   );
 }
 
+/** Stylesheet for home screen layout */
 const stylesheet = createStyleSheet((theme) => ({
   container: {
     gap: theme.spacing.xl,

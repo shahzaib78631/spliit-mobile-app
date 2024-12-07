@@ -32,9 +32,9 @@ export interface MD3ThemeType {
 }
 
 export interface ThemeColors extends MD3ThemeType {
+  overlay?: string;
   rippleColor?: string;
   surface2?: string;
-  overlay3?: string;
   surfaceReader?: string;
   primaryOutline?: string;
   primaryOutlineVariant?: string;
@@ -151,3 +151,5 @@ export interface BaseTheme {
 export interface Theme extends BaseTheme {
   colors: ThemeColors;
 }
+
+export type Colors = Omit<ThemeColors, "id" | "name" | "isDark">;

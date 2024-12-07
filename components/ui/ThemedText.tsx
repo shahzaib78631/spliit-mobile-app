@@ -1,11 +1,9 @@
-import { FontSize, MD3ThemeType, ThemeColors } from "@/theme/types";
+import { useThemeContext } from "@/context/ThemeContext";
+import { Colors, FontSize, ThemeColors } from "@/theme/types";
 import React from "react";
-import { StyleProp, Text, TextProps, TextStyle } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { Text, TextProps, TextStyle } from "react-native";
 
-type Colors = Omit<ThemeColors, "id" | "name" | "isDark">;
-
-interface ThemedTextProps extends TextProps {
+export interface ThemedTextProps extends TextProps {
   /** Content of the text */
   children: React.ReactNode;
   /** Font type to apply */
@@ -27,7 +25,7 @@ const ThemedText: React.FC<ThemedTextProps> = ({
   textAlign = "auto", // Default alignment
   ...otherProps
 }) => {
-  const { theme } = useStyles();
+  const { theme } = useThemeContext();
 
   /**
    * Determines the font family based on the "type" prop

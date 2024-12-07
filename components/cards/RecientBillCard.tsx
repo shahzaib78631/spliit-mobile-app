@@ -21,6 +21,7 @@ import { getString } from "@/strings/translations";
 import { useGroupStats } from "@/hooks/useGroupStats";
 import { useGroupDetails } from "@/hooks/useGroupDetails";
 import PopupMenu from "../PopupMenu";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 const { width } = Dimensions.get("window");
 
@@ -61,10 +62,10 @@ const RecientBillCard: React.FC<RecientBillCardProps> = ({
         <Seperator margin={theme.margin.sm} />
         <View style={styles.billSection}>
           <ThemedText type="medium" style={styles.totalText}>
-            Total Spending
+            {getString("stats.totals.groupspendings")}
           </ThemedText>
           <ThemedText numberOfLines={1} type="bold" style={styles.amountText}>
-            {`${details?.currency} ${stats?.totalGroupSpendings}`}
+            {`${formatCurrency(details?.currency, stats?.totalGroupSpendings)}`}
           </ThemedText>
         </View>
 
@@ -72,7 +73,8 @@ const RecientBillCard: React.FC<RecientBillCardProps> = ({
           <View style={styles.header}>
             <ThemedText style={[styles.subText]}>Split with</ThemedText>
             <ThemedText style={[styles.subText]}>
-              {details?.participants?.length} Persons
+              {details?.participants?.length}{" "}
+              {getString("groupform.participants.title")}
             </ThemedText>
           </View>
           <View style={styles.stackedAvatars}>

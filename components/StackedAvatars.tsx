@@ -7,11 +7,11 @@ import {
   ImageStyle,
   TextStyle,
 } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
 import ThemedButton from "./ui/ThemedButton";
 import { AntDesign } from "@expo/vector-icons";
 import Avatar from "./Avatar";
 import ThemedText from "./ui/ThemedText";
+import { useThemeContext } from "@/context/ThemeContext";
 
 type Avatar = {
   uri?: string;
@@ -56,12 +56,14 @@ const StackedAvatars: React.FC<StackedAvatarsProps> = ({
   addLabel,
   nameKey = "name",
 }) => {
-  const { styles, theme } = useStyles(stylesheet);
+  const { commonStyles, theme } = useThemeContext();
 
   return (
-    <View style={[styles.container, containerStyle]}>
+    <View
+      style={[commonStyles.rowCenter, commonStyles.width100, containerStyle]}
+    >
       {avatars.map((avatar, index) => (
-        <View key={index} style={[styles.avatarContainer]}>
+        <View key={index} style={[commonStyles.alignCenter]}>
           <Avatar
             uri={avatar?.uri}
             name={avatar?.[nameKey]}
@@ -72,7 +74,8 @@ const StackedAvatars: React.FC<StackedAvatarsProps> = ({
           {showNames && avatar?.[nameKey] && (
             <ThemedText
               style={[
-                styles.nameText,
+                commonStyles.marginTopMd,
+                commonStyles.textCenter,
                 { marginLeft: index !== 0 ? overlap : 0 },
                 nameStyle,
               ]}
@@ -85,7 +88,7 @@ const StackedAvatars: React.FC<StackedAvatarsProps> = ({
         </View>
       ))}
       {/* Add Button */}
-      <View style={styles.addButtonContainer}>
+      <View style={commonStyles.alignCenter}>
         <ThemedButton
           borderRadius="full"
           variant="dashed-outline"
@@ -95,15 +98,19 @@ const StackedAvatars: React.FC<StackedAvatarsProps> = ({
             height: avatarSize,
             borderRadius: avatarSize / 2,
             marginLeft: overlap,
-            padding: 0,
+            padding: theme.padding.none,
             backgroundColor: theme.colors.surface2,
           }}
         >
-          <AntDesign size={12} name="plus" style={styles.addIcon} />
+          <AntDesign size={12} name="plus" color={theme.colors.primary} />
         </ThemedButton>
         {addLabel && (
           <ThemedText
-            style={[styles.addLabel, { marginLeft: overlap }]}
+            style={[
+              commonStyles.marginTopMd,
+              commonStyles.textCenter,
+              { marginLeft: overlap },
+            ]}
             fontSize="xs"
             color="secondary"
           >
@@ -114,31 +121,5 @@ const StackedAvatars: React.FC<StackedAvatarsProps> = ({
     </View>
   );
 };
-
-const stylesheet = createStyleSheet((theme) => ({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  avatarContainer: {
-    alignItems: "center",
-  },
-  nameText: {
-    marginTop: theme.spacing.md,
-    textAlign: "center",
-  },
-  addIcon: {
-    color: theme.colors.primary,
-  },
-  addButtonContainer: {
-    alignItems: "center",
-  },
-  addLabel: {
-    marginTop: theme.spacing.md,
-    textAlign: "center",
-  },
-}));
 
 export default StackedAvatars;

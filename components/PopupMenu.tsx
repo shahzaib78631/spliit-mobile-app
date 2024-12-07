@@ -1,11 +1,11 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React from "react";
+import React, { useRef } from "react";
 import { View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import BasePopupMenu, { BaseMenuOptions } from "./BasePopupMenu";
+import BasePopupMenu, { BaseMenuOptions } from "./base/BasePopupMenu";
 import ThemedText from "./ui/ThemedText";
-import { GroupDetails } from "@/utils/trpc";
 import { useRouter } from "expo-router";
+import ShareGroupByUrlSheet from "./sheets/ShareGroupUrlSheet";
 
 interface PopupMenuProps {
   groupId: string;
@@ -13,6 +13,12 @@ interface PopupMenuProps {
 
 const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
   const { styles, theme } = useStyles(stylesheet);
+
+  /** Reference to the shareGroupSheetRef */
+  const shareGroupSheetRef = useRef({
+    open: () => {},
+    close: () => {},
+  });
 
   const router = useRouter();
 
@@ -54,7 +60,7 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
           />
         </View>
       ),
-      handle: () => {},
+      handle: () => shareGroupSheetRef.current.open(),
     },
     {
       label: "Archive",
@@ -92,27 +98,20 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
     },
   ];
 
-  return <BasePopupMenu menuOptions={menuOptions} />;
+  return (
+    <>
+      <BasePopupMenu menuOptions={menuOptions} />
+      <ShareGroupByUrlSheet groupId={groupId} reference={shareGroupSheetRef} />
+    </>
+  );
 };
 
 const stylesheet = createStyleSheet((theme) => ({
-  triggerText: {
-    fontSize: 18,
-    color: "blue",
-  },
   customOptionContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     minWidth: 100,
-  },
-  optionText: {
-    fontSize: theme.fontSize.md,
-    fontFamily: theme.fontFamily.regular,
-  },
-  optionsContainer: {
-    padding: theme.spacing.md,
-    borderRadius: theme.borderRadius.lg,
   },
 }));
 

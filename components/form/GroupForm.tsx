@@ -17,9 +17,11 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Seperator from "../Seperator";
 import ThemedButton from "../ui/ThemedButton";
 import ThemedText from "../ui/ThemedText";
-import FormField from "./FormField";
+import FormField from "./components/FormField";
 import { GroupFormValues } from "spliit-api/src/lib/schemas";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "./components/ErrorMessage";
+import useCommonStyles from "@/theme/styles";
+import { getString } from "@/strings/translations";
 
 type GroupFormProps = {
   groupDetails: GroupDetails | null | undefined;
@@ -32,7 +34,8 @@ const GroupForm = ({
   onSave,
   participantWithExpenses = [],
 }: GroupFormProps) => {
-  const { styles, theme } = useStyles(stylesheet);
+  const { styles: commonStyles, theme } = useCommonStyles();
+  const { styles } = useStyles(stylesheet);
 
   // Use custom hook to handle form logic
   const { control, handleSubmit, errors, isSubmitting } = useGroupForm({
@@ -62,15 +65,15 @@ const GroupForm = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={commonStyles.gapLg}>
       {/* Group Information Section */}
-      <ThemedText type="bold">Group Information</ThemedText>
+      <ThemedText type="bold">{getString("groupform.title")}</ThemedText>
 
       <View>
         <FormField
-          label="Group name"
+          label={getString("groupform.namefield.label")}
           name="name"
-          placeholder="Group name"
+          placeholder={getString("groupform.namefield.placeholder")}
           control={control}
           error={errors.name}
           prepend={
@@ -78,9 +81,9 @@ const GroupForm = ({
           }
         />
         <FormField
-          label="Currency symbol"
+          label={getString("groupform.currencyfield.label")}
           name="currency"
-          placeholder="Currency symbol"
+          placeholder={getString("groupform.currencyfield.placeholder")}
           control={control}
           error={errors.currency}
           prepend={
@@ -92,24 +95,33 @@ const GroupForm = ({
           }
         />
         <FormField
-          label="Group information"
+          label={getString("groupform.informationfield.label")}
           name="information"
-          placeholder="Group information"
+          placeholder={getString("groupform.informationfield.placeholder")}
           control={control}
           error={errors.information}
           multiline
-          inputStyle={{ height: 100 }}
+          containerStyle={{ height: 100 }}
         />
       </View>
 
       <Seperator />
 
       {/* Participants Section */}
-      <View style={styles.header}>
-        <View style={styles.headerTitle}>
-          <ThemedText type="bold">Participants</ThemedText>
+      <View style={[commonStyles.rowSpaceBetween, commonStyles.gapSm]}>
+        <View
+          style={[
+            commonStyles.flex1,
+            commonStyles.gapSm,
+            commonStyles.col,
+            commonStyles.justifyBetween,
+          ]}
+        >
+          <ThemedText type="bold">
+            {getString("groupform.participants.title")}
+          </ThemedText>
           <ThemedText type="light" fontSize="sm" style={styles.description}>
-            Enter the name for each participant
+            {getString("groupform.participants.description")}
           </ThemedText>
         </View>
         <ThemedButton
@@ -117,7 +129,7 @@ const GroupForm = ({
           fontSize="sm"
           variant="primary"
           onPress={addParticipant}
-          buttonStyle={{ padding: theme.spacing.md }}
+          buttonStyle={commonStyles.paddingMd}
         >
           <AntDesign name="plus" size={18} color={theme.colors.onPrimary} />
         </ThemedButton>
@@ -128,7 +140,7 @@ const GroupForm = ({
           <FormField
             key={field.key}
             name={`participants.${index}.name`}
-            placeholder="Participant name"
+            placeholder={getString("groupform.participants.name")}
             control={control}
             error={errors.participants?.[index]?.name}
             prepend={
@@ -152,7 +164,7 @@ const GroupForm = ({
 
       {/* Save Button */}
       <ThemedButton
-        title="Save"
+        title={getString("groupform.settings.save")}
         borderRadius="lg"
         fontSize="sm"
         variant="primary"
@@ -165,21 +177,6 @@ const GroupForm = ({
 
 // Styles for the component
 const stylesheet = createStyleSheet((theme) => ({
-  container: {
-    gap: theme.spacing.lg,
-  },
-  header: {
-    flexDirection: "row",
-    gap: theme.spacing.sm,
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  headerTitle: {
-    flex: 1,
-    gap: theme.spacing.sm,
-    flexDirection: "column",
-    justifyContent: "space-between",
-  },
   description: {
     color: getColorWithAlpha(theme.colors.onBackground, 0.5),
   },

@@ -1,24 +1,15 @@
+import useCommonStyles from "@/theme/styles";
 import React from "react";
-import { ActivityIndicator, View, StyleSheet } from "react-native";
-
-import { useStyles } from "react-native-unistyles";
+import { ActivityIndicator, View } from "react-native";
 
 const ThemedActivityIndicator = () => {
-  const { theme } = useStyles();
+  const { styles, theme } = useCommonStyles();
 
   return (
-    <View style={[styles.container]}>
+    <View style={[styles.flex1, styles.center]}>
       <ActivityIndicator size={"small"} color={theme.colors.onBackground} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default ThemedActivityIndicator;
