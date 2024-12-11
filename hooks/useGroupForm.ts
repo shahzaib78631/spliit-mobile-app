@@ -4,6 +4,7 @@ import { Group, GroupDetails, trpc } from "@/utils/trpc";
 import { groupFormSchema, GroupFormValues } from "spliit-api/src/lib/schemas";
 import { addRecentGroup, updateRecentGroup } from "@/services/recentGroups";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 
 /**
  * Parameters for initializing the group form hook
@@ -36,6 +37,8 @@ const defaultValues: GroupFormValues = {
  * ```
  */
 export function useGroupForm({ groupDetails }: Params) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const router = useRouter();
   const utils = trpc.useUtils();
 
@@ -51,7 +54,7 @@ export function useGroupForm({ groupDetails }: Params) {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<GroupFormValues>({
     /**
      * Set initial values based on existing group or defaults
@@ -76,12 +79,14 @@ export function useGroupForm({ groupDetails }: Params) {
    * @throws {Error} If group creation fails
    */
   const handleSaveGroup = async (groupFormValues: GroupFormValues) => {
+    setIsSubmitting(true);
     const { groupId } = await createGroup({ groupFormValues });
     await utils.groups.invalidate();
     await addRecentGroup({
       groupId,
       groupName: groupFormValues.name,
     });
+    setIsSubmitting(false);
     router.back();
   };
 
@@ -96,6 +101,7 @@ export function useGroupForm({ groupDetails }: Params) {
     groupId: string,
     groupFormValues: GroupFormValues
   ) => {
+    setIsSubmitting(true);
     await updateGroup({
       groupId,
       groupFormValues: groupFormValues,
@@ -105,6 +111,7 @@ export function useGroupForm({ groupDetails }: Params) {
       name: groupFormValues.name,
     } as Group);
     await utils.groups.invalidate();
+    setIsSubmitting(false);
     router.back();
   };
 

@@ -3,9 +3,6 @@ import { StyleSheet } from "react-native";
 import "@/theme/unistyles";
 import { Tabs } from "expo-router";
 
-// Icons
-import { AntDesign } from "@expo/vector-icons";
-
 // Translation
 import { getString } from "@/strings/translations";
 import CustomTabBar from "@/components/CustomTabbar";
@@ -14,12 +11,12 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 const App: React.FC = () => {
   return (
     <Tabs
-      initialRouteName="index"
       tabBar={(props: BottomTabBarProps) => <CustomTabBar {...props} />}
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
       }}
+      backBehavior="history"
     >
       <Tabs.Screen
         name="index"
@@ -43,7 +40,7 @@ const App: React.FC = () => {
         }}
       />
       <Tabs.Screen
-        name="groups"
+        name="(groups)"
         options={{
           title: getString("screen.groups.title"),
           headerTitle: getString("screen.groups.title"),

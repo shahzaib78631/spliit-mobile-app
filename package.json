@@ -18,6 +18,7 @@
     "@expo/vector-icons": "^14.0.2",
     "@gorhom/bottom-sheet": "^5.0.6",
     "@react-navigation/bottom-tabs": "^7.0.0",
+    "@react-navigation/material-top-tabs": "^7.0.18",
     "@react-navigation/native": "^7.0.0",
     "@tanstack/react-query": "^5.59.16",
     "@trpc/client": "^11.0.0-rc.593",
@@ -27,6 +28,7 @@
     "dayjs": "^1.11.13",
     "expo": "~52.0.17",
     "expo-blur": "~14.0.1",
+    "expo-clipboard": "~7.0.0",
     "expo-constants": "~17.0.3",
     "expo-font": "~13.0.1",
     "expo-haptics": "~14.0.0",
@@ -58,7 +60,8 @@
     "react-native-webview": "13.12.5",
     "spliit-api": "github:spliit-app/spliit#api",
     "superjson": "^2.2.1",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "react-native-pager-view": "6.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

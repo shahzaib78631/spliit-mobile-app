@@ -6,14 +6,12 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 // Context
 import { useGroupContext } from "@/context/GroupContext";
 
-// Hooks
-import { useGroupForm } from "@/hooks/useGroupForm";
-
 // Components
 import ThemedView from "@/components/ui/ThemedView";
 import GroupForm from "@/components/form/GroupForm";
 import ThemedActivityIndicator from "@/components/ui/ThemedActivityIndicator";
-import { GroupFormValues } from "spliit-api/src/lib/schemas";
+import { useRouter } from "expo-router";
+import ThemedButton from "@/components/ui/ThemedButton";
 
 /**
  * Group Layout Component
@@ -22,15 +20,9 @@ import { GroupFormValues } from "spliit-api/src/lib/schemas";
  * @component
  * @returns Themed view with group form or loading indicator
  */
-const GroupLayout: React.FC = () => {
+const EditGroup: React.FC = () => {
   /** Access active group from context */
   const { activeGroup } = useGroupContext();
-
-  /** Apply component-specific styles */
-  const { styles } = useStyles(stylesheet);
-
-  /** Hook for group update functionality */
-  const { handleUpdateGroup } = useGroupForm({ groupDetails: activeGroup });
 
   /** Show loading indicator if no active group */
   if (!activeGroup) {
@@ -43,12 +35,7 @@ const GroupLayout: React.FC = () => {
       statusbarBackgroundColor="surface2"
       title={activeGroup?.name}
     >
-      <GroupForm
-        groupDetails={activeGroup}
-        onSave={(groupDetails: GroupFormValues) =>
-          handleUpdateGroup(activeGroup.id, groupDetails)
-        }
-      />
+      <GroupForm groupDetails={activeGroup} isEditing={true} />
     </ThemedView>
   );
 };
@@ -59,4 +46,4 @@ const GroupLayout: React.FC = () => {
  */
 const stylesheet = createStyleSheet((theme) => ({}));
 
-export default GroupLayout;
+export default EditGroup;

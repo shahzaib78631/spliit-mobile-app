@@ -11,6 +11,7 @@ import useCommonStyles from "@/theme/styles";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import ThemedText, { ThemedTextProps } from "../ui/ThemedText";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // Define the prop types for BaseBottomSheet
 interface BaseBottomSheetProps {
@@ -59,7 +60,8 @@ const BaseBottomSheet: React.FC<BaseBottomSheetProps> = ({
   titleProps,
   reference,
 }: BaseBottomSheetProps) => {
-  const { styles } = useStyles(stylesheet);
+  const { styles, theme } = useStyles(stylesheet);
+  const { bottom } = useSafeAreaInsets();
 
   // Render the BottomSheet component with dynamic snap points and children content
   return (
@@ -69,7 +71,7 @@ const BaseBottomSheet: React.FC<BaseBottomSheetProps> = ({
     >
       <RBSheet
         ref={reference} // Ref to control the BottomSheet instance
-        height={height} // Use the last snap point as the initial height
+        height={height + bottom} // Use the last snap point as the initial height
         closeOnPressMask // Close the bottom sheet when the mask is pressed
         onClose={onClose} // Callback when the bottom sheet is closed
         draggable
@@ -100,7 +102,7 @@ const BaseBottomSheet: React.FC<BaseBottomSheetProps> = ({
 // Styles for the BottomSheet content and container
 const stylesheet = createStyleSheet((theme) => ({
   container: {
-    padding: theme.padding.lg,
+    padding: theme.padding.sm,
     backgroundColor: theme.colors.background,
     borderTopLeftRadius: theme.borderRadius.xl,
     borderTopRightRadius: theme.borderRadius.xl,

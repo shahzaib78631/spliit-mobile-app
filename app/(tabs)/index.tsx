@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ThemedView from "@/components/ui/ThemedView";
-import RecientBillCard from "@/components/cards/RecientBillCard";
+import RecientGroupCard from "@/components/cards/RecentGroupCard";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { getString } from "@/strings/translations";
 
@@ -26,6 +26,7 @@ import {
   useRouter,
 } from "expo-router";
 import AddGroupByUrlSheet from "@/components/sheets/AddGroupByUrlSheet";
+import { useGroupContext } from "@/context/GroupContext";
 
 /**
  * Home screen component displaying recent groups, split options, and friends
@@ -39,29 +40,14 @@ export default function Home() {
 
   /** Navigation and routing hooks */
   const router = useRouter();
-  const navigation = useNavigation();
-  const pathname = usePathname();
 
-  /** State to manage recent groups */
-  const [recentGroups, setRecentGroups] = useState<RecentGroup[] | null>(null);
+  const { recentGroups } = useGroupContext();
 
   /** Reference to the AddGroupByUrlSheet */
   const addGroupByUrlSheetRef = useRef({
     open: () => {},
     close: () => {},
   });
-
-  /** Fetch recent groups from storage */
-  const fetchGroups = useCallback(() => {
-    getRecentGroups().then((recentGroups: RecentGroup[]) => {
-      setRecentGroups(recentGroups);
-    });
-  }, []);
-
-  /** Sync recent groups on screen focus and path changes */
-  useEffect(() => {
-    fetchGroups();
-  }, [fetchGroups, navigation.isFocused, pathname]);
 
   /** Dummy data for demonstration */
   const dummyData = {
@@ -101,7 +87,7 @@ export default function Home() {
               </ThemedButton>
             </View>
 
-            <RecientBillCard
+            <RecientGroupCard
               groupId={recentGroups?.[0]?.groupId}
               onSplitBtnPress={() => console.log("Split Bill")}
             />

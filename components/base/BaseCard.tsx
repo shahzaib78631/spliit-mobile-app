@@ -51,6 +51,8 @@ const stylesheet = createStyleSheet((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     gap: theme.spacing.md,
+    borderWidth: 1,
+    borderColor: theme.colors.primaryOutline,
   },
 }));
 

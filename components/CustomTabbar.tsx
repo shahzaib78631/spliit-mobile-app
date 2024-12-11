@@ -24,7 +24,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
   const { bottom } = useSafeAreaInsets();
 
   // Allowed route names
-  const allowedRoutes = ["index", "history", "create", "groups", "profile"];
+  const allowedRoutes = ["index", "history", "create", "(groups)", "profile"];
 
   return (
     <View style={[styles.tabBar, { paddingBottom: bottom + 10 }]}>
@@ -81,7 +81,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
                     />
                   </View>
                 );
-              case "groups":
+              case "(groups)":
                 return (
                   <>
                     <AntDesign

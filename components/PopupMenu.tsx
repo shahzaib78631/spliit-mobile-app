@@ -6,12 +6,18 @@ import BasePopupMenu, { BaseMenuOptions } from "./base/BasePopupMenu";
 import ThemedText from "./ui/ThemedText";
 import { useRouter } from "expo-router";
 import ShareGroupByUrlSheet from "./sheets/ShareGroupUrlSheet";
+import { removeRecentGroup } from "@/services/recentGroups";
+import { useGroupContext } from "@/context/GroupContext";
+import { getString } from "@/strings/translations";
 
 interface PopupMenuProps {
   groupId: string;
 }
 
 const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
+  const { fetchGroups, archiveGroup, unarchiveGroup, isGroupArchived } =
+    useGroupContext();
+
   const { styles, theme } = useStyles(stylesheet);
 
   /** Reference to the shareGroupSheetRef */
@@ -21,6 +27,8 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
   });
 
   const router = useRouter();
+
+  const archived = isGroupArchived(groupId);
 
   const menuOptions: BaseMenuOptions = [
     {
@@ -63,12 +71,16 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
       handle: () => shareGroupSheetRef.current.open(),
     },
     {
-      label: "Archive",
+      label: archived
+        ? getString("common.recent")
+        : getString("common.archive"),
       value: "archive",
       render: (
         <View style={styles.customOptionContainer}>
           <ThemedText type="regular" fontSize="md" color="onSurface">
-            Archive
+            {archived
+              ? getString("common.recent")
+              : getString("common.archive")}
           </ThemedText>
           <MaterialCommunityIcons
             name="archive-outline"
@@ -77,7 +89,8 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
           />
         </View>
       ),
-      handle: () => {},
+      handle: () =>
+        archived ? unarchiveGroup(groupId) : archiveGroup(groupId),
     },
     {
       label: "Delete",
@@ -94,7 +107,7 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
           />
         </View>
       ),
-      handle: () => {},
+      handle: () => removeRecentGroup(groupId).then(() => fetchGroups()),
     },
   ];
 

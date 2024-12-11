@@ -15,7 +15,6 @@ export const ParamsSchema = z.object({
     .refine(
       (url) => {
         const groupId = extractGroupId(url);
-        console.log("groupId", groupId);
         return groupId !== undefined; // If groupId is null, it's invalid
       },
       {

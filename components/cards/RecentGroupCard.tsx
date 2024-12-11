@@ -1,20 +1,8 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  ViewStyle,
-  TextStyle,
-  ImageStyle,
-  Dimensions,
-  ActivityIndicator,
-} from "react-native";
+import { View, Dimensions, ActivityIndicator } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Seperator from "../Seperator";
 import ThemedText from "../ui/ThemedText";
-import { AntDesign } from "@expo/vector-icons";
 import ThemedButton from "../ui/ThemedButton";
 import StackedAvatars from "../StackedAvatars";
 import { getString } from "@/strings/translations";
@@ -26,12 +14,12 @@ import { formatCurrency } from "@/utils/formatCurrency";
 const { width } = Dimensions.get("window");
 
 // Define prop types for the component to make it reusable
-interface RecientBillCardProps {
+interface RecientGroupCardProps {
   groupId: string; // Group ID
   onSplitBtnPress: () => void; // Function to handle button press
 }
 
-const RecientBillCard: React.FC<RecientBillCardProps> = ({
+const RecientGroupCard: React.FC<RecientGroupCardProps> = ({
   groupId,
   onSplitBtnPress,
 }) => {
@@ -99,7 +87,7 @@ const RecientBillCard: React.FC<RecientBillCardProps> = ({
   );
 };
 
-// Default styles for the RecientBillCard component
+// Default styles for the RecientGroupCard component
 const stylesheet = createStyleSheet((theme) => ({
   cardContainer: {
     backgroundColor: theme.colors.surface2,
@@ -167,4 +155,4 @@ const stylesheet = createStyleSheet((theme) => ({
   },
 }));
 
-export default RecientBillCard;
+export default RecientGroupCard;

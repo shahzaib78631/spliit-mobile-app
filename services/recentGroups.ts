@@ -1,12 +1,8 @@
-/**
- * Manages recent groups using MMKV storage in a React Native application
- */
 import { z } from "zod";
-import { MMKV } from "react-native-mmkv";
-import { Group } from "../utils/trpc";
+import { getStorageData, setStorageData, isWeb } from "./mmkv";
+import { storage } from "./mmkv";
 
-/** MMKV storage instance for persistent key-value storage */
-const storage = new MMKV();
+const RECENT_GROUPS_KEY = "recent-groups";
 
 /**
  * Zod schema for validating recent groups structure
@@ -20,10 +16,8 @@ const recentGroupsSchema = z.array(
 );
 
 /** Type derived from the recent groups schema */
-export type RecentGroup = z.infer<typeof recentGroupsSchema>[number];
-
-/** Storage key for recent groups in MMKV */
-const RECENT_GROUPS_KEY = "recent-groups";
+export type RecentGroups = z.infer<typeof recentGroupsSchema>;
+export type RecentGroup = RecentGroups[number];
 
 /**
  * Retrieves the list of recent groups from storage
@@ -33,8 +27,11 @@ const RECENT_GROUPS_KEY = "recent-groups";
  */
 export async function getRecentGroups(): Promise<RecentGroup[]> {
   try {
-    const raw = storage.getString(RECENT_GROUPS_KEY);
-    return recentGroupsSchema.parse(raw ? JSON.parse(raw) : []);
+    return getStorageData(
+      RECENT_GROUPS_KEY,
+      recentGroupsSchema,
+      isWeb() ? "localStorage" : "mmkv"
+    );
   } catch {
     return [];
   }
@@ -53,7 +50,11 @@ export async function addRecentGroup(recentGroup: RecentGroup): Promise<void> {
       recentGroup,
       ...recentGroups.filter((group) => group.groupId !== recentGroup.groupId),
     ];
-    storage.set(RECENT_GROUPS_KEY, JSON.stringify(updatedRecentGroups));
+    setStorageData(
+      RECENT_GROUPS_KEY,
+      updatedRecentGroups,
+      isWeb() ? "localStorage" : "mmkv"
+    );
   } catch (err) {
     console.error(err);
   }
@@ -65,14 +66,18 @@ export async function addRecentGroup(recentGroup: RecentGroup): Promise<void> {
  *
  * @param group - Group with updated information
  */
-export async function updateRecentGroup(group: Group): Promise<void> {
+export async function updateRecentGroup(group: RecentGroup): Promise<void> {
   try {
     const recentGroups = await getRecentGroups();
     const updatedRecentGroups = [
-      { groupId: group.id, groupName: group.name },
-      ...recentGroups.filter((g) => g.groupId !== group.id),
+      { groupId: group.groupId, groupName: group.groupName },
+      ...recentGroups.filter((g) => g.groupId !== group.groupId),
     ];
-    storage.set(RECENT_GROUPS_KEY, JSON.stringify(updatedRecentGroups));
+    setStorageData(
+      RECENT_GROUPS_KEY,
+      updateRecentGroup,
+      isWeb() ? "localStorage" : "mmkv"
+    );
   } catch (err) {
     console.error(err);
   }
@@ -87,7 +92,11 @@ export async function removeRecentGroup(groupId: string): Promise<void> {
   try {
     const recentGroups = await getRecentGroups();
     const filteredGroups = recentGroups.filter((g) => g.groupId !== groupId);
-    storage.set(RECENT_GROUPS_KEY, JSON.stringify(filteredGroups));
+    setStorageData(
+      RECENT_GROUPS_KEY,
+      filteredGroups,
+      isWeb() ? "localStorage" : "mmkv"
+    );
   } catch (err) {
     console.error(err);
   }

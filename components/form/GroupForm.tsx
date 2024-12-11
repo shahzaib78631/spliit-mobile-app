@@ -25,20 +25,23 @@ import { getString } from "@/strings/translations";
 
 type GroupFormProps = {
   groupDetails: GroupDetails | null | undefined;
-  onSave: (groupFormValues: GroupFormValues) => Promise<void>;
+  isEditing: Boolean;
   participantWithExpenses?: string[];
 };
 
-const GroupForm = ({
-  groupDetails,
-  onSave,
-  participantWithExpenses = [],
-}: GroupFormProps) => {
+const GroupForm = ({ groupDetails, isEditing }: GroupFormProps) => {
   const { styles: commonStyles, theme } = useCommonStyles();
   const { styles } = useStyles(stylesheet);
 
   // Use custom hook to handle form logic
-  const { control, handleSubmit, errors, isSubmitting } = useGroupForm({
+  const {
+    control,
+    handleSubmit,
+    handleUpdateGroup,
+    handleSaveGroup,
+    errors,
+    isSubmitting,
+  } = useGroupForm({
     groupDetails,
   });
 
@@ -49,11 +52,6 @@ const GroupForm = ({
     keyName: "key",
   });
 
-  // Handle form submission
-  const onSubmit = (data: GroupFormValues) => {
-    onSave(data); // Call the provided onSave function
-  };
-
   // Handle adding a new participant
   const addParticipant = () => {
     append({ name: "New" });
@@ -62,6 +60,19 @@ const GroupForm = ({
   // Handle removing a participant by index
   const removeParticipant = (index: number) => {
     remove(index);
+  };
+
+  // Handle form submission
+  const handleFormSubmit = () => {
+    if (isEditing && groupDetails) {
+      // Handle editing group
+      handleSubmit((data: GroupFormValues) =>
+        handleUpdateGroup(groupDetails.id, data)
+      )();
+    } else {
+      // Handle creating a new group
+      handleSubmit(handleSaveGroup)();
+    }
   };
 
   return (
@@ -168,8 +179,9 @@ const GroupForm = ({
         borderRadius="lg"
         fontSize="sm"
         variant="primary"
-        onPress={handleSubmit(onSubmit)}
+        onPress={handleFormSubmit}
         loading={isSubmitting}
+        disabled={isSubmitting}
       />
     </View>
   );

@@ -1,17 +1,28 @@
 import React from "react";
-import { getString } from "@/strings/translations";
-import BaseBottomSheet from "../base/BaseBottomSheet";
 import { View } from "react-native";
+
+// Translation
+import { getString } from "@/strings/translations";
+
+// Bottom Sheet
+import BaseBottomSheet from "../base/BaseBottomSheet";
+
+// Components
 import ThemedText from "../ui/ThemedText";
 import ThemedTextInput from "../ui/ThemedTextInput";
-import { useThemeContext } from "@/context/ThemeContext";
-import {
-  AntDesign,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
 import ThemedButton from "../ui/ThemedButton";
+
+// Context
+import { useThemeContext } from "@/context/ThemeContext";
+
+// Icons
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+
+// Styles
 import { createStyleSheet, useStyles } from "react-native-unistyles";
+
+// Clipboard
+import * as Clipboard from "expo-clipboard";
 
 // Define the prop types for the AddGroupByUrlSheet component
 interface ShareGroupByUrlSheetProps {
@@ -40,13 +51,21 @@ const ShareGroupByUrlSheet: React.FC<ShareGroupByUrlSheetProps> = ({
   const { commonStyles, theme } = useThemeContext();
   const { styles } = useStyles(stylesheet);
 
+  const Link = `https://spliit.app/groups/${groupId}/expenses?ref=share`;
+
+  // Function to copy the group link to the clipboard
+  const copyGroupLink = () => {
+    // Copy the group link to the clipboard
+    Clipboard.setUrlAsync(Link);
+  };
+
   return (
     <BaseBottomSheet
       height={320}
       reference={reference}
       title={getString("share.title")}
     >
-      <View style={commonStyles.gapMd}>
+      <View style={commonStyles.gapVerticalMd}>
         <ThemedText type="light" fontSize="md">
           {getString("share.description")}
         </ThemedText>
@@ -54,7 +73,8 @@ const ShareGroupByUrlSheet: React.FC<ShareGroupByUrlSheetProps> = ({
           style={[commonStyles.rowAlignCenter, commonStyles.gapHorizontalMd]}
         >
           <ThemedTextInput
-            value={`https://spliit.app/groups/${groupId}/expenses?ref=share`}
+            value={Link}
+            editable={false}
             prepend={
               <AntDesign
                 name="link"
@@ -64,7 +84,7 @@ const ShareGroupByUrlSheet: React.FC<ShareGroupByUrlSheetProps> = ({
             }
           />
           <View>
-            <ThemedButton>
+            <ThemedButton onPress={copyGroupLink}>
               <MaterialIcons
                 name="copy-all"
                 color={theme.colors.onPrimary}
@@ -104,6 +124,7 @@ const stylesheet = createStyleSheet((theme) => ({
     borderColor: theme.colors.error,
     padding: theme.padding.md,
     borderRadius: theme.borderRadius.lg,
+    gap: theme.spacing.sm,
   },
 }));
 

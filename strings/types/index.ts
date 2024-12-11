@@ -295,4 +295,8 @@ export interface StringMap {
   "common.create_group": string;
   "common.add_existing_group": string;
   "common.add_by_url": string;
+  "common.recent": string;
+  "common.archived": string;
+  "common.archive": string;
+  "common.starred": string;
 }

@@ -429,6 +429,10 @@
     "create_a_split": "Create a split",
     "create_group": "Create Group",
     "add_existing_group": "Add Existing Group",
-    "add_by_url": "Add by URL"
+    "add_by_url": "Add by URL",
+    "starred": "Starred",
+    "archived": "Archived",
+    "archive": "Archive",
+    "recent": "Recent"
   }
 }

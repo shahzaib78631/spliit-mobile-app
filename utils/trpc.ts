@@ -14,6 +14,9 @@ export type ExpenseDetails =
 export type Group = NonNullable<AppRouterOutput["groups"]["get"]["group"]>;
 export type GroupParticipant = Group["participants"][number];
 export type GroupList = NonNullable<AppRouterOutput["groups"]["list"]>;
+export type GroupListItem = NonNullable<
+  AppRouterOutput["groups"]["list"]["groups"][number]
+>;
 export type GroupDetails = AppRouterOutput["groups"]["getDetails"]["group"];
 
 // Category Types

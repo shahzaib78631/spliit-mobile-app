@@ -27,6 +27,7 @@ interface ThemedViewProps extends ViewProps, ScrollViewProps {
   scrollable?: boolean;
   title?: string;
   statusbarBackgroundColor?: keyof Colors;
+  goBackEnabled?: boolean;
 }
 
 /**
@@ -42,6 +43,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
   scrollable = false,
   statusBarHeaderStyle,
   title,
+  goBackEnabled = true,
   statusbarBackgroundColor = "background",
   ...props
 }: ThemedViewProps): React.ReactElement => {
@@ -51,7 +53,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
   const router = useRouter();
 
   const Container = scrollable ? KeyboardAwareScrollView : View;
-  const canGoBack = router.canGoBack();
+  const canGoBack = router?.canGoBack();
 
   /**
    * Retrieves theme color for status bar background
@@ -84,7 +86,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
             styles.header,
           ]}
         >
-          {canGoBack && (
+          {canGoBack && goBackEnabled && (
             <TouchableOpacity
               onPress={router.back}
               style={[commonStyles.absolute, commonStyles.paddingLg]}
@@ -112,7 +114,11 @@ const ThemedView: React.FC<ThemedViewProps> = ({
 
       {/* Main content */}
       <Container
-        style={[commonStyles.container, style]}
+        style={[
+          commonStyles.container,
+          !scrollable && commonStyles.paddingVerticalXl,
+          style,
+        ]}
         {...props}
         contentContainerStyle={[
           commonStyles.gapXl,

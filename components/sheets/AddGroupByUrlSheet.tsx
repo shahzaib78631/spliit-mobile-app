@@ -2,6 +2,7 @@ import React from "react";
 import { getString } from "@/strings/translations";
 import BaseBottomSheet from "../base/BaseBottomSheet";
 import AddGroupByUrlForm from "../form/AddGroupByUrlForm";
+import { Platform } from "react-native";
 
 // Define the prop types for the AddGroupByUrlSheet component
 interface AddGroupByUrlSheetProps {
@@ -20,7 +21,7 @@ const AddGroupByUrlSheet: React.FC<AddGroupByUrlSheetProps> = ({
 }) => {
   return (
     <BaseBottomSheet
-      height={320}
+      height={Platform.OS === "ios" ? 250 : 320}
       reference={reference}
       title={getString("groups.addbyurl.title")}
     >
