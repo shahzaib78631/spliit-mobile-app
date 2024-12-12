@@ -1,12 +1,12 @@
 import React from "react";
 
 // Components
-import ThemedView from "@/components/ui/ThemedView";
-import GroupForm from "@/components/form/GroupForm";
 import ThemedList from "@/components/ui/ThemedList";
 import { useGroupContext } from "@/context/GroupContext";
 import GroupListCard from "@/components/cards/GroupListCard";
 import { GroupListItem } from "@/utils/trpc";
+import Searchbar from "@/components/Searchbar";
+import { getString } from "@/strings/translations";
 
 /**
  * Screen for creating a new group
@@ -27,9 +27,20 @@ export default function Starred(): React.ReactElement {
       <ThemedList
         data={data || []}
         renderItem={({ item }: { item: GroupListItem }) => {
-          return <GroupListCard group={item} />;
+          return <GroupListCard group={item} page="archived" />;
         }}
         keyExtractor={(item) => item.id}
+        emptyListProps={{
+          title: "Yo~ It's empty here!",
+          subtitle: "You haven't archived any groups yet.",
+        }}
+        searchEnabled
+        searchConfig={{
+          extractSearchableText: (item) => item.name, // Search by name
+          placeholder: getString("groups.searchplaceholder", {
+            name: getString("common.archived"),
+          }),
+        }}
       />
     </>
   );

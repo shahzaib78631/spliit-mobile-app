@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import {
   FlatList,
   SectionList,
@@ -12,60 +12,48 @@ import {
   TextStyle,
 } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
+import ThemedListEmptyComponent, {
+  ThemedListEmptyComponentProps,
+} from "./ThemedListEmptyComponent";
+import Searchbar from "../Searchbar";
 
 /**
  * Props for ThemedList component.
  * @template T - The type of data used in the list.
  */
 export interface ThemedListProps<T> {
-  /**
-   * The array of data items to render in the list.
-   */
   data: T[];
-
-  /**
-   * A function that renders an item from the data array.
-   */
   renderItem:
     | FlatListProps<T>["renderItem"]
     | SectionListProps<T>["renderItem"];
-
-  /**
-   * A function that extracts a unique key for each item.
-   * Defaults to using the index as the key.
-   */
   keyExtractor?: (item: T, index: number) => string;
-
-  /**
-   * Component to render at the top of the list.
-   */
   ListHeaderComponent?: React.ReactElement | null;
-
-  /**
-   * Component to render at the bottom of the list.
-   */
   ListFooterComponent?: React.ReactElement | null;
-
-  /**
-   * Component to render when the list is empty.
-   * Defaults to a simple "No Data Available" text.
-   */
-  ListEmptyComponent?: React.ReactElement | (() => React.ReactElement);
-
-  /**
-   * Custom style for the FlatList.
-   */
+  ListEmptyComponent?: React.ReactElement | (() => React.ReactElement) | null;
   style?: StyleProp<ViewStyle>;
-
-  /**
-   * Custom style for the content container of the FlatList.
-   */
   contentContainerStyle?: StyleProp<ViewStyle>;
+  type?: "flatlist" | "sectionlist";
+  emptyListProps?: ThemedListEmptyComponentProps;
 
   /**
-   * Type of list to render. Can be "flatlist" or "sectionlist".
+   * Enables the search functionality in the list.
    */
-  type?: "flatlist" | "sectionlist";
+  searchEnabled?: boolean;
+
+  /**
+   * Configuration for the search, specifying which properties to search on.
+   */
+  searchConfig?: {
+    /**
+     * A function to extract searchable text from an item.
+     */
+    extractSearchableText: (item: T) => string;
+
+    /**
+     * Optional placeholder for the search bar.
+     */
+    placeholder?: string;
+  };
 }
 
 /**
@@ -79,37 +67,60 @@ const ThemedList = <T,>({
   keyExtractor = (_, index) => index.toString(),
   ListHeaderComponent = null,
   ListFooterComponent = null,
-  ListEmptyComponent = () => <Text>No Data Available</Text>,
+  ListEmptyComponent = null,
   style = {},
   contentContainerStyle = {},
-  type = "flatlist", // Default type is flatlist
+  type = "flatlist",
+  emptyListProps,
+  searchEnabled = false,
+  searchConfig,
 }: ThemedListProps<T>) => {
   const { styles } = useStyles(stylesheet);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredData = useMemo(() => {
+    if (!searchEnabled || !searchConfig || !searchQuery.trim()) {
+      return data;
+    }
+
+    return data.filter((item) =>
+      searchConfig
+        .extractSearchableText(item)
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    );
+  }, [data, searchEnabled, searchConfig, searchQuery]);
 
   const renderFlatList = () => (
     <FlatList
-      data={data}
+      data={filteredData}
       renderItem={renderItem as FlatListProps<T>["renderItem"]}
       keyExtractor={keyExtractor}
       ListHeaderComponent={ListHeaderComponent}
       ListFooterComponent={ListFooterComponent}
-      ListEmptyComponent={ListEmptyComponent}
+      ListEmptyComponent={
+        ListEmptyComponent ? (
+          ListEmptyComponent
+        ) : (
+          <ThemedListEmptyComponent {...emptyListProps} />
+        )
+      }
       style={[styles.list, style]}
-      contentContainerStyle={contentContainerStyle}
+      contentContainerStyle={[{ flexGrow: 1 }, contentContainerStyle]}
       ItemSeparatorComponent={() => <View style={styles.itemSeperator} />}
     />
   );
 
   const renderSectionList = () => (
     <SectionList
-      sections={data as any} // Assuming data is an array of sections
+      sections={filteredData as any} // Assuming data is an array of sections
       renderItem={renderItem as SectionListProps<T>["renderItem"]}
       keyExtractor={keyExtractor}
       ListHeaderComponent={ListHeaderComponent}
       ListFooterComponent={ListFooterComponent}
       ListEmptyComponent={ListEmptyComponent}
       style={[styles.list, style]}
-      contentContainerStyle={contentContainerStyle}
+      contentContainerStyle={[{ flexGrow: 1 }, contentContainerStyle]}
       renderSectionHeader={({ section }) => (
         <Text style={styles.sectionHeader}>{section.title}</Text>
       )}
@@ -117,10 +128,24 @@ const ThemedList = <T,>({
     />
   );
 
-  return type === "sectionlist" ? renderSectionList() : renderFlatList();
+  return (
+    <View style={styles.container}>
+      {searchEnabled && searchConfig && (
+        <Searchbar
+          placeholder={searchConfig.placeholder || "Search..."}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+      )}
+      {type === "sectionlist" ? renderSectionList() : renderFlatList()}
+    </View>
+  );
 };
 
 const stylesheet = createStyleSheet((theme) => ({
+  container: {
+    flex: 1,
+  },
   list: {
     flex: 1,
   },

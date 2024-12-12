@@ -46,6 +46,6 @@ export function useGroupsList() {
     refetch,
     fetchGroups,
     recentGroups,
-    recentGroupsList: data as GroupList,
+    recentGroupsList: (data as GroupList) || { groups: [] },
   };
 }

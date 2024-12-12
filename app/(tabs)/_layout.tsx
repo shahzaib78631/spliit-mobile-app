@@ -33,13 +33,6 @@ const App: React.FC = () => {
         }}
       />
       <Tabs.Screen
-        name="create"
-        options={{
-          title: getString("screen.create.title"),
-          headerTitle: getString("screen.create.title"),
-        }}
-      />
-      <Tabs.Screen
         name="(groups)"
         options={{
           title: getString("screen.groups.title"),
@@ -53,6 +46,14 @@ const App: React.FC = () => {
           headerTitle: getString("screen.profile.title"),
         }}
       />
+
+      {/* <Tabs.Screen
+        name="create"
+        options={{
+          title: getString("screen.create.title"),
+          headerTitle: getString("screen.create.title"),
+        }}
+      /> */}
     </Tabs>
   );
 };

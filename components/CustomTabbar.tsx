@@ -1,13 +1,16 @@
-import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, View, TouchableOpacity, Dimensions } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-
-// Translation
-import { getString } from "@/strings/translations";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import ThemedText from "./ui/ThemedText";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { getString } from "@/strings/translations";
 
 /**
  * Custom bottom tab bar component for navigation
@@ -23,11 +26,36 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
   const { theme, styles } = useStyles(stylesheet);
   const { bottom } = useSafeAreaInsets();
 
+  // Shared value for underline position
+  const translateX = useSharedValue(0);
+
   // Allowed route names
-  const allowedRoutes = ["index", "history", "create", "(groups)", "profile"];
+  const allowedRoutes = ["index", "history", "(groups)", "profile"];
+
+  const TAB_WIDTH = Dimensions.get("window").width / allowedRoutes.length;
+
+  // Update translateX when the focused index changes
+  useEffect(() => {
+    const tabWidth = TAB_WIDTH; // Assume equal width tabs
+    translateX.value = withTiming(tabWidth * state.index, { duration: 300 });
+  }, [state.index]);
+
+  // Animated style for underline
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: `${translateX.value}%` }],
+    width: TAB_WIDTH,
+    height: 2,
+    backgroundColor: theme.colors.primary,
+  }));
 
   return (
-    <View style={[styles.tabBar, { paddingBottom: bottom + 10 }]}>
+    <View
+      style={[
+        styles.tabBar,
+        { paddingBottom: bottom + 5, paddingTop: theme.padding.lg },
+      ]}
+    >
+      <Animated.View style={[animatedStyle, styles.underline]} />
       {state.routes
         .filter((route) => allowedRoutes.includes(route.name))
         .map((route, index) => {
@@ -71,16 +99,6 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
                     </ThemedText>
                   </>
                 );
-              case "create":
-                return (
-                  <View style={styles.createGroupBtn}>
-                    <AntDesign
-                      name="plus"
-                      size={iconSize}
-                      color={theme.colors.inverseOnSurface}
-                    />
-                  </View>
-                );
               case "(groups)":
                 return (
                   <>
@@ -121,7 +139,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
           return (
             <TouchableOpacity
               key={route.key}
-              style={styles.tabButton}
+              style={[styles.tabButton]}
               onPress={() => navigation.navigate(route.name)}
             >
               <View style={styles.iconContainer}>{renderRouteContent()}</View>
@@ -145,21 +163,26 @@ const stylesheet = createStyleSheet((theme) => ({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    borderTopWidth: 1,
+    borderTopWidth: 0,
     borderColor: theme.colors.primaryOutline,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.surface2,
+    position: "relative",
   },
   tabButton: {
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
-    paddingTop: 10,
+    flexDirection: "column",
   },
   iconContainer: {
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
     gap: theme.spacing.xs,
+  },
+  underline: {
+    position: "absolute",
+    top: 0,
   },
   createGroupBtn: {
     backgroundColor: theme.colors.primary,

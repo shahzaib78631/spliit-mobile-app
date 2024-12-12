@@ -89,5 +89,5 @@ UnistylesRegistry.addThemes({
   },
 }).addConfig({
   adaptiveThemes: true,
-  initialTheme: "defaultDark",
+  initialTheme: "tealTurquoiseLight",
 });

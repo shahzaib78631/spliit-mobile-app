@@ -21,6 +21,7 @@ import { MenuProvider } from "react-native-popup-menu";
 import { GroupProvider } from "@/context/GroupContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 /**
  * Root application component
@@ -32,6 +33,8 @@ import { ThemeProvider } from "@/context/ThemeContext";
 const App: React.FC = () => {
   /** Track font loading state */
   const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  const { styles } = useStyles(stylesheet);
 
   /** Initialize QueryClient and tRPC client */
   const [queryClient] = useState(() => new QueryClient());
@@ -86,10 +89,12 @@ const App: React.FC = () => {
                     screenOptions={{
                       headerShown: false, // Hide header globally
                       animation: "slide_from_bottom",
+                      contentStyle: styles.mainContainer,
                     }}
                   >
                     {/* Load the main tabs screen */}
                     <Stack.Screen name="(tabs)" />
+                    <Stack.Screen name="create" />
                   </Stack>
                 </MenuProvider>
               </GroupProvider>
@@ -102,12 +107,15 @@ const App: React.FC = () => {
 };
 
 /** Styles for loading state */
-const styles = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center", // Center loader on the screen
   },
-});
+  mainContainer: {
+    backgroundColor: theme.colors.background,
+  },
+}));
 
 export default App;

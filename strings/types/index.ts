@@ -36,6 +36,7 @@ export interface StringMap {
   "expensecard.receivedby": string;
   "expensecard.yourbalance": string;
   "groups.mygroups": string;
+  "groups.searchplaceholder": string;
   "groups.create": string;
   "groups.loadingrecent": string;
   "groups.norecent.description": string;

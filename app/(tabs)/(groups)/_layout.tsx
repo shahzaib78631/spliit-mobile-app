@@ -17,6 +17,10 @@ import {
 } from "@expo/vector-icons";
 import ThemedText from "@/components/ui/ThemedText";
 import { View } from "react-native";
+import ThemedButton from "@/components/ui/ThemedButton";
+import { useRef } from "react";
+import AddGroupByUrlSheet from "@/components/sheets/AddGroupByUrlSheet";
+import FloatingActionButton from "@/components/FloatingActionButton";
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -29,6 +33,17 @@ export const MaterialTopTabs = withLayoutContext<
 
 export default function TabLayout() {
   const { commonStyles, theme } = useThemeContext();
+
+  /** Reference to the AddGroupByUrlSheet */
+  const addGroupByUrlSheetRef = useRef({
+    open: () => {},
+    close: () => {},
+  });
+
+  /** Open the AddGroupByUrl sheet */
+  const openAddGroupByUrlSheet = () => {
+    addGroupByUrlSheetRef.current?.open();
+  };
 
   return (
     <ThemedView
@@ -43,6 +58,7 @@ export default function TabLayout() {
           commonStyles.paddingHorizontalXl,
           commonStyles.paddingVerticalSm,
           commonStyles.rowJustifySpaceBetween,
+          commonStyles.rowAlignCenter,
           {
             backgroundColor: theme.colors.surface2,
           },
@@ -51,19 +67,32 @@ export default function TabLayout() {
         <ThemedText type="medium" fontSize="xl" color="onPrimaryContainer">
           {getString("screen.groups.title")}
         </ThemedText>
-        <View>
-          <MaterialIcons
-            name="menu"
-            color={theme.colors.onPrimaryContainer}
-            size={24}
-          />
+        <View style={[commonStyles.rowAlignCenter]}>
+          <ThemedButton variant="text">
+            <MaterialIcons
+              name="add"
+              color={theme.colors.onPrimaryContainer}
+              size={24}
+            />
+          </ThemedButton>
+          <ThemedButton
+            variant="text"
+            style={[commonStyles.paddingNone]}
+            onPress={openAddGroupByUrlSheet}
+          >
+            <MaterialIcons
+              name="link"
+              color={theme.colors.onPrimaryContainer}
+              size={24}
+            />
+          </ThemedButton>
         </View>
       </View>
       <MaterialTopTabs
         screenOptions={{
           sceneStyle: {
             backgroundColor: theme.colors.background,
-            paddingVertical: theme.padding.xl,
+            paddingVertical: theme.padding.md,
             paddingHorizontal: theme.padding.lg,
           },
           tabBarStyle: {
@@ -73,11 +102,11 @@ export default function TabLayout() {
             fontFamily: theme.fontFamily.regular,
             fontSize: theme.fontSize.sm,
           },
-          tabBarActiveTintColor: theme.colors.secondary,
+          tabBarActiveTintColor: theme.colors.primary,
           tabBarInactiveTintColor: theme.colors.outline,
           tabBarIndicatorStyle: {
-            backgroundColor: theme.colors.secondary,
-            height: 1,
+            backgroundColor: theme.colors.primary,
+            height: 2,
           },
         }}
       >
@@ -125,6 +154,8 @@ export default function TabLayout() {
           }}
         />
       </MaterialTopTabs>
+      <AddGroupByUrlSheet reference={addGroupByUrlSheetRef} />
+      <FloatingActionButton />
     </ThemedView>
   );
 }

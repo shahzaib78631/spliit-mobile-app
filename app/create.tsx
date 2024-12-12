@@ -15,7 +15,6 @@ export default function CreateGroupScreen(): React.ReactElement {
     <ThemedView
       title="Create Group"
       scrollable
-      goBackEnabled={false}
       statusbarBackgroundColor="surface2"
     >
       <GroupForm groupDetails={null} isEditing={false} />

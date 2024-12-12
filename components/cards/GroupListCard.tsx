@@ -9,7 +9,7 @@ import Seperator from "../Seperator";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { getString } from "@/strings/translations";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import useCommonStyles from "@/theme/styles";
 import ThemedButton from "../ui/ThemedButton";
 import { starGroup } from "@/services/staredGroups";
@@ -20,12 +20,24 @@ interface GroupListCardProps {
    * The title of the group.
    */
   group: GroupListItem;
+
+  page?: "archived" | "starred" | "recent";
 }
 
-const GroupListCard: React.FC<GroupListCardProps> = ({ group }) => {
+const GroupListCard: React.FC<GroupListCardProps> = ({
+  group,
+  page = "recent",
+}) => {
   const { styles, theme } = useStyles(stylesheet);
   const { commonStyles } = useThemeContext();
-  const { starGroup, unstarGroup, isGroupStarred } = useGroupContext();
+  const {
+    starGroup,
+    unstarGroup,
+    isGroupStarred,
+    archiveGroup,
+    unarchiveGroup,
+    isGroupArchived,
+  } = useGroupContext();
 
   const getGroupDate = () => {
     return (
@@ -43,9 +55,15 @@ const GroupListCard: React.FC<GroupListCardProps> = ({ group }) => {
     )}`;
 
   const starred = isGroupStarred(group?.id);
+  const archived = isGroupArchived(group?.id);
 
-  const handleStarGroup = () =>
-    starred ? unstarGroup(group.id) : starGroup(group.id);
+  const handleGroupAction = () => {
+    if (page === "starred" || page === "recent") {
+      starred ? unstarGroup(group.id) : starGroup(group.id);
+    } else if (page === "archived") {
+      archived ? unarchiveGroup(group.id) : archiveGroup(group.id);
+    }
+  };
 
   return (
     <BaseCard>
@@ -54,17 +72,32 @@ const GroupListCard: React.FC<GroupListCardProps> = ({ group }) => {
           {group.name}
         </ThemedText>
         <View style={[commonStyles.rowAlignCenter, commonStyles.gapXs]}>
-          <ThemedButton
-            variant="text"
-            style={commonStyles.paddingXs}
-            onPress={handleStarGroup}
-          >
-            <AntDesign
-              name={starred ? "star" : "staro"}
-              size={16}
-              color={theme.colors.onSurface}
-            />
-          </ThemedButton>
+          {(page === "starred" || page === "recent") && (
+            <ThemedButton
+              variant="text"
+              style={commonStyles.paddingXs}
+              onPress={handleGroupAction}
+            >
+              <AntDesign
+                name={starred ? "star" : "staro"}
+                size={16}
+                color={theme.colors.onSurface}
+              />
+            </ThemedButton>
+          )}
+          {page === "archived" && (
+            <ThemedButton
+              variant="text"
+              style={commonStyles.paddingXs}
+              onPress={handleGroupAction}
+            >
+              <MaterialCommunityIcons
+                name={starred ? "inbox-arrow-down" : "inbox-arrow-down-outline"}
+                size={16}
+                color={theme.colors.onSurface}
+              />
+            </ThemedButton>
+          )}
           <PopupMenu groupId={group.id} />
         </View>
       </View>
