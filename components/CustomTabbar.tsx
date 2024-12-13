@@ -36,13 +36,12 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
 
   // Update translateX when the focused index changes
   useEffect(() => {
-    const tabWidth = TAB_WIDTH; // Assume equal width tabs
-    translateX.value = withTiming(tabWidth * state.index, { duration: 300 });
+    translateX.value = withTiming(TAB_WIDTH * state.index, { duration: 300 });
   }, [state.index]);
 
   // Animated style for underline
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: `${translateX.value}%` }],
+    transform: [{ translateX: translateX.value }],
     width: TAB_WIDTH,
     height: 2,
     backgroundColor: theme.colors.primary,

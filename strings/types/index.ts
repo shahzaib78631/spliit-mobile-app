@@ -130,8 +130,11 @@ export interface StringMap {
   "expenseform.splitmodefield.label": string;
   "expenseform.splitmodefield.evenly": string;
   "expenseform.splitmodefield.byshares": string;
+  "expenseform.splitmodefield.shares": string;
   "expenseform.splitmodefield.bypercentage": string;
+  "expenseform.splitmodefield.percentage": string;
   "expenseform.splitmodefield.byamount": string;
+  "expenseform.splitmodefield.amount": string;
   "expenseform.splitmodefield.saveasdefault": string;
   "expenseform.deletepopup.label": string;
   "expenseform.deletepopup.title": string;
@@ -305,4 +308,5 @@ export interface StringMap {
   "common.archive": string;
   "common.starred": string;
   "common.search": string;
+  "common.participants": string;
 }

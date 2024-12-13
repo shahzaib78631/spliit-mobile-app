@@ -9,3 +9,13 @@ export function formatCurrency(currency: string = "", amount: number = 0) {
   const formattedAmount = format.format(amount / 100);
   return formattedAmount.replace("€", currency);
 }
+
+export function enforceCurrencyPattern(value: string) {
+  return value
+    .replace(/^\s*-/, "_") // replace leading minus with _
+    .replace(/[.,]/, "#") // replace first comma with #
+    .replace(/[-.,]/g, "") // remove other minus and commas characters
+    .replace(/_/, "-") // change back _ to minus
+    .replace(/#/, ".") // change back # to dot
+    .replace(/[^-\d.]/g, ""); // remove all non-numeric characters
+}

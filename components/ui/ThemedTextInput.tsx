@@ -67,14 +67,11 @@ const ThemedTextInput: React.FC<ThemedTextInputProps> = ({
       <View
         style={[
           styles.inputContainer,
+          commonStyles.gapHorizontalMd,
           prepend || append ? commonStyles.paddingHorizontalNone : null,
         ]}
       >
-        {prepend && (
-          <View style={[commonStyles.center, commonStyles.paddingRightMd]}>
-            {prepend}
-          </View>
-        )}
+        {prepend && <View style={[commonStyles.center]}>{prepend}</View>}
 
         <TextInput
           style={[styles.input, commonStyles.flex1, inputStyle]}
@@ -86,11 +83,7 @@ const ThemedTextInput: React.FC<ThemedTextInputProps> = ({
           onBlur={() => setIsFocused(false)}
           {...rest}
         />
-        {append && (
-          <View style={[commonStyles.center, commonStyles.paddingLeftMd]}>
-            {append}
-          </View>
-        )}
+        {append && <View style={[commonStyles.center]}>{append}</View>}
       </View>
     </View>
   );

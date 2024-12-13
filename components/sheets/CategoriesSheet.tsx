@@ -33,15 +33,11 @@ const CategoriesSheet: React.FC<CategoriesSheetProps> = ({
   value,
   onChange,
 }) => {
-  const [displaySectionList, setDisplaySectionList] = useState(false);
-
   return (
     <BaseBottomSheet
       height={Platform.OS === "ios" ? 500 : 650}
       reference={reference}
       title={getString("categories.title")}
-      onOpen={() => setTimeout(() => setDisplaySectionList(true), 300)}
-      onClose={() => setDisplaySectionList(false)}
     >
       <View style={{ height: "88%" }}>
         <CategoriesList

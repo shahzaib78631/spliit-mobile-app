@@ -212,11 +212,14 @@
     "advancedoptions": "Advanced splitting options…",
     "splitmodefield": {
       "label": "Split mode",
-      "evenly": "Evenly",
       "byshares": "Unevenly – By shares",
       "bypercentage": "Unevenly – By percentage",
       "byamount": "Unevenly – By amount",
-      "saveasdefault": "Save as default splitting options"
+      "saveasdefault": "Save as default splitting options",
+      "evenly": "Evenly",
+      "shares": "Shares",
+      "percentage": "Percentage",
+      "amount": "Amount"
     },
     "deletepopup": {
       "label": "Delete",
@@ -445,6 +448,7 @@
     "archived": "Archived",
     "archive": "Archive",
     "recent": "Recent",
-    "search": "Search"
+    "search": "Search",
+    "participants": "Participants"
   }
 }

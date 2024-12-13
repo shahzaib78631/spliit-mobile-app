@@ -12,14 +12,16 @@ import { getString } from "@/strings/translations";
 // Define the prop types for ParticipantsList
 interface ParticipantsListProps {
   participants: Participants;
-  value: Participant["id"] | null;
-  onChange: (participant: Participant) => void;
+  value: Participant["id"] | Participant["id"][] | null;
+  onChange: (participant: Participant, checked?: boolean) => void;
+  multiple?: boolean;
 }
 
 const ParticipantsList: React.FC<ParticipantsListProps> = ({
   participants,
   value,
   onChange,
+  multiple,
 }) => {
   const { commonStyles } = useThemeContext();
 
@@ -34,8 +36,15 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
         }}
         renderItem={({ item }: { item: Participant }) => (
           <ThemedCheckbox
-            onValueChange={() => onChange(item)}
-            value={value === item.id}
+            onValueChange={() =>
+              onChange(
+                item,
+                multiple ? value?.includes(item.id) || false : value === item.id
+              )
+            }
+            value={
+              multiple ? value?.includes(item.id) || false : value === item.id
+            }
             checkboxPosition="right"
             label={item.name}
             style={[commonStyles.rowJustifySpaceBetween]}

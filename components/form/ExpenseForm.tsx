@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useRef } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useMemo, useRef } from "react";
 import { ExpenseFormProps } from "./types";
 import useExpenseForm from "@/hooks/useExpenseForm";
 import { useThemeContext } from "@/context/ThemeContext";
@@ -18,6 +18,20 @@ import ThemedButton from "../ui/ThemedButton";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { getColorWithAlpha } from "@/utils/colors";
 import ParticipantsList from "../lists/ParticipantsList";
+import { useFieldArray } from "react-hook-form";
+import ParticipantsSheet from "../sheets/ParticipantsSheet";
+import { Expense, Participant, Participants } from "@/utils/trpc";
+import SegmentedControl from "@react-native-segmented-control/segmented-control";
+import Seperator from "../Seperator";
+import { enforceCurrencyPattern } from "@/utils/formatCurrency";
+import ErrorMessage from "./components/ErrorMessage";
+
+const splitModes: Expense["splitMode"][] = [
+  "EVENLY",
+  "BY_SHARES",
+  "BY_PERCENTAGE",
+  "BY_AMOUNT",
+];
 
 export default function ExpenseForm({
   expense,
@@ -33,14 +47,53 @@ export default function ExpenseForm({
     close: () => {},
   });
 
-  const { control, errors } = useExpenseForm({
-    expense,
-    group,
-    reimbursementParams,
+  const { control, errors, splitMode, handleSubmit, isSubmitting, submitForm } =
+    useExpenseForm({
+      expense,
+      group,
+      reimbursementParams,
+    });
+
+  // Manage participants with react-hook-form
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "paidFor",
+    keyName: "key",
   });
 
+  const handleDisplayParticipantsSheet = () =>
+    participantsSheetRef.current.open();
+
+  const handleParticipantSelection = (
+    participant: Participant,
+    checked?: boolean
+  ) => {
+    if (checked) {
+      remove(fields.findIndex((i) => i.participant === participant.id));
+    } else {
+      append({ participant: participant.id, shares: 1 });
+    }
+  };
+
+  const handleRemovePaidFor = (index: number) => remove(index);
+
+  const getSplitModeIcon = useMemo(() => {
+    switch (splitMode) {
+      case "BY_PERCENTAGE":
+        return "brightness-percent";
+      case "BY_AMOUNT":
+        return "account-cash";
+      case "BY_SHARES":
+        return "fraction-one-half";
+      default:
+        return undefined;
+    }
+  }, [splitMode]);
+
+  console.log(errors);
+
   return (
-    <View>
+    <View style={commonStyles.gapMd}>
       {/* Group Information Section */}
       <View style={commonStyles.marginBottomLg}>
         <ThemedText type="bold">{getString("expenses.create")}</ThemedText>
@@ -177,6 +230,29 @@ export default function ExpenseForm({
           />
         }
       />
+
+      <Seperator color={theme.colors.overlay} />
+
+      <ThemedText type="bold">
+        {getString("expenseform.splitmodefield.label")}
+      </ThemedText>
+      <FormField
+        control={control}
+        name="splitMode"
+        type="segmented"
+        error={errors.splitMode}
+        values={splitModes}
+        labels={[
+          getString("expenseform.splitmodefield.evenly"),
+          getString("expenseform.splitmodefield.shares"),
+          getString("expenseform.splitmodefield.percentage"),
+          getString("expenseform.splitmodefield.amount"),
+        ]}
+        helpText={getString("expenseform.expense.splitmodedescription")}
+      />
+
+      <Seperator color={theme.colors.overlay} />
+
       {/* Paid for Section */}
       <View style={[commonStyles.rowSpaceBetween, commonStyles.gapSm]}>
         <View
@@ -198,12 +274,107 @@ export default function ExpenseForm({
           borderRadius="lg"
           fontSize="sm"
           variant="primary"
-          onPress={() => {}}
+          onPress={handleDisplayParticipantsSheet}
           buttonStyle={commonStyles.paddingMd}
         >
           <AntDesign name="plus" size={18} color={theme.colors.onPrimary} />
         </ThemedButton>
       </View>
+
+      <View>
+        {fields.map((field, index) => {
+          const participant = group?.participants.find(
+            (participant) => participant.id === field.participant
+          );
+          return (
+            <View key={field.key}>
+              <Seperator color={theme.colors.overlay} />
+              <View
+                key={field.key}
+                style={[
+                  commonStyles.row,
+                  commonStyles.alignCenter,
+                  commonStyles.justifyBetween,
+                  commonStyles.gapHorizontalMd,
+                ]}
+              >
+                <View style={[commonStyles.flex1]}>
+                  <ThemedText type="medium" fontSize="lg">
+                    {participant?.name}
+                  </ThemedText>
+                </View>
+                {splitMode !== "EVENLY" && (
+                  <View style={[commonStyles.flex1]}>
+                    <FormField
+                      key={field.key}
+                      name={`paidFor.${index}.shares`}
+                      control={control}
+                      keyboardType="numeric"
+                      formatter={enforceCurrencyPattern}
+                      error={errors.paidFor?.[index]?.message}
+                      prepend={
+                        getSplitModeIcon && (
+                          <MaterialCommunityIcons
+                            name={getSplitModeIcon}
+                            size={18}
+                            color={theme.colors.onSurface}
+                          />
+                        )
+                      }
+                      append={
+                        <TouchableOpacity
+                          onPress={() => handleRemovePaidFor(index)}
+                        >
+                          <MaterialCommunityIcons
+                            name="delete"
+                            size={18}
+                            color={theme.colors.error}
+                          />
+                        </TouchableOpacity>
+                      }
+                    />
+                  </View>
+                )}
+
+                {splitMode === "EVENLY" && (
+                  <ThemedButton
+                    variant="text"
+                    onPress={() => handleRemovePaidFor(index)}
+                    buttonStyle={[
+                      commonStyles.marginVerticalMd,
+                      commonStyles.paddingVerticalMd,
+                    ]}
+                  >
+                    <MaterialCommunityIcons
+                      name="delete"
+                      size={18}
+                      color={theme.colors.error}
+                    />
+                  </ThemedButton>
+                )}
+              </View>
+            </View>
+          );
+        })}
+      </View>
+
+      <ErrorMessage
+        error={errors.paidFor?.message || errors.paidFor?.root?.message}
+      />
+
+      <ThemedButton
+        title={getString("expenseform.save")}
+        onPress={handleSubmit(submitForm)}
+        loading={isSubmitting}
+      />
+
+      <ParticipantsSheet
+        multiple
+        value={fields.map((i) => i.participant)}
+        onChange={handleParticipantSelection}
+        reference={participantsSheetRef}
+        participants={group?.participants as Participants}
+      />
     </View>
   );
 }

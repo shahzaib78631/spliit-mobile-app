@@ -29,7 +29,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     const timer = setTimeout(async () => {
       setStatusBarColor(theme.colors);
       changeNavigationBarColor(
-        Color(theme.colors.background).hex(),
+        Color(theme.colors.surface2).hex(),
         theme.colors.isDark
       );
     }, 500);

@@ -46,14 +46,15 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
         data={allSections}
         showsVerticalScrollIndicator={false}
         initialNumToRender={1}
-        nestedScrollEnabled={false} // Avoid conflicts
         searchEnabled
         searchConfig={{
           extractSearchableText: (item: Category) => item.name,
         }}
         renderSectionHeader={({ section }) => (
           <View style={[styles.sectionHeaderContainer]}>
-            <ThemedText type="bold">{section.title}</ThemedText>
+            <ThemedText fontSize="lg" type="bold" color="secondary">
+              {section.title}
+            </ThemedText>
           </View>
         )}
         renderItem={({ item }: { item: Category }) => (

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, ReactElement } from "react";
 import {
   FlatList,
   SectionList,
@@ -17,54 +17,152 @@ import ThemedListEmptyComponent, {
 } from "./ThemedListEmptyComponent";
 import Searchbar from "../Searchbar";
 import { getString } from "@/strings/translations";
+import ThemedText from "./ThemedText";
 
 /**
- * Props for ThemedList component.
+ * Configuration options for search functionality.
+ * @template T - The type of data used in the list.
+ */
+interface SearchConfig<T> {
+  /**
+   * A function to extract searchable text from an item.
+   * @param item - The list item to extract searchable text from.
+   * @returns A string representation of the item for searching.
+   */
+  extractSearchableText: (item: T) => string;
+
+  /**
+   * Optional placeholder for the search bar.
+   * Defaults to a generic search placeholder if not provided.
+   */
+  placeholder?: string;
+}
+
+/**
+ * Props for the ThemedList component.
  * @template T - The type of data used in the list.
  */
 export interface ThemedListProps<T> {
+  /**
+   * The data to be rendered in the list.
+   * Can be a flat array or a sections array for SectionList.
+   */
   data: T[] | SectionListProps<T>["sections"];
+
+  /**
+   * Function to render individual list items.
+   */
   renderItem:
     | FlatListProps<T>["renderItem"]
     | SectionListProps<T>["renderItem"];
+
+  /**
+   * Custom key extractor function.
+   * Defaults to using the index as a key if not provided.
+   * @param item - The current item being processed.
+   * @param index - The index of the current item.
+   * @returns A unique string key for the item.
+   */
   keyExtractor?: (item: T, index: number) => string;
-  ListHeaderComponent?: React.ReactElement | null;
-  ListFooterComponent?: React.ReactElement | null;
-  ListEmptyComponent?: React.ReactElement | (() => React.ReactElement) | null;
+
+  /**
+   * Optional header component to be rendered at the top of the list.
+   */
+  ListHeaderComponent?: ReactElement | null;
+
+  /**
+   * Optional footer component to be rendered at the bottom of the list.
+   */
+  ListFooterComponent?: ReactElement | null;
+
+  /**
+   * Custom empty list component.
+   * Defaults to ThemedListEmptyComponent if not provided.
+   */
+  ListEmptyComponent?: ReactElement | (() => ReactElement) | null;
+
+  /**
+   * Additional style to be applied to the list container.
+   */
   style?: StyleProp<ViewStyle>;
+
+  /**
+   * Style to be applied to the list's content container.
+   */
   contentContainerStyle?: StyleProp<ViewStyle>;
+
+  /**
+   * Type of list to render.
+   * @default "flatlist"
+   */
   type?: "flatlist" | "sectionlist";
+
+  /**
+   * Props to customize the empty list component.
+   */
   emptyListProps?: ThemedListEmptyComponentProps;
+
+  /**
+   * Whether to show vertical scroll indicator.
+   */
   showsVerticalScrollIndicator?: boolean;
-  initialNumToRender?: SectionListProps<T>["initialNumToRender"];
-  nestedScrollEnabled?: SectionListProps<T>["nestedScrollEnabled"];
+
+  /**
+   * Number of items to render initially.
+   * Useful for performance optimization.
+   */
+  initialNumToRender?: number;
+
+  /**
+   * Enable nested scrolling for the list.
+   */
+  nestedScrollEnabled?: boolean;
+
+  /**
+   * Function to render section headers for SectionList.
+   */
   renderSectionHeader?: SectionListProps<T>["renderSectionHeader"];
 
   /**
-   * Enables the search functionality in the list.
+   * Enable search functionality for the list.
+   * @default false
    */
   searchEnabled?: boolean;
 
   /**
-   * Configuration for the search, specifying which properties to search on.
+   * Configuration for search functionality.
+   * Required when searchEnabled is true.
    */
-  searchConfig?: {
-    /**
-     * A function to extract searchable text from an item.
-     */
-    extractSearchableText: (item: T) => string;
-
-    /**
-     * Optional placeholder for the search bar.
-     */
-    placeholder?: string;
-  };
+  searchConfig?: SearchConfig<T>;
 }
 
 /**
- * A reusable list component for React Native that supports both FlatList and SectionList.
+ * A flexible, themeable list component for React Native.
+ * Supports both FlatList and SectionList with built-in search functionality.
+ *
  * @template T - The type of data used in the list.
- * @param props - The props for the component.
+ * @param props - Configuration props for the list.
+ * @returns A rendered list component with optional search.
+ *
+ * @example
+ * // Basic FlatList usage
+ * <ThemedList
+ *   data={items}
+ *   renderItem={({ item }) => <ItemComponent item={item} />}
+ * />
+ *
+ * @example
+ * // SectionList with search
+ * <ThemedList
+ *   type="sectionlist"
+ *   data={sectionData}
+ *   renderItem={({ item }) => <ItemComponent item={item} />}
+ *   searchEnabled
+ *   searchConfig={{
+ *     extractSearchableText: (item) => item.name,
+ *     placeholder: "Search items"
+ *   }}
+ * />
  */
 const ThemedList = <T,>({
   data,
@@ -89,6 +187,7 @@ const ThemedList = <T,>({
     if (!searchEnabled || !searchConfig || !searchQuery.trim()) {
       return data;
     }
+
     if (Array.isArray(data) && type === "flatlist") {
       return data.filter((item) =>
         searchConfig
@@ -109,7 +208,7 @@ const ThemedList = <T,>({
             .includes(searchQuery.toLowerCase())
         ),
       }))
-      .filter((section) => section.data.length > 0); // Remove empty sections;
+      .filter((section) => section.data.length > 0);
   }, [data, searchEnabled, searchConfig, searchQuery]);
 
   const renderFlatList = () => (
@@ -144,11 +243,9 @@ const ThemedList = <T,>({
       ListEmptyComponent={ListEmptyComponent}
       style={[styles.list, style]}
       contentContainerStyle={[{ flexGrow: 1 }, contentContainerStyle]}
-      renderSectionHeader={({ section }) => (
-        <Text style={styles.sectionHeader}>{section.title}</Text>
-      )}
       ItemSeparatorComponent={() => <View style={styles.itemSeperator} />}
       showsVerticalScrollIndicator={showsVerticalScrollIndicator}
+      stickySectionHeadersEnabled
       {...props}
     />
   );
@@ -167,6 +264,13 @@ const ThemedList = <T,>({
   );
 };
 
+/**
+ * StyleSheet for ThemedList component using react-native-unistyles.
+ * Creates a theme-aware styling object.
+ *
+ * @param theme - The current application theme.
+ * @returns An object with styles for the list components.
+ */
 const stylesheet = createStyleSheet((theme) => ({
   container: {
     flex: 1,
@@ -174,16 +278,6 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   list: {
     flex: 1,
-  },
-  emptyText: {
-    textAlign: "center",
-    marginTop: 20,
-    fontSize: 16,
-    color: "gray",
-  },
-  sectionHeader: {
-    fontWeight: "bold",
-    fontSize: 18,
   },
   itemSeperator: {
     padding: theme.padding.sm,

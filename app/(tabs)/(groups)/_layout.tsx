@@ -115,6 +115,7 @@ export default function TabLayout() {
           },
           tabBarStyle: {
             backgroundColor: theme.colors.surface2,
+            elevation: 0,
           },
           tabBarLabelStyle: {
             fontFamily: theme.fontFamily.regular,

@@ -1,18 +1,6 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  GestureResponderEvent,
-  ViewProps,
-} from "react-native";
+import { View, ViewProps, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Pressable } from "react-native-gesture-handler";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import ThemedText from "./ThemedText";
 
@@ -57,7 +45,7 @@ const ThemedCheckbox: React.FC<ThemedCheckboxProps> = ({
   };
 
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={handlePress} // Toggle the checkbox state with animation
       {...props}
       style={[
@@ -65,6 +53,7 @@ const ThemedCheckbox: React.FC<ThemedCheckboxProps> = ({
         styles.container,
         checkboxPosition === "right" && styles.rowReverse,
       ]}
+      activeOpacity={0.9}
     >
       {/* Checkbox element */}
       <View style={[styles.checkbox, value && styles.checkboxChecked]}>
@@ -81,7 +70,7 @@ const ThemedCheckbox: React.FC<ThemedCheckboxProps> = ({
       <ThemedText fontSize="md" color="onBackground">
         {label}
       </ThemedText>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

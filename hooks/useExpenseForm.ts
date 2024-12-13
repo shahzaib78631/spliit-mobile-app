@@ -73,6 +73,10 @@ export default function useExpenseForm({
     resolver: zodResolver(expenseFormSchema),
   });
 
+  const submitForm = (expense: ExpenseFormValues) => {
+    console.log(expense);
+  };
+
   const splitMode = watch("splitMode");
 
   /**
@@ -85,5 +89,6 @@ export default function useExpenseForm({
     isSubmitting,
     watch,
     splitMode,
+    submitForm,
   };
 }
