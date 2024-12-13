@@ -107,9 +107,9 @@ export function useGroupForm({ groupDetails }: Params) {
       groupFormValues: groupFormValues,
     });
     await updateRecentGroup({
-      id: groupId,
-      name: groupFormValues.name,
-    } as Group);
+      groupId: groupId,
+      groupName: groupFormValues.name,
+    });
     await utils.groups.invalidate();
     setIsSubmitting(false);
     router.back();

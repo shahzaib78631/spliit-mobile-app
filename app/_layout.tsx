@@ -18,7 +18,7 @@ import { trpc } from "@/utils/trpc";
 import { httpBatchLink } from "@trpc/client";
 import SuperJSON from "superjson";
 import { MenuProvider } from "react-native-popup-menu";
-import { GroupProvider } from "@/context/GroupContext";
+import { GroupProvider } from "@/context/AppContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { createStyleSheet, useStyles } from "react-native-unistyles";

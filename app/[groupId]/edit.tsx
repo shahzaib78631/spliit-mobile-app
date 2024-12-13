@@ -4,7 +4,7 @@ import React from "react";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 // Context
-import { useGroupContext } from "@/context/GroupContext";
+import { useAppContext } from "@/context/AppContext";
 
 // Components
 import ThemedView from "@/components/ui/ThemedView";
@@ -22,7 +22,7 @@ import ThemedButton from "@/components/ui/ThemedButton";
  */
 const EditGroup: React.FC = () => {
   /** Access active group from context */
-  const { activeGroup } = useGroupContext();
+  const { activeGroup } = useAppContext();
 
   /** Show loading indicator if no active group */
   if (!activeGroup) {

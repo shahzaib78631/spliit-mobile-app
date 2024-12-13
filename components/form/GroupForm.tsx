@@ -22,12 +22,7 @@ import { GroupFormValues } from "spliit-api/src/lib/schemas";
 import ErrorMessage from "./components/ErrorMessage";
 import useCommonStyles from "@/theme/styles";
 import { getString } from "@/strings/translations";
-
-type GroupFormProps = {
-  groupDetails: GroupDetails | null | undefined;
-  isEditing: Boolean;
-  participantWithExpenses?: string[];
-};
+import { GroupFormProps } from "./types";
 
 const GroupForm = ({ groupDetails, isEditing }: GroupFormProps) => {
   const { styles: commonStyles, theme } = useCommonStyles();

@@ -16,13 +16,14 @@ import ThemedListEmptyComponent, {
   ThemedListEmptyComponentProps,
 } from "./ThemedListEmptyComponent";
 import Searchbar from "../Searchbar";
+import { getString } from "@/strings/translations";
 
 /**
  * Props for ThemedList component.
  * @template T - The type of data used in the list.
  */
 export interface ThemedListProps<T> {
-  data: T[];
+  data: T[] | SectionListProps<T>["sections"];
   renderItem:
     | FlatListProps<T>["renderItem"]
     | SectionListProps<T>["renderItem"];
@@ -34,6 +35,10 @@ export interface ThemedListProps<T> {
   contentContainerStyle?: StyleProp<ViewStyle>;
   type?: "flatlist" | "sectionlist";
   emptyListProps?: ThemedListEmptyComponentProps;
+  showsVerticalScrollIndicator?: boolean;
+  initialNumToRender?: SectionListProps<T>["initialNumToRender"];
+  nestedScrollEnabled?: SectionListProps<T>["nestedScrollEnabled"];
+  renderSectionHeader?: SectionListProps<T>["renderSectionHeader"];
 
   /**
    * Enables the search functionality in the list.
@@ -74,6 +79,8 @@ const ThemedList = <T,>({
   emptyListProps,
   searchEnabled = false,
   searchConfig,
+  showsVerticalScrollIndicator,
+  ...props
 }: ThemedListProps<T>) => {
   const { styles } = useStyles(stylesheet);
   const [searchQuery, setSearchQuery] = useState("");
@@ -82,18 +89,32 @@ const ThemedList = <T,>({
     if (!searchEnabled || !searchConfig || !searchQuery.trim()) {
       return data;
     }
+    if (Array.isArray(data) && type === "flatlist") {
+      return data.filter((item) =>
+        searchConfig
+          .extractSearchableText(item)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      );
+    }
 
-    return data.filter((item) =>
-      searchConfig
-        .extractSearchableText(item)
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase())
-    );
+    // If data is sections, filter each section
+    return (data as SectionListProps<T>["sections"])
+      .map((section) => ({
+        ...section,
+        data: section.data.filter((item) =>
+          searchConfig
+            .extractSearchableText(item)
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+        ),
+      }))
+      .filter((section) => section.data.length > 0); // Remove empty sections;
   }, [data, searchEnabled, searchConfig, searchQuery]);
 
   const renderFlatList = () => (
     <FlatList
-      data={filteredData}
+      data={filteredData as T[]}
       renderItem={renderItem as FlatListProps<T>["renderItem"]}
       keyExtractor={keyExtractor}
       ListHeaderComponent={ListHeaderComponent}
@@ -108,12 +129,14 @@ const ThemedList = <T,>({
       style={[styles.list, style]}
       contentContainerStyle={[{ flexGrow: 1 }, contentContainerStyle]}
       ItemSeparatorComponent={() => <View style={styles.itemSeperator} />}
+      showsVerticalScrollIndicator={showsVerticalScrollIndicator}
+      {...props}
     />
   );
 
   const renderSectionList = () => (
     <SectionList
-      sections={filteredData as any} // Assuming data is an array of sections
+      sections={filteredData as SectionListProps<T>["sections"]}
       renderItem={renderItem as SectionListProps<T>["renderItem"]}
       keyExtractor={keyExtractor}
       ListHeaderComponent={ListHeaderComponent}
@@ -125,6 +148,8 @@ const ThemedList = <T,>({
         <Text style={styles.sectionHeader}>{section.title}</Text>
       )}
       ItemSeparatorComponent={() => <View style={styles.itemSeperator} />}
+      showsVerticalScrollIndicator={showsVerticalScrollIndicator}
+      {...props}
     />
   );
 
@@ -132,7 +157,7 @@ const ThemedList = <T,>({
     <View style={styles.container}>
       {searchEnabled && searchConfig && (
         <Searchbar
-          placeholder={searchConfig.placeholder || "Search..."}
+          placeholder={searchConfig.placeholder || getString("common.search")}
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
@@ -145,6 +170,7 @@ const ThemedList = <T,>({
 const stylesheet = createStyleSheet((theme) => ({
   container: {
     flex: 1,
+    gap: theme.padding.sm,
   },
   list: {
     flex: 1,

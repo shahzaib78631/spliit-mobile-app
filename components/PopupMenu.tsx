@@ -7,7 +7,7 @@ import ThemedText from "./ui/ThemedText";
 import { useRouter } from "expo-router";
 import ShareGroupByUrlSheet from "./sheets/ShareGroupUrlSheet";
 import { removeRecentGroup } from "@/services/recentGroups";
-import { useGroupContext } from "@/context/GroupContext";
+import { useAppContext } from "@/context/AppContext";
 import { getString } from "@/strings/translations";
 
 interface PopupMenuProps {
@@ -16,7 +16,7 @@ interface PopupMenuProps {
 
 const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
   const { fetchGroups, archiveGroup, unarchiveGroup, isGroupArchived } =
-    useGroupContext();
+    useAppContext();
 
   const { styles, theme } = useStyles(stylesheet);
 

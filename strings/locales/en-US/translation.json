@@ -183,11 +183,19 @@
         "title": "Paid for",
         "description": "Select who the expense was paid for."
       },
+      "amountfield": {
+        "label": "Amount",
+        "placeholder": "Enter expense amount."
+      },
+      "isreimbursementfield": {
+        "label": "This is a reimbursement"
+      },
       "splitmodedescription": "Select how to split the expense.",
       "attachdescription": "See and attach receipts to the expense."
     },
     "amountfield": {
-      "label": "Amount"
+      "label": "Amount",
+      "placeholder": "Enter expense amount."
     },
     "isreimbursementfield": {
       "label": "This is a reimbursement"
@@ -351,6 +359,7 @@
     "invalid_url_format": "The URL format is invalid."
   },
   "categories": {
+    "title": "Categories",
     "search": "Search category...",
     "nocategory": "No category found.",
     "uncategorized": {
@@ -435,6 +444,7 @@
     "starred": "Starred",
     "archived": "Archived",
     "archive": "Archive",
-    "recent": "Recent"
+    "recent": "Recent",
+    "search": "Search"
   }
 }

@@ -10,7 +10,7 @@ import {
   AddGroupFromUrlFormParams,
   useAddGroupFromUrlForm,
 } from "@/hooks/useAddGroupFromUrlForm";
-import { useGroupContext } from "@/context/GroupContext";
+import { useAppContext } from "@/context/AppContext";
 
 /**
  * AddGroupByUrlForm component allows users to add a group by providing a URL.
@@ -29,7 +29,7 @@ const AddGroupByUrlForm: React.FC = (): JSX.Element => {
   const { commonStyles, theme } = useThemeContext();
 
   // Context for fetching the list of groups after a new group is added.
-  const { fetchGroups } = useGroupContext();
+  const { fetchGroups } = useAppContext();
 
   // Hook for form management, validation, and submission handling.
   const {

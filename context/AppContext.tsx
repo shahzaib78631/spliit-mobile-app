@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { useGroupsList } from "@/hooks/useGroupsList";
 import { RecentGroup } from "@/services/recentGroups";
-import { GroupDetails, GroupList } from "@/utils/trpc";
+import { Category, GroupDetails, GroupList } from "@/utils/trpc";
 import {
   getStarredGroups,
   starGroup as addStarGroup,
@@ -20,9 +20,10 @@ import {
   archiveGroup as addArchiveGroup,
   unarchiveGroup as removeArchiveGroup,
 } from "@/services/archivedGroups";
+import { useCategoriesList } from "@/hooks/useCategoriesList";
 
 // Define the interface for the context's value
-interface GroupContextProps {
+interface AppContextProps {
   activeGroup: GroupDetails | null | undefined;
   setActiveGroup: Dispatch<SetStateAction<GroupDetails | null | undefined>>;
   recentGroups: RecentGroup[] | null;
@@ -37,20 +38,24 @@ interface GroupContextProps {
   archiveGroup: (groupId: string) => void; // Method to archive a group
   unarchiveGroup: (groupId: string) => void; // Method to unarchive a group
   isGroupArchived: (groupId: string) => boolean; // Method to check if a group is archived
+  categoriesList: Category[];
+  refetchCategories: () => void;
 }
 
 // Create the context with a proper type
-const GroupContext = createContext<GroupContextProps | undefined>(undefined);
+const AppContext = createContext<AppContextProps | undefined>(undefined);
 
 // Define the props for the provider
-interface GroupProviderProps {
+interface AppProviderProps {
   children: ReactNode; // ReactNode to represent any valid React children
 }
 
 // Implement the provider component
-export const GroupProvider: React.FC<GroupProviderProps> = ({ children }) => {
+export const GroupProvider: React.FC<AppProviderProps> = ({ children }) => {
   const { recentGroups, recentGroupsList, refetch, fetchGroups } =
     useGroupsList();
+
+  const { categoriesList, refetch: refetchCategories } = useCategoriesList();
 
   const [activeGroup, setActiveGroup] = useState<
     GroupDetails | null | undefined
@@ -99,7 +104,7 @@ export const GroupProvider: React.FC<GroupProviderProps> = ({ children }) => {
   const isGroupArchived = (groupId: string) => archivedGroups.includes(groupId);
 
   return (
-    <GroupContext.Provider
+    <AppContext.Provider
       value={{
         activeGroup,
         setActiveGroup,
@@ -115,18 +120,20 @@ export const GroupProvider: React.FC<GroupProviderProps> = ({ children }) => {
         archiveGroup,
         unarchiveGroup,
         isGroupArchived,
+        categoriesList,
+        refetchCategories,
       }}
     >
       {children}
-    </GroupContext.Provider>
+    </AppContext.Provider>
   );
 };
 
 // Custom hook to use the context with type safety
-export const useGroupContext = (): GroupContextProps => {
-  const context = useContext(GroupContext);
+export const useAppContext = (): AppContextProps => {
+  const context = useContext(AppContext);
   if (!context) {
-    throw new Error("useGroupContext must be used within a GroupProvider");
+    throw new Error("useAppContext must be used within a GroupProvider");
   }
   return context;
 };

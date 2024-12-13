@@ -1,4 +1,5 @@
-// app/(top-tabs)/_layout.tsx
+import React, { useRef } from "react";
+import { View } from "react-native";
 import {
   MaterialTopTabNavigationEventMap,
   MaterialTopTabNavigationOptions,
@@ -6,22 +7,28 @@ import {
 } from "@react-navigation/material-top-tabs";
 import { withLayoutContext } from "expo-router";
 import { ParamListBase, TabNavigationState } from "@react-navigation/native";
-import ThemedView from "@/components/ui/ThemedView";
-import useCommonStyles from "@/theme/styles";
-import { useThemeContext } from "@/context/ThemeContext";
-import { getString } from "@/strings/translations";
+
+// Icons
 import {
   AntDesign,
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
+
+// COmponents
+import ThemedView from "@/components/ui/ThemedView";
 import ThemedText from "@/components/ui/ThemedText";
-import { View } from "react-native";
 import ThemedButton from "@/components/ui/ThemedButton";
-import { useRef } from "react";
 import AddGroupByUrlSheet from "@/components/sheets/AddGroupByUrlSheet";
 import FloatingActionButton from "@/components/FloatingActionButton";
 
+// Context
+import { useThemeContext } from "@/context/ThemeContext";
+
+// Translation
+import { getString } from "@/strings/translations";
+
+// Create a typed MaterialTopTabs navigator
 const { Navigator } = createMaterialTopTabNavigator();
 
 export const MaterialTopTabs = withLayoutContext<
@@ -32,15 +39,23 @@ export const MaterialTopTabs = withLayoutContext<
 >(Navigator);
 
 export default function TabLayout() {
+  // Extract styles and theme context
   const { commonStyles, theme } = useThemeContext();
 
-  /** Reference to the AddGroupByUrlSheet */
-  const addGroupByUrlSheetRef = useRef({
-    open: () => {},
-    close: () => {},
-  });
+  /**
+   * Reference to the AddGroupByUrlSheet.
+   * This allows programmatic control of the sheet's state (open/close).
+   */
+  const addGroupByUrlSheetRef = useRef<{ open: () => void; close: () => void }>(
+    {
+      open: () => {},
+      close: () => {},
+    }
+  );
 
-  /** Open the AddGroupByUrl sheet */
+  /**
+   * Opens the AddGroupByUrlSheet.
+   */
   const openAddGroupByUrlSheet = () => {
     addGroupByUrlSheetRef.current?.open();
   };
@@ -53,6 +68,7 @@ export default function TabLayout() {
       ]}
       statusbarBackgroundColor="surface2"
     >
+      {/* Top Bar */}
       <View
         style={[
           commonStyles.paddingHorizontalXl,
@@ -88,6 +104,8 @@ export default function TabLayout() {
           </ThemedButton>
         </View>
       </View>
+
+      {/* Tabs */}
       <MaterialTopTabs
         screenOptions={{
           sceneStyle: {
@@ -154,6 +172,8 @@ export default function TabLayout() {
           }}
         />
       </MaterialTopTabs>
+
+      {/* AddGroupByUrlSheet and FloatingActionButton */}
       <AddGroupByUrlSheet reference={addGroupByUrlSheetRef} />
       <FloatingActionButton />
     </ThemedView>

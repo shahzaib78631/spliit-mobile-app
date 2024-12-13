@@ -6,7 +6,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 // Translation
 import { useGroupDetails } from "@/hooks/useGroupDetails";
-import { useGroupContext } from "@/context/GroupContext";
+import { useAppContext } from "@/context/AppContext";
 import { GroupDetails } from "@/utils/trpc";
 
 /**
@@ -46,7 +46,7 @@ const EditGroup: React.FC<EditGroupProps> = () => {
    * Context hook to manage the active group state across screens.
    * Provides methods to set and retrieve the currently active group.
    */
-  const { setActiveGroup, activeGroup } = useGroupContext();
+  const { setActiveGroup, activeGroup } = useAppContext();
 
   /**
    * Effect hook that updates the active group whenever group details are fetched
@@ -69,6 +69,7 @@ const EditGroup: React.FC<EditGroupProps> = () => {
       }}
     >
       <Stack.Screen name="edit" />
+      <Stack.Screen name="create-expense" />
     </Stack>
   );
 };

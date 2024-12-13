@@ -1,7 +1,6 @@
 import { getRecentGroups, RecentGroup } from "@/services/recentGroups";
-import { getStarredGroups } from "@/services/staredGroups";
 import { GroupList, trpc } from "@/utils/trpc";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 /**
  * Custom hook for fetching groups list
@@ -11,7 +10,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
  *
  * @example
  * ```typescript
- * const { data, refetch } = useGroupsList();
+ * const { recentGroupsList, fetchGroups, recentGroups, refetch } = useGroupsList();
  * ```
  */
 export function useGroupsList() {

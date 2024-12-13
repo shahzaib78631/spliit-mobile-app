@@ -31,6 +31,11 @@ interface BaseBottomSheetProps {
   onClose?: () => void;
 
   /**
+   * Callback for when the bottom sheet is opened.
+   */
+  onOpen?: () => void;
+
+  /**
    * The children elements that will be rendered inside the BottomSheet.
    */
   children?: React.ReactNode;
@@ -55,6 +60,7 @@ interface BaseBottomSheetProps {
 const BaseBottomSheet: React.FC<BaseBottomSheetProps> = ({
   height,
   onClose = () => {},
+  onOpen = () => {},
   children,
   title,
   titleProps,
@@ -74,6 +80,7 @@ const BaseBottomSheet: React.FC<BaseBottomSheetProps> = ({
         height={height + bottom} // Use the last snap point as the initial height
         closeOnPressMask // Close the bottom sheet when the mask is pressed
         onClose={onClose} // Callback when the bottom sheet is closed
+        onOpen={onOpen} // Callback when the bottom sheet is opened
         draggable
         customStyles={{
           container: styles.container,

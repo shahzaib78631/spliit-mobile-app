@@ -2,10 +2,9 @@ import React from "react";
 
 // Components
 import ThemedList from "@/components/ui/ThemedList";
-import { useGroupContext } from "@/context/GroupContext";
+import { useAppContext } from "@/context/AppContext";
 import GroupListCard from "@/components/cards/GroupListCard";
 import { GroupListItem } from "@/utils/trpc";
-import Searchbar from "@/components/Searchbar";
 import { getString } from "@/strings/translations";
 
 /**
@@ -15,7 +14,7 @@ import { getString } from "@/strings/translations";
  * @returns {React.ReactElement} Renders the group creation form within a themed view
  */
 export default function Starred(): React.ReactElement {
-  const { archivedGroups, starredGroups, recentGroupsList } = useGroupContext();
+  const { archivedGroups, starredGroups, recentGroupsList } = useAppContext();
 
   const data = recentGroupsList.groups?.filter(
     (group) =>

@@ -109,6 +109,9 @@ export interface StringMap {
   "expenseform.expense.titlefield.description": string;
   "expenseform.expense.datefield.label": string;
   "expenseform.expense.datefield.description": string;
+  "expenseform.expense.amountfield.label": string;
+  "expenseform.expense.amountfield.placeholder": string;
+  "expenseform.expense.isreimbursementfield.label": string;
   "expenseform.expense.categoryfielddescription": string;
   "expenseform.expense.paidbyfield.label": string;
   "expenseform.expense.paidbyfield.description": string;
@@ -231,6 +234,7 @@ export interface StringMap {
   "schema_errors.amount_sum": string;
   "schema_errors.percentage_sum": string;
   "schema_errors.invalid_url_format": string;
+  "categories.title": string;
   "categories.search": string;
   "categories.nocategory": string;
   "categories.uncategorized.heading": string;
@@ -300,4 +304,5 @@ export interface StringMap {
   "common.archived": string;
   "common.archive": string;
   "common.starred": string;
+  "common.search": string;
 }

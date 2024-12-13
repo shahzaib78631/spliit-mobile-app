@@ -26,7 +26,7 @@ import {
   useRouter,
 } from "expo-router";
 import AddGroupByUrlSheet from "@/components/sheets/AddGroupByUrlSheet";
-import { useGroupContext } from "@/context/GroupContext";
+import { useAppContext } from "@/context/AppContext";
 
 /**
  * Home screen component displaying recent groups, split options, and friends
@@ -41,7 +41,7 @@ export default function Home() {
   /** Navigation and routing hooks */
   const router = useRouter();
 
-  const { recentGroups } = useGroupContext();
+  const { recentGroups } = useAppContext();
 
   /** Reference to the AddGroupByUrlSheet */
   const addGroupByUrlSheetRef = useRef({
@@ -62,6 +62,13 @@ export default function Home() {
   /** Open the AddGroupByUrl sheet */
   const openAddGroupByUrlSheet = () => {
     addGroupByUrlSheetRef.current?.open();
+  };
+
+  const handleAddExpenseNavigation = (groupId: string) => {
+    router.push({
+      pathname: `/[groupId]/create-expense`,
+      params: { groupId },
+    });
   };
 
   return (
@@ -89,7 +96,9 @@ export default function Home() {
 
             <RecientGroupCard
               groupId={recentGroups?.[0]?.groupId}
-              onSplitBtnPress={() => console.log("Split Bill")}
+              onSplitBtnPress={() =>
+                handleAddExpenseNavigation(recentGroups?.[0]?.groupId)
+              }
             />
           </View>
         )}

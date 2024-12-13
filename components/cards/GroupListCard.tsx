@@ -13,7 +13,7 @@ import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import useCommonStyles from "@/theme/styles";
 import ThemedButton from "../ui/ThemedButton";
 import { starGroup } from "@/services/staredGroups";
-import { useGroupContext } from "@/context/GroupContext";
+import { useAppContext } from "@/context/AppContext";
 
 interface GroupListCardProps {
   /**
@@ -37,7 +37,7 @@ const GroupListCard: React.FC<GroupListCardProps> = ({
     archiveGroup,
     unarchiveGroup,
     isGroupArchived,
-  } = useGroupContext();
+  } = useAppContext();
 
   const getGroupDate = () => {
     return (
