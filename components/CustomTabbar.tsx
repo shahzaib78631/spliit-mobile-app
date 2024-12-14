@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity, Dimensions } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { View, TouchableOpacity, Dimensions } from "react-native";
+import {
+  AntDesign,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import ThemedText from "./ui/ThemedText";
 import Animated, {
@@ -11,6 +14,8 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { getString } from "@/strings/translations";
+import { StyleSheet } from "react-native-unistyles";
+import { useThemeContext } from "@/context/ThemeContext";
 
 /**
  * Custom bottom tab bar component for navigation
@@ -23,14 +28,15 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
   state,
   navigation,
 }: BottomTabBarProps): React.ReactElement => {
-  const { theme, styles } = useStyles(stylesheet);
+  const { theme } = useThemeContext();
+
   const { bottom } = useSafeAreaInsets();
 
   // Shared value for underline position
   const translateX = useSharedValue(0);
 
   // Allowed route names
-  const allowedRoutes = ["index", "history", "(groups)", "profile"];
+  const allowedRoutes = ["index", "history", "(groups)", "settings"];
 
   const TAB_WIDTH = Dimensions.get("window").width / allowedRoutes.length;
 
@@ -59,7 +65,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
         .filter((route) => allowedRoutes.includes(route.name))
         .map((route, index) => {
           const isFocused = state.index === index;
-          const iconSize = 20;
+          const iconSize = 24;
 
           const activeColor = theme.colors.primary;
           const inactiveColor = theme.colors.outline;
@@ -69,7 +75,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
               case "index":
                 return (
                   <>
-                    <AntDesign
+                    <MaterialIcons
                       name="home"
                       size={iconSize}
                       color={isFocused ? activeColor : inactiveColor}
@@ -85,8 +91,8 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
               case "history":
                 return (
                   <>
-                    <AntDesign
-                      name="clockcircleo"
+                    <MaterialIcons
+                      name="history"
                       size={iconSize}
                       color={isFocused ? activeColor : inactiveColor}
                     />
@@ -101,8 +107,8 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
               case "(groups)":
                 return (
                   <>
-                    <AntDesign
-                      name="team"
+                    <MaterialIcons
+                      name="group"
                       size={iconSize}
                       color={isFocused ? activeColor : inactiveColor}
                     />
@@ -114,19 +120,19 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
                     </ThemedText>
                   </>
                 );
-              case "profile":
+              case "settings":
                 return (
                   <>
-                    <AntDesign
-                      name="user"
-                      size={iconSize}
+                    <MaterialIcons
+                      name="settings"
+                      size={iconSize - 4}
                       color={isFocused ? activeColor : inactiveColor}
                     />
                     <ThemedText
                       color={isFocused ? "primary" : "outline"}
                       fontSize="xs"
                     >
-                      {getString(`screen.profile.title`)}
+                      {getString(`screen.settings.title`)}
                     </ThemedText>
                   </>
                 );
@@ -157,7 +163,7 @@ export default CustomTabBar;
  * @param {Object} theme - The current application theme
  * @returns {Object} Styled object for tab bar components
  */
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   tabBar: {
     flexDirection: "row",
     justifyContent: "space-around",

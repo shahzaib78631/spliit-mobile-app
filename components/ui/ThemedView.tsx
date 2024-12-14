@@ -1,21 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   View,
-  Text,
   TouchableOpacity,
   ViewProps,
   ScrollViewProps,
-  StatusBar,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useNavigation, usePathname, useRouter } from "expo-router";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { useRouter } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import { Colors, ThemeColors } from "@/theme/types";
-import useCustomStyles from "@/theme/styles";
+import { Colors } from "@/theme/types";
 import ThemedText from "./ThemedText";
 import { useThemeContext } from "@/context/ThemeContext";
+import { StyleSheet } from "react-native-unistyles";
 
 /**
  * Props interface for ThemedView component
@@ -48,7 +45,6 @@ const ThemedView: React.FC<ThemedViewProps> = ({
   ...props
 }: ThemedViewProps): React.ReactElement => {
   const { commonStyles, theme } = useThemeContext();
-  const { styles } = useStyles(stylesheet);
   const { top } = useSafeAreaInsets();
   const router = useRouter();
 
@@ -140,7 +136,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
  * @param {Object} theme - The current application theme
  * @returns {Object} Styled object for themed view components
  */
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   header: {
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.primaryOutline,

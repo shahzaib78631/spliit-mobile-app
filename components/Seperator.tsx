@@ -1,6 +1,6 @@
+import { useThemeContext } from "@/context/ThemeContext";
 import React from "react";
 import { DimensionValue, View } from "react-native";
-import { useStyles } from "react-native-unistyles";
 
 // Define prop types for the component to make it reusable
 interface SeperatorProps {
@@ -16,7 +16,9 @@ const Seperator: React.FC<SeperatorProps> = ({
   color,
   margin,
 }) => {
-  const { theme } = useStyles();
+  // Get the current theme from the context
+  const { theme } = useThemeContext();
+
   return (
     <View
       style={{

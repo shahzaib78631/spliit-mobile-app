@@ -1,8 +1,9 @@
 import React from "react";
 import { View, ViewProps, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { StyleSheet } from "react-native-unistyles";
 import ThemedText from "./ThemedText";
+import { useThemeContext } from "@/context/ThemeContext";
 
 // Define the props for the ThemedCheckbox component
 interface ThemedCheckboxProps extends ViewProps {
@@ -27,18 +28,19 @@ interface ThemedCheckboxProps extends ViewProps {
    * Accepts either "left" or "right".
    * @default "left"
    */
-  checkboxPosition?: "left" | "right";
+  buttonPosition?: "left" | "right";
 }
 
 const ThemedCheckbox: React.FC<ThemedCheckboxProps> = ({
   label,
   value,
   onValueChange,
-  checkboxPosition = "left",
+  buttonPosition = "left",
   style,
   ...props
 }) => {
-  const { styles, theme } = useStyles(stylesheet);
+  // Get the theme from the context
+  const { theme } = useThemeContext();
 
   const handlePress = () => {
     onValueChange(!value); // Toggle the checkbox state
@@ -51,7 +53,7 @@ const ThemedCheckbox: React.FC<ThemedCheckboxProps> = ({
       style={[
         style,
         styles.container,
-        checkboxPosition === "right" && styles.rowReverse,
+        buttonPosition === "right" && styles.rowReverse,
       ]}
       activeOpacity={0.9}
     >
@@ -76,7 +78,7 @@ const ThemedCheckbox: React.FC<ThemedCheckboxProps> = ({
 
 export default ThemedCheckbox;
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   container: {
     flexDirection: "row", // Default direction for checkbox and label
     alignItems: "center", // Align items vertically in the center

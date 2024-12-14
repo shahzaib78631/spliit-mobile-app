@@ -1,5 +1,5 @@
 import { useThemeContext } from "@/context/ThemeContext";
-import { Colors, FontSize, ThemeColors } from "@/theme/types";
+import { Colors, FontSize } from "@/theme/types";
 import React from "react";
 import { Text, TextProps, TextStyle } from "react-native";
 

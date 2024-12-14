@@ -8,9 +8,8 @@ import {
   TextStyle,
   TextInputProps,
 } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { StyleSheet } from "react-native-unistyles";
 import ThemedText from "./ThemedText";
-import useCommonStyles from "@/theme/styles";
 import { useThemeContext } from "@/context/ThemeContext";
 
 /**
@@ -46,8 +45,7 @@ const ThemedTextInput: React.FC<ThemedTextInputProps> = ({
   append,
   ...rest
 }: ThemedTextInputProps): React.ReactElement => {
-  const { commonStyles } = useThemeContext();
-  const { styles, theme } = useStyles(stylesheet);
+  const { commonStyles, theme } = useThemeContext();
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -95,7 +93,7 @@ const ThemedTextInput: React.FC<ThemedTextInputProps> = ({
  * @param {Object} theme - The current application theme
  * @returns {Object} Styled object for themed text input components
  */
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   container: {
     flexGrow: 1,
     marginVertical: theme.spacing.sm,

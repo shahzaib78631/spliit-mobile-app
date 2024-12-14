@@ -1,17 +1,9 @@
 import React, { useCallback, useEffect, useRef } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { View, Text, KeyboardAvoidingView, Platform } from "react-native";
 import RBSheet from "react-native-raw-bottom-sheet";
-import useCommonStyles from "@/theme/styles";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
 import ThemedText, { ThemedTextProps } from "../ui/ThemedText";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { StyleSheet } from "react-native-unistyles";
 
 // Define the prop types for BaseBottomSheet
 interface BaseBottomSheetProps {
@@ -66,7 +58,6 @@ const BaseBottomSheet: React.FC<BaseBottomSheetProps> = ({
   titleProps,
   reference,
 }: BaseBottomSheetProps) => {
-  const { styles, theme } = useStyles(stylesheet);
   const { bottom } = useSafeAreaInsets();
 
   // Render the BottomSheet component with dynamic snap points and children content
@@ -107,7 +98,7 @@ const BaseBottomSheet: React.FC<BaseBottomSheetProps> = ({
 };
 
 // Styles for the BottomSheet content and container
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   container: {
     padding: theme.padding.sm,
     backgroundColor: theme.colors.background,

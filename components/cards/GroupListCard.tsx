@@ -1,19 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View } from "react-native";
 import BaseCard from "../base/BaseCard";
 import ThemedText from "../ui/ThemedText";
 import PopupMenu from "../PopupMenu";
-import { GroupDetails, GroupListItem } from "@/utils/trpc";
+import { GroupListItem } from "@/utils/trpc";
 import { useThemeContext } from "@/context/ThemeContext";
 import Seperator from "../Seperator";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
-import { formatCurrency } from "@/utils/formatCurrency";
 import { getString } from "@/strings/translations";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
-import useCommonStyles from "@/theme/styles";
 import ThemedButton from "../ui/ThemedButton";
-import { starGroup } from "@/services/staredGroups";
 import { useAppContext } from "@/context/AppContext";
+import { StyleSheet } from "react-native-unistyles";
 
 interface GroupListCardProps {
   /**
@@ -28,7 +25,9 @@ const GroupListCard: React.FC<GroupListCardProps> = ({
   group,
   page = "recent",
 }) => {
-  const { styles, theme } = useStyles(stylesheet);
+  // Use the useThemeContext hook to get the current theme
+  const { theme } = useThemeContext();
+
   const { commonStyles } = useThemeContext();
   const {
     starGroup,
@@ -124,7 +123,7 @@ const GroupListCard: React.FC<GroupListCardProps> = ({
   );
 };
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   cardContainer: {
     backgroundColor: theme.colors.surface2,
     borderRadius: theme.borderRadius.xxl,

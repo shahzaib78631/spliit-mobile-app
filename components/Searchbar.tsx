@@ -1,16 +1,18 @@
 import React from "react";
 import { TextInputProps, View } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { StyleSheet } from "react-native-unistyles";
 import ThemedTextInput from "./ui/ThemedTextInput";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ThemedButton from "./ui/ThemedButton";
-import { getString } from "@/strings/translations";
+import { useThemeContext } from "@/context/ThemeContext";
 
 // Define prop types for the component to make it reusable
 interface SearchbarProps extends TextInputProps {}
 
 const Searchbar: React.FC<SearchbarProps> = (props) => {
-  const { styles, theme } = useStyles(stylesheet);
+  // Get the current theme from the context
+  const { theme } = useThemeContext();
+
   return (
     <ThemedTextInput
       containerStyle={styles.container}
@@ -31,7 +33,7 @@ const Searchbar: React.FC<SearchbarProps> = (props) => {
   );
 };
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   container: {
     maxHeight: 45,
   },

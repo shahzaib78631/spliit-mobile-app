@@ -1,7 +1,7 @@
 import React from "react";
 
 // Styles
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { StyleSheet } from "react-native-unistyles";
 
 // Context
 import { useAppContext } from "@/context/AppContext";
@@ -10,8 +10,6 @@ import { useAppContext } from "@/context/AppContext";
 import ThemedView from "@/components/ui/ThemedView";
 import GroupForm from "@/components/form/GroupForm";
 import ThemedActivityIndicator from "@/components/ui/ThemedActivityIndicator";
-import { useRouter } from "expo-router";
-import ThemedButton from "@/components/ui/ThemedButton";
 
 /**
  * Group Layout Component
@@ -39,11 +37,5 @@ const EditGroup: React.FC = () => {
     </ThemedView>
   );
 };
-
-/**
- * Stylesheet for component
- * Currently empty, reserved for future styling
- */
-const stylesheet = createStyleSheet((theme) => ({}));
 
 export default EditGroup;

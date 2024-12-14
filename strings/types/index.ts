@@ -206,6 +206,7 @@ export interface StringMap {
   "information.description": string;
   "information.empty": string;
   "settings.title": string;
+  "settings.appearance": string;
   "locale.en-us": string;
   "locale.fi": string;
   "locale.fr-fr": string;

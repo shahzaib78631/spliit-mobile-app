@@ -11,12 +11,12 @@ import { Control, Controller } from "react-hook-form";
 import ThemedTextInput from "../../ui/ThemedTextInput";
 import ThemedText from "../../ui/ThemedText";
 import ErrorMessage from "./ErrorMessage";
-import useCommonStyles from "@/theme/styles";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Pressable } from "react-native-gesture-handler";
 import ThemedCheckbox from "../../ui/ThemedCheckbox";
 import BaseBottomSheet from "@/components/base/BaseBottomSheet";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
+import { useThemeContext } from "@/context/ThemeContext";
 
 /**
  * Props for the base form field component.
@@ -130,7 +130,9 @@ const FormField = ({
   formatter,
   ...props
 }: FormFieldProps): JSX.Element => {
-  const { styles, theme } = useCommonStyles();
+  // Use the useThemeContext hook to get the current theme
+  const { commonStyles, theme } = useThemeContext();
+
   const bottomSheetReference = useRef({
     open: () => {},
     close: () => {},
@@ -178,6 +180,7 @@ const FormField = ({
             onChange(values[event.nativeEvent.selectedSegmentIndex])
           }
           backgroundColor={theme.colors.surface2}
+          tintColor={theme.colors.primary}
           activeFontStyle={{
             color: theme.colors.onPrimary,
           }}
@@ -190,8 +193,12 @@ const FormField = ({
             elevation: 0,
           }}
           style={[
-            styles.marginBottomMd,
-            { borderWidth: 1, borderColor: theme.colors.primaryOutline },
+            commonStyles.marginBottomMd,
+            {
+              borderWidth: 1,
+              borderRadius: 9,
+              borderColor: theme.colors.primaryOutline,
+            },
           ]}
         />
       );
@@ -282,7 +289,7 @@ const FormField = ({
           label={label || ""}
           value={!!value}
           onValueChange={onChange}
-          checkboxPosition={checkboxPosition}
+          buttonPosition={checkboxPosition}
         />
       );
     }

@@ -1,13 +1,13 @@
-import useCommonStyles from "@/theme/styles";
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
 import ThemedView from "./ThemedView";
+import { useThemeContext } from "@/context/ThemeContext";
 
 const ThemedActivityIndicator = () => {
-  const { styles, theme } = useCommonStyles();
+  const { commonStyles, theme } = useThemeContext();
 
   return (
-    <ThemedView style={[styles.flex1, styles.center]}>
+    <ThemedView style={[commonStyles.flex1, commonStyles.center]}>
       <ActivityIndicator size={"small"} color={theme.colors.onBackground} />
     </ThemedView>
   );

@@ -1,12 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React from "react";
 import { getString } from "@/strings/translations";
 import BaseBottomSheet from "../base/BaseBottomSheet";
-import { Platform, SectionList, View } from "react-native";
+import { Platform, View } from "react-native";
 import { Category } from "@/utils/trpc";
-import ThemedText from "../ui/ThemedText";
-import { useThemeContext } from "@/context/ThemeContext";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
-import ThemedCheckbox from "../ui/ThemedCheckbox";
 import CategoriesList from "../lists/CategoriesList";
 
 // Define the prop types for the CategoriesSheet component

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import React, { useMemo, useRef } from "react";
 import { ExpenseFormProps } from "./types";
 import useExpenseForm from "@/hooks/useExpenseForm";
@@ -6,7 +6,6 @@ import { useThemeContext } from "@/context/ThemeContext";
 import ThemedText from "../ui/ThemedText";
 import { getString } from "@/strings/translations";
 import FormField from "./components/FormField";
-import CategoriesSheet from "../sheets/CategoriesSheet";
 import { useAppContext } from "@/context/AppContext";
 import {
   AntDesign,
@@ -15,16 +14,15 @@ import {
 } from "@expo/vector-icons";
 import CategoriesList from "../lists/CategoriesList";
 import ThemedButton from "../ui/ThemedButton";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { getColorWithAlpha } from "@/utils/colors";
 import ParticipantsList from "../lists/ParticipantsList";
 import { useFieldArray } from "react-hook-form";
 import ParticipantsSheet from "../sheets/ParticipantsSheet";
 import { Expense, Participant, Participants } from "@/utils/trpc";
-import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import Seperator from "../Seperator";
 import { enforceCurrencyPattern } from "@/utils/formatCurrency";
 import ErrorMessage from "./components/ErrorMessage";
+import { StyleSheet } from "react-native-unistyles";
 
 const splitModes: Expense["splitMode"][] = [
   "EVENLY",
@@ -39,7 +37,6 @@ export default function ExpenseForm({
   reimbursementParams,
 }: ExpenseFormProps) {
   const { commonStyles, theme } = useThemeContext();
-  const { styles } = useStyles(stylesheet);
   const { categoriesList } = useAppContext();
 
   const participantsSheetRef = useRef({
@@ -89,8 +86,6 @@ export default function ExpenseForm({
         return undefined;
     }
   }, [splitMode]);
-
-  console.log(errors);
 
   return (
     <View style={commonStyles.gapMd}>
@@ -379,7 +374,7 @@ export default function ExpenseForm({
   );
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   description: {
     color: getColorWithAlpha(theme.colors.onBackground, 0.5),
   },

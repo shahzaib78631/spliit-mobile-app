@@ -11,7 +11,7 @@ import { getColorWithAlpha } from "@/utils/colors";
 import { GroupDetails } from "@/utils/trpc";
 
 // Styles
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { StyleSheet } from "react-native-unistyles";
 
 // Components
 import Seperator from "../Seperator";
@@ -20,13 +20,12 @@ import ThemedText from "../ui/ThemedText";
 import FormField from "./components/FormField";
 import { GroupFormValues } from "spliit-api/src/lib/schemas";
 import ErrorMessage from "./components/ErrorMessage";
-import useCommonStyles from "@/theme/styles";
 import { getString } from "@/strings/translations";
 import { GroupFormProps } from "./types";
+import { useThemeContext } from "@/context/ThemeContext";
 
 const GroupForm = ({ groupDetails, isEditing }: GroupFormProps) => {
-  const { styles: commonStyles, theme } = useCommonStyles();
-  const { styles } = useStyles(stylesheet);
+  const { commonStyles, theme } = useThemeContext();
 
   // Use custom hook to handle form logic
   const {
@@ -183,7 +182,7 @@ const GroupForm = ({ groupDetails, isEditing }: GroupFormProps) => {
 };
 
 // Styles for the component
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   description: {
     color: getColorWithAlpha(theme.colors.onBackground, 0.5),
   },

@@ -1,7 +1,8 @@
+import { useThemeContext } from "@/context/ThemeContext";
 import { BorderRadius, Colors, ThemeColors } from "@/theme/types";
 import React from "react";
 import { View, ViewStyle } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { StyleSheet } from "react-native-unistyles";
 
 // Define prop types for the component to make it reusable
 interface BaseCardProps {
@@ -17,7 +18,8 @@ const BaseCard: React.FC<BaseCardProps> = ({
   color = "surface2",
   borderRadius = "lg",
 }: BaseCardProps) => {
-  const { styles, theme } = useStyles(stylesheet);
+  // Get the theme
+  const { theme } = useThemeContext();
 
   // Retrieve the borderRadius value from the theme or the prop
   const cardBorderRadius = theme.borderRadius[borderRadius];
@@ -44,7 +46,7 @@ const BaseCard: React.FC<BaseCardProps> = ({
   );
 };
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   cardContainer: {
     backgroundColor: theme.colors.surface2,
     padding: theme.margin.xl,

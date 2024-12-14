@@ -4,8 +4,6 @@ import React from "react";
 import ThemedView from "@/components/ui/ThemedView";
 import ExpenseForm from "@/components/form/ExpenseForm";
 import { useAppContext } from "@/context/AppContext";
-import useExpenseForm from "@/hooks/useExpenseForm";
-import { getString } from "@/strings/translations";
 
 /**
  * Screen for creating a new expense

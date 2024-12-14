@@ -1,15 +1,16 @@
-import useCommonStyles from "@/theme/styles";
+import { commonStyles } from "@/theme/styles";
 import {
   changeNavigationBarColor,
   setStatusBarColor,
 } from "@/theme/utils/setBarColor";
 import React, { createContext, ReactNode, useEffect } from "react";
 import Color from "color";
-import { UnistylesTheme } from "react-native-unistyles";
+import { UnistylesTheme } from "react-native-unistyles/lib/typescript/src/types";
+import { StyleSheet, UnistylesRuntime } from "react-native-unistyles";
 
 // Define the shape of the context data
 interface ThemeContextType {
-  commonStyles: ReturnType<typeof useCommonStyles>["styles"];
+  commonStyles: typeof commonStyles;
   theme: UnistylesTheme;
 }
 
@@ -23,7 +24,7 @@ interface ThemeProviderProps {
 
 // Create the ThemeProvider component
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const { styles: commonStyles, theme } = useCommonStyles();
+  const theme: UnistylesTheme = UnistylesRuntime.getTheme();
 
   useEffect(() => {
     const timer = setTimeout(async () => {

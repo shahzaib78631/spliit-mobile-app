@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import "@/theme/unistyles"; // Global styles import
 import { Stack } from "expo-router"; // Navigation stack
 
@@ -21,7 +21,7 @@ import { MenuProvider } from "react-native-popup-menu";
 import { GroupProvider } from "@/context/AppContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from "@/context/ThemeContext";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { StyleSheet } from "react-native-unistyles";
 
 /**
  * Root application component
@@ -33,8 +33,6 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 const App: React.FC = () => {
   /** Track font loading state */
   const [fontsLoaded, setFontsLoaded] = useState(false);
-
-  const { styles } = useStyles(stylesheet);
 
   /** Initialize QueryClient and tRPC client */
   const [queryClient] = useState(() => new QueryClient());
@@ -107,7 +105,7 @@ const App: React.FC = () => {
 };
 
 /** Styles for loading state */
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   loadingContainer: {
     flex: 1,
     justifyContent: "center",

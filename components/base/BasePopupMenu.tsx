@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { ReactNode } from "react";
 import { View } from "react-native";
 import {
@@ -9,7 +8,9 @@ import {
   MenuOption,
   renderers,
 } from "react-native-popup-menu";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { StyleSheet } from "react-native-unistyles";
+import { useThemeContext } from "@/context/ThemeContext";
 
 const { Popover } = renderers;
 
@@ -40,7 +41,8 @@ interface BasePopupMenuProps {
 const BasePopupMenu: React.FC<BasePopupMenuProps> = ({
   menuOptions = [],
 }: BasePopupMenuProps): React.ReactElement => {
-  const { styles, theme } = useStyles(stylesheet);
+  // Get the theme
+  const { theme } = useThemeContext();
 
   return (
     <Menu renderer={Popover} rendererProps={{ preferredPlacement: "bottom" }}>
@@ -87,7 +89,7 @@ const BasePopupMenu: React.FC<BasePopupMenuProps> = ({
  * @param {Object} theme - The current application theme
  * @returns {Object} Styled object for popup menu components
  */
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   triggerText: {
     fontSize: 18,
     color: "blue",

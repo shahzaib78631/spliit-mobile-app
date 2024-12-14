@@ -1,93 +1,66 @@
-import { UnistylesRegistry } from "react-native-unistyles";
+import { StyleSheet } from "react-native-unistyles";
 import Themes from "./md3";
 import { Theme, ThemeColors } from "./types";
 import { baseTheme } from "./baseTheme";
 import { getColorWithAlpha, getElevationColor } from "@/utils/colors";
 
-// define app themes
-type AppThemes = {
-  defaultLight: Theme;
-  defaultDark: Theme;
-  tabbieLight: Theme;
-  tabbieDark: Theme;
-  strawberryDaiquiriLight: Theme;
-  strawberryDaiquiriDark: Theme;
-  takoLight: Theme;
-  takoDark: Theme;
-  tealTurquoiseLight: Theme;
-  tealTurquoiseDark: Theme;
-  yotsubaLight: Theme;
-  yotsubaDark: Theme;
-};
+// Define app themes type
+type AppThemes = Record<
+  | "defaultLight"
+  | "defaultDark"
+  | "tabbieLight"
+  | "tabbieDark"
+  | "strawberryDaiquiriLight"
+  | "strawberryDaiquiriDark"
+  | "takoLight"
+  | "takoDark"
+  | "tealTurquoiseLight"
+  | "tealTurquoiseDark"
+  | "yotsubaLight"
+  | "yotsubaDark",
+  Theme
+>;
 
-// override library types
+// Extend library types for themes
 declare module "react-native-unistyles" {
   export interface UnistylesThemes extends AppThemes {}
 }
 
-const extendThemes = (colors: ThemeColors) => {
-  return {
-    primaryOutline: getColorWithAlpha(colors.primary, 0.2),
-    primaryOutlineVariant: getColorWithAlpha(colors.primary, 0.5),
-    surface2: getElevationColor(colors, 0.08),
-    rippleColor: getColorWithAlpha(colors.primary, 0.12),
-    surfaceReader: getColorWithAlpha(colors.surface, 0.9),
-    overlay: getColorWithAlpha("rgb(0,0,0)", 0.1),
-    ...colors,
-  };
-};
+// Helper function to extend themes with custom colors
+const extendThemes = (colors: ThemeColors): ThemeColors => ({
+  primaryOutline: getColorWithAlpha(colors.primary, 0.2),
+  primaryOutlineVariant: getColorWithAlpha(colors.primary, 0.5),
+  surface2: getElevationColor(colors, 0.08),
+  rippleColor: getColorWithAlpha(colors.primary, 0.12),
+  surfaceReader: getColorWithAlpha(colors.surface, 0.9),
+  overlay: getColorWithAlpha("rgb(0,0,0)", 0.1),
+  ...colors,
+});
 
-// List of themes to add
-UnistylesRegistry.addThemes({
-  defaultLight: {
-    ...baseTheme,
-    colors: extendThemes(Themes.defaultTheme.light),
+// Function to create a theme by extending the base theme and theme-specific colors
+const createTheme = (lightOrDarkColors: ThemeColors): Theme => ({
+  ...baseTheme,
+  colors: extendThemes(lightOrDarkColors),
+});
+
+// Configure StyleSheet with themes and settings
+StyleSheet.configure({
+  themes: {
+    defaultLight: createTheme(Themes.defaultTheme.light),
+    defaultDark: createTheme(Themes.defaultTheme.dark),
+    tabbieLight: createTheme(Themes.tabbieTheme.light),
+    tabbieDark: createTheme(Themes.tabbieTheme.dark),
+    strawberryDaiquiriLight: createTheme(Themes.strawberryDaiquiriTheme.light),
+    strawberryDaiquiriDark: createTheme(Themes.strawberryDaiquiriTheme.dark),
+    takoLight: createTheme(Themes.takoTheme.light),
+    takoDark: createTheme(Themes.takoTheme.dark),
+    tealTurquoiseLight: createTheme(Themes.tealTurquoiseTheme.light),
+    tealTurquoiseDark: createTheme(Themes.tealTurquoiseTheme.dark),
+    yotsubaLight: createTheme(Themes.yotsubaTheme.light),
+    yotsubaDark: createTheme(Themes.yotsubaTheme.dark),
   },
-  defaultDark: {
-    ...baseTheme,
-    colors: extendThemes(Themes.defaultTheme.dark),
+  settings: {
+    adaptiveThemes: true,
+    initialTheme: "defaultLight",
   },
-  tabbieLight: {
-    ...baseTheme,
-    colors: extendThemes(Themes.tabbieTheme.light),
-  },
-  tabbieDark: {
-    ...baseTheme,
-    colors: extendThemes(Themes.tabbieTheme.dark),
-  },
-  strawberryDaiquiriLight: {
-    ...baseTheme,
-    colors: extendThemes(Themes.strawberryDaiquiriTheme.light),
-  },
-  strawberryDaiquiriDark: {
-    ...baseTheme,
-    colors: extendThemes(Themes.strawberryDaiquiriTheme.dark),
-  },
-  takoLight: {
-    ...baseTheme,
-    colors: extendThemes(Themes.takoTheme.light),
-  },
-  takoDark: {
-    ...baseTheme,
-    colors: extendThemes(Themes.takoTheme.dark),
-  },
-  tealTurquoiseLight: {
-    ...baseTheme,
-    colors: extendThemes(Themes.tealTurquoiseTheme.light),
-  },
-  tealTurquoiseDark: {
-    ...baseTheme,
-    colors: extendThemes(Themes.tealTurquoiseTheme.dark),
-  },
-  yotsubaLight: {
-    ...baseTheme,
-    colors: extendThemes(Themes.yotsubaTheme.light),
-  },
-  yotsubaDark: {
-    ...baseTheme,
-    colors: extendThemes(Themes.yotsubaTheme.dark),
-  },
-}).addConfig({
-  adaptiveThemes: true,
-  initialTheme: "defaultLight",
 });

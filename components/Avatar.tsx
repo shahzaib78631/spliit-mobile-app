@@ -7,9 +7,9 @@ import {
   ImageStyle,
   ViewStyle,
 } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Color from "color";
 import ThemedText from "./ui/ThemedText";
+import { StyleSheet } from "react-native-unistyles";
 
 interface AvatarProps {
   /** Image URL for the avatar */
@@ -53,8 +53,6 @@ const Avatar: React.FC<AvatarProps> = ({
   style,
   containerStyle,
 }) => {
-  const { styles } = useStyles(stylesheet);
-
   // Avatar content: Image or Placeholder
   const avatarContent = uri ? (
     <Image
@@ -106,7 +104,7 @@ const Avatar: React.FC<AvatarProps> = ({
   return avatarContent;
 };
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   avatar: {
     borderWidth: 1,
     borderColor: theme.colors.outline,

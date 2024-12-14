@@ -3,9 +3,9 @@ import { View } from "react-native";
 import { Category } from "@/utils/trpc";
 import ThemedText from "../ui/ThemedText";
 import { useThemeContext } from "@/context/ThemeContext";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
-import ThemedCheckbox from "../ui/ThemedCheckbox";
 import ThemedList from "../ui/ThemedList";
+import ThemedRadioButton from "../ui/ThemedRadioButton";
+import { StyleSheet } from "react-native-unistyles";
 
 interface CategoriesListProps {
   categories: Category[];
@@ -19,7 +19,6 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
   onChange,
 }) => {
   const { commonStyles } = useThemeContext();
-  const { styles } = useStyles(stylesheet);
 
   // Organize categories into sections
   const allSections = useMemo(
@@ -59,10 +58,10 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
         )}
         renderItem={({ item }: { item: Category }) => (
           <View>
-            <ThemedCheckbox
+            <ThemedRadioButton
               onValueChange={() => onChange(item)}
               value={value === item.id}
-              checkboxPosition="right"
+              buttonPosition="right"
               label={item.name}
               style={[commonStyles.rowJustifySpaceBetween]}
             />
@@ -73,7 +72,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
   );
 };
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   sectionHeaderContainer: {
     backgroundColor: theme.colors.background,
     paddingVertical: theme.padding.md,

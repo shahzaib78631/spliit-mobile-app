@@ -1,11 +1,10 @@
-import { Dimensions, I18nManager, StyleSheet } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
-import { StyleSheetWithSuperPowers } from "react-native-unistyles/lib/typescript/src/types";
+import { Dimensions, I18nManager } from "react-native";
+import { StyleSheet } from "react-native-unistyles";
 
 const { width, height } = Dimensions.get("window");
 
 // COMMON STYLESHEET
-const CommonStyles = createStyleSheet((theme) => ({
+export const commonStyles = StyleSheet.create((theme) => ({
   // CONTAINER
   container: {
     paddingHorizontal: theme.padding.lg,
@@ -1137,7 +1136,3 @@ const CommonStyles = createStyleSheet((theme) => ({
     fontFamily: theme.fontFamily.ultraLight,
   },
 }));
-
-const useCommonStyles = () => useStyles(CommonStyles);
-
-export default useCommonStyles;

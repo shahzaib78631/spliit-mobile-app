@@ -19,7 +19,7 @@ import { useThemeContext } from "@/context/ThemeContext";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
 // Styles
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { StyleSheet } from "react-native-unistyles";
 
 // Clipboard
 import * as Clipboard from "expo-clipboard";
@@ -49,7 +49,6 @@ const ShareGroupByUrlSheet: React.FC<ShareGroupByUrlSheetProps> = ({
   reference,
 }) => {
   const { commonStyles, theme } = useThemeContext();
-  const { styles } = useStyles(stylesheet);
 
   const Link = `https://spliit.app/groups/${groupId}/expenses?ref=share`;
 
@@ -117,7 +116,7 @@ const ShareGroupByUrlSheet: React.FC<ShareGroupByUrlSheetProps> = ({
   );
 };
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   warningContainer: {
     borderWidth: 1,
     backgroundColor: theme.colors.overlay,

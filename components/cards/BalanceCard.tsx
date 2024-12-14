@@ -1,8 +1,8 @@
 import React from "react";
 import { DimensionValue, View } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
 import ThemedText from "../ui/ThemedText";
 import { getString } from "@/strings/translations";
+import { StyleSheet } from "react-native-unistyles";
 
 // Define prop types for the component to make it reusable
 interface BalanceCardProps {
@@ -10,7 +10,6 @@ interface BalanceCardProps {
 }
 
 const BalanceCard: React.FC<BalanceCardProps> = ({ balance = 0 }) => {
-  const { styles, theme } = useStyles(stylesheet);
   return (
     <View style={[styles.cardContainer]}>
       <ThemedText fontSize="lg" type="regular">
@@ -23,7 +22,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance = 0 }) => {
   );
 };
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   cardContainer: {
     backgroundColor: theme.colors.surface2,
     borderRadius: theme.borderRadius.xxl,

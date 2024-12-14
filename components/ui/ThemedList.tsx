@@ -2,7 +2,6 @@ import React, { useState, useMemo, ReactElement } from "react";
 import {
   FlatList,
   SectionList,
-  StyleSheet,
   Text,
   View,
   FlatListProps,
@@ -11,13 +10,12 @@ import {
   ViewStyle,
   TextStyle,
 } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { StyleSheet } from "react-native-unistyles";
 import ThemedListEmptyComponent, {
   ThemedListEmptyComponentProps,
 } from "./ThemedListEmptyComponent";
 import Searchbar from "../Searchbar";
 import { getString } from "@/strings/translations";
-import ThemedText from "./ThemedText";
 
 /**
  * Configuration options for search functionality.
@@ -180,7 +178,6 @@ const ThemedList = <T,>({
   showsVerticalScrollIndicator,
   ...props
 }: ThemedListProps<T>) => {
-  const { styles } = useStyles(stylesheet);
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredData = useMemo(() => {
@@ -271,7 +268,7 @@ const ThemedList = <T,>({
  * @param theme - The current application theme.
  * @returns An object with styles for the list components.
  */
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   container: {
     flex: 1,
     gap: theme.padding.sm,

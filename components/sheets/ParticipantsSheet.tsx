@@ -3,7 +3,6 @@ import { getString } from "@/strings/translations";
 import BaseBottomSheet from "../base/BaseBottomSheet";
 import { Platform, View } from "react-native";
 import { Participant, Participants } from "@/utils/trpc";
-import CategoriesList from "../lists/CategoriesList";
 import ParticipantsList from "../lists/ParticipantsList";
 
 // Define the prop types for the ParticipantsSheet component

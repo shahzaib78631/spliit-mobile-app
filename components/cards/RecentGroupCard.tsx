@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Dimensions, ActivityIndicator } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Seperator from "../Seperator";
 import ThemedText from "../ui/ThemedText";
 import ThemedButton from "../ui/ThemedButton";
@@ -10,6 +9,8 @@ import { useGroupStats } from "@/hooks/useGroupStats";
 import { useGroupDetails } from "@/hooks/useGroupDetails";
 import PopupMenu from "../PopupMenu";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { StyleSheet } from "react-native-unistyles";
+import { useThemeContext } from "@/context/ThemeContext";
 
 const { width } = Dimensions.get("window");
 
@@ -23,7 +24,8 @@ const RecientGroupCard: React.FC<RecientGroupCardProps> = ({
   groupId,
   onSplitBtnPress,
 }) => {
-  const { styles, theme } = useStyles(stylesheet);
+  // Use the useThemeContext hook to get the current theme
+  const { theme } = useThemeContext();
 
   const { data: stats, refetch: refetchStats } = useGroupStats({ groupId });
   const { data: details, refetch: refetchDetails } = useGroupDetails({
@@ -88,7 +90,7 @@ const RecientGroupCard: React.FC<RecientGroupCardProps> = ({
 };
 
 // Default styles for the RecientGroupCard component
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   cardContainer: {
     backgroundColor: theme.colors.surface2,
     borderRadius: theme.borderRadius.xxl,

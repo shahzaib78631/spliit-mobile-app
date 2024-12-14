@@ -2,11 +2,9 @@ import { useThemeContext } from "@/context/ThemeContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useRef } from "react";
 import {
-  StyleSheet,
   SafeAreaView,
   View,
   Pressable,
-  Text,
   GestureResponderEvent,
 } from "react-native";
 import Animated, {
@@ -18,10 +16,9 @@ import Animated, {
   withTiming,
   SharedValue,
 } from "react-native-reanimated";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
-import ThemedText from "./ui/ThemedText";
 import AddGroupByUrlSheet from "./sheets/AddGroupByUrlSheet";
 import { useRouter } from "expo-router";
+import { StyleSheet } from "react-native-unistyles";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -47,7 +44,6 @@ const FloatingButton = ({
   onPress = () => {},
 }: FloatingActionButtonProps) => {
   const { theme } = useThemeContext();
-  const { styles } = useStyles(stylesheet);
 
   const animatedStyles = useAnimatedStyle(() => {
     const moveValue = isExpanded.value ? OFFSET * index : 0;
@@ -86,8 +82,6 @@ const FloatingButton = ({
 };
 
 export default function FloatingActionButton() {
-  const { styles: mainButtonStyles } = useStyles(mainButtonStylesheet);
-  const { styles } = useStyles(stylesheet);
   const isExpanded = useSharedValue(false);
 
   const router = useRouter();
@@ -168,7 +162,7 @@ export default function FloatingActionButton() {
   );
 }
 
-const mainButtonStylesheet = createStyleSheet((theme) => ({
+const mainButtonStyles = StyleSheet.create((theme) => ({
   button: {
     zIndex: 1,
     height: 60,
@@ -185,7 +179,7 @@ const mainButtonStylesheet = createStyleSheet((theme) => ({
   },
 }));
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   mainContainer: {
     position: "relative",
     display: "flex",

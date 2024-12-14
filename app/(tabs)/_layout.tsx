@@ -1,6 +1,4 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import "@/theme/unistyles";
 import { Tabs } from "expo-router";
 
 // Translation
@@ -40,10 +38,10 @@ const App: React.FC = () => {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="settings"
         options={{
-          title: getString("screen.profile.title"),
-          headerTitle: getString("screen.profile.title"),
+          title: getString("screen.settings.title"),
+          headerTitle: getString("screen.settings.title"),
         }}
       />
 
@@ -57,13 +55,5 @@ const App: React.FC = () => {
     </Tabs>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default App;

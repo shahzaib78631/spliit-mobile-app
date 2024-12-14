@@ -1,13 +1,10 @@
 import React from "react";
 
 // Components
-import ThemedView from "@/components/ui/ThemedView";
-import GroupForm from "@/components/form/GroupForm";
 import ThemedList from "@/components/ui/ThemedList";
 import { useAppContext } from "@/context/AppContext";
 import GroupListCard from "@/components/cards/GroupListCard";
 import { GroupListItem } from "@/utils/trpc";
-import Searchbar from "@/components/Searchbar";
 import { getString } from "@/strings/translations";
 
 /**

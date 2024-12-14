@@ -1,13 +1,10 @@
-import React, { useMemo } from "react";
-import { SectionList, View } from "react-native";
-import { Category, Participant, Participants } from "@/utils/trpc";
-import ThemedText from "../ui/ThemedText";
+import React from "react";
+import { View } from "react-native";
+import { Participant, Participants } from "@/utils/trpc";
 import { useThemeContext } from "@/context/ThemeContext";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
 import ThemedCheckbox from "../ui/ThemedCheckbox";
-import { FlatList } from "react-native-gesture-handler";
 import ThemedList from "../ui/ThemedList";
-import { getString } from "@/strings/translations";
+import ThemedRadioButton from "../ui/ThemedRadioButton";
 
 // Define the prop types for ParticipantsList
 interface ParticipantsListProps {
@@ -25,6 +22,8 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
 }) => {
   const { commonStyles } = useThemeContext();
 
+  const Component = multiple ? ThemedCheckbox : ThemedRadioButton;
+
   return (
     <View style={{ height: "88%" }}>
       <ThemedList
@@ -35,7 +34,7 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
           extractSearchableText: (item: Participant) => item.name,
         }}
         renderItem={({ item }: { item: Participant }) => (
-          <ThemedCheckbox
+          <Component
             onValueChange={() =>
               onChange(
                 item,
@@ -45,7 +44,7 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
             value={
               multiple ? value?.includes(item.id) || false : value === item.id
             }
-            checkboxPosition="right"
+            buttonPosition="right"
             label={item.name}
             style={[commonStyles.rowJustifySpaceBetween]}
           />

@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Image } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
 import ThemedButton from "../ui/ThemedButton";
 import { getString } from "@/strings/translations";
 import ThemedText from "../ui/ThemedText";
+import { StyleSheet } from "react-native-unistyles";
 
 // Define prop types for the component to make it reusable
 interface CreateSplitCardProps {
@@ -15,7 +15,6 @@ const CreateSplitCard: React.FC<CreateSplitCardProps> = ({
   onCreateGroupPress,
   onAddUrlPress,
 }) => {
-  const { styles } = useStyles(stylesheet);
   return (
     <View style={[styles.cardContainer]}>
       <View style={styles.contentContainer}>
@@ -59,7 +58,7 @@ const CreateSplitCard: React.FC<CreateSplitCardProps> = ({
 };
 
 // Default styles for the CreateSplitCard component
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   cardContainer: {
     backgroundColor: theme.colors.surface2,
     borderRadius: theme.borderRadius.xxl,

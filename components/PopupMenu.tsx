@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useRef } from "react";
 import { View } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { StyleSheet } from "react-native-unistyles";
 import BasePopupMenu, { BaseMenuOptions } from "./base/BasePopupMenu";
 import ThemedText from "./ui/ThemedText";
 import { useRouter } from "expo-router";
@@ -9,6 +9,7 @@ import ShareGroupByUrlSheet from "./sheets/ShareGroupUrlSheet";
 import { removeRecentGroup } from "@/services/recentGroups";
 import { useAppContext } from "@/context/AppContext";
 import { getString } from "@/strings/translations";
+import { useThemeContext } from "@/context/ThemeContext";
 
 interface PopupMenuProps {
   groupId: string;
@@ -18,7 +19,7 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
   const { fetchGroups, archiveGroup, unarchiveGroup, isGroupArchived } =
     useAppContext();
 
-  const { styles, theme } = useStyles(stylesheet);
+  const { theme } = useThemeContext();
 
   /** Reference to the shareGroupSheetRef */
   const shareGroupSheetRef = useRef({
@@ -119,7 +120,7 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
   );
 };
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   customOptionContainer: {
     flexDirection: "row",
     alignItems: "center",

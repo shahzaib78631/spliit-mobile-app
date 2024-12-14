@@ -1,8 +1,8 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { View } from "react-native";
+import React, { useRef } from "react";
 import ThemedView from "@/components/ui/ThemedView";
 import RecientGroupCard from "@/components/cards/RecentGroupCard";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { StyleSheet } from "react-native-unistyles";
 import { getString } from "@/strings/translations";
 
 // Components
@@ -35,9 +35,6 @@ import { useAppContext } from "@/context/AppContext";
  * @returns Scrollable home screen with various sections
  */
 export default function Home() {
-  /** Apply component-specific styles */
-  const { styles } = useStyles(stylesheet);
-
   /** Navigation and routing hooks */
   const router = useRouter();
 
@@ -130,7 +127,7 @@ export default function Home() {
 }
 
 /** Stylesheet for home screen layout */
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   container: {
     gap: theme.spacing.xl,
   },
