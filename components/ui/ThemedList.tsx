@@ -8,14 +8,14 @@ import {
   SectionListProps,
   StyleProp,
   ViewStyle,
-  TextStyle,
 } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
 import ThemedListEmptyComponent, {
   ThemedListEmptyComponentProps,
 } from "./ThemedListEmptyComponent";
-import Searchbar from "../Searchbar";
+import Searchbar from "../Searchbar/Searchbar";
 import { getString } from "@/strings/translations";
+import { FlashList, FlashListProps } from "@shopify/flash-list";
 
 /**
  * Configuration options for search functionality.
@@ -45,13 +45,14 @@ export interface ThemedListProps<T> {
    * The data to be rendered in the list.
    * Can be a flat array or a sections array for SectionList.
    */
-  data: T[] | SectionListProps<T>["sections"];
+  data: T[] | FlashListProps<T>["data"] | SectionListProps<T>["sections"];
 
   /**
    * Function to render individual list items.
    */
   renderItem:
     | FlatListProps<T>["renderItem"]
+    | FlashListProps<T>["renderItem"]
     | SectionListProps<T>["renderItem"];
 
   /**
@@ -93,7 +94,7 @@ export interface ThemedListProps<T> {
    * Type of list to render.
    * @default "flatlist"
    */
-  type?: "flatlist" | "sectionlist";
+  type?: "flatlist" | "sectionlist" | "flashlist";
 
   /**
    * Props to customize the empty list component.
@@ -226,6 +227,27 @@ const ThemedList = <T,>({
       contentContainerStyle={[{ flexGrow: 1 }, contentContainerStyle]}
       ItemSeparatorComponent={() => <View style={styles.itemSeperator} />}
       showsVerticalScrollIndicator={showsVerticalScrollIndicator}
+      keyboardShouldPersistTaps="handled"
+      {...props}
+    />
+  );
+  const renderFlashList = () => (
+    <FlashList
+      data={filteredData as T[]}
+      renderItem={renderItem as FlashListProps<T>["renderItem"]}
+      keyExtractor={keyExtractor}
+      ListHeaderComponent={ListHeaderComponent}
+      ListFooterComponent={ListFooterComponent}
+      ListEmptyComponent={
+        ListEmptyComponent ? (
+          ListEmptyComponent
+        ) : (
+          <ThemedListEmptyComponent {...emptyListProps} />
+        )
+      }
+      ItemSeparatorComponent={() => <View style={styles.itemSeperator} />}
+      showsVerticalScrollIndicator={showsVerticalScrollIndicator}
+      keyboardShouldPersistTaps="handled"
       {...props}
     />
   );
@@ -242,7 +264,8 @@ const ThemedList = <T,>({
       contentContainerStyle={[{ flexGrow: 1 }, contentContainerStyle]}
       ItemSeparatorComponent={() => <View style={styles.itemSeperator} />}
       showsVerticalScrollIndicator={showsVerticalScrollIndicator}
-      stickySectionHeadersEnabled
+      stickySectionHeadersEnabled={true}
+      keyboardShouldPersistTaps="handled"
       {...props}
     />
   );
@@ -256,7 +279,9 @@ const ThemedList = <T,>({
           onChangeText={setSearchQuery}
         />
       )}
-      {type === "sectionlist" ? renderSectionList() : renderFlatList()}
+      {type === "sectionlist" && renderSectionList()}
+      {type === "flatlist" && renderFlatList()}
+      {type === "flashlist" && renderFlashList()}
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import { commonStyles } from "@/theme/styles";
+import { useCommonStyles } from "@/theme/styles";
 import {
   changeNavigationBarColor,
   setStatusBarColor,
@@ -10,7 +10,7 @@ import { StyleSheet, UnistylesRuntime } from "react-native-unistyles";
 
 // Define the shape of the context data
 interface ThemeContextType {
-  commonStyles: typeof commonStyles;
+  commonStyles: ReturnType<typeof useCommonStyles>;
   theme: UnistylesTheme;
 }
 
@@ -24,6 +24,7 @@ interface ThemeProviderProps {
 
 // Create the ThemeProvider component
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  const commonStyles = useCommonStyles();
   const theme: UnistylesTheme = UnistylesRuntime.getTheme();
 
   useEffect(() => {

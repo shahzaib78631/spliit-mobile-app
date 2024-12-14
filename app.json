@@ -10,7 +10,8 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.shahzeb78631.experiments"
+      "bundleIdentifier": "com.shahzeb78631.experiments",
+      "appleTeamId": "H8S8C5U3W2"
     },
     "android": {
       "adaptiveIcon": {

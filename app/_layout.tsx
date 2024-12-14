@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { View, ActivityIndicator } from "react-native";
 import "@/theme/unistyles"; // Global styles import
+
+import React, { useEffect, useState } from "react";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
 import { Stack } from "expo-router"; // Navigation stack
 
 // Keyboard provider
@@ -21,7 +22,8 @@ import { MenuProvider } from "react-native-popup-menu";
 import { GroupProvider } from "@/context/AppContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from "@/context/ThemeContext";
-import { StyleSheet } from "react-native-unistyles";
+import { BottomSheetProvider } from "@gorhom/bottom-sheet/lib/typescript/contexts";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 /**
  * Root application component
@@ -82,19 +84,20 @@ const App: React.FC = () => {
           <GestureHandlerRootView style={{ flex: 1 }}>
             <ThemeProvider>
               <GroupProvider>
-                <MenuProvider>
-                  <Stack
-                    screenOptions={{
-                      headerShown: false, // Hide header globally
-                      animation: "slide_from_bottom",
-                      contentStyle: styles.mainContainer,
-                    }}
-                  >
-                    {/* Load the main tabs screen */}
-                    <Stack.Screen name="(tabs)" />
-                    <Stack.Screen name="create" />
-                  </Stack>
-                </MenuProvider>
+                <BottomSheetModalProvider>
+                  <MenuProvider>
+                    <Stack
+                      screenOptions={{
+                        headerShown: false, // Hide header globally
+                        animation: "slide_from_bottom",
+                      }}
+                    >
+                      {/* Load the main tabs screen */}
+                      <Stack.Screen name="(tabs)" />
+                      <Stack.Screen name="create" />
+                    </Stack>
+                  </MenuProvider>
+                </BottomSheetModalProvider>
               </GroupProvider>
             </ThemeProvider>
           </GestureHandlerRootView>
@@ -105,15 +108,12 @@ const App: React.FC = () => {
 };
 
 /** Styles for loading state */
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center", // Center loader on the screen
   },
-  mainContainer: {
-    backgroundColor: theme.colors.background,
-  },
-}));
+});
 
 export default App;

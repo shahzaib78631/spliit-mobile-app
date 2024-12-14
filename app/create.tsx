@@ -10,7 +10,7 @@ import GroupForm from "@/components/form/GroupForm";
  * @component
  * @returns {React.ReactElement} Renders the group creation form within a themed view
  */
-export default function CreateGroupScreen(): React.ReactElement {
+function CreateGroupScreen(): React.ReactElement {
   return (
     <ThemedView
       title="Create Group"
@@ -21,3 +21,5 @@ export default function CreateGroupScreen(): React.ReactElement {
     </ThemedView>
   );
 }
+
+export default CreateGroupScreen;

@@ -30,6 +30,12 @@ const SPRING_CONFIG = {
 
 const OFFSET = 60;
 
+const shadow = {
+  shadowColor: "#171717",
+  shadowOffset: { width: -0.5, height: 3.5 },
+  shadowOpacity: 0.2,
+  shadowRadius: 3,
+};
 interface FloatingActionButtonProps {
   isExpanded: SharedValue<boolean>;
   index: number;
@@ -62,12 +68,24 @@ const FloatingButton = ({
     };
   });
 
+  const button = {
+    width: 40,
+    height: 40,
+    position: "absolute",
+    borderRadius: 100,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: -2,
+    flexDirection: "row",
+  };
+
   return (
     <AnimatedPressable
       style={[
         animatedStyles,
-        styles.shadow,
-        styles.button,
+        shadow,
+        button,
         { backgroundColor: theme.colors.secondaryContainer },
       ]}
       onPress={onPress}
@@ -83,6 +101,8 @@ const FloatingButton = ({
 
 export default function FloatingActionButton() {
   const isExpanded = useSharedValue(false);
+
+  const { theme } = useThemeContext();
 
   const router = useRouter();
 
@@ -125,19 +145,35 @@ export default function FloatingActionButton() {
     router.push("/create");
   };
 
+  const backdrop = {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    backgroundColor: theme.colors.background,
+    zIndex: 0,
+  };
+
+  const button = {
+    zIndex: 1,
+    height: 60,
+    width: 60,
+    borderRadius: theme.borderRadius.xl,
+    backgroundColor: theme.colors.primary,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
   return (
     <>
       <AnimatedPressable
         onPress={() => handlePress()}
-        style={[styles.backdrop, backdropStyle]}
+        style={[backdrop, backdropStyle]}
       />
       <SafeAreaView>
         <View style={styles.mainContainer}>
           <View style={styles.buttonContainer}>
-            <AnimatedPressable
-              onPress={handlePress}
-              style={[styles.shadow, mainButtonStyles.button]}
-            >
+            <AnimatedPressable onPress={handlePress} style={[shadow, button]}>
               <Animated.Text style={[plusIconStyle, mainButtonStyles.content]}>
                 +
               </Animated.Text>

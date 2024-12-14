@@ -1,9 +1,9 @@
 import React from "react";
 import { TextInputProps, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
-import ThemedTextInput from "./ui/ThemedTextInput";
+import ThemedTextInput from "../ui/ThemedTextInput";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import ThemedButton from "./ui/ThemedButton";
+import ThemedButton from "../ui/ThemedButton";
 import { useThemeContext } from "@/context/ThemeContext";
 
 // Define prop types for the component to make it reusable

@@ -1,3 +1,4 @@
+import "@/theme/unistyles"; // Global styles import
 import React from "react";
 import {
   View,
@@ -123,6 +124,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
         ]}
         bottomOffset={20}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         {children}
       </Container>
