@@ -1,4 +1,4 @@
-import "@/theme/unistyles"; // Global styles import
+import "@/components/sheets/sheets"; // Global Sheets import
 
 import React, { useEffect, useState } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
@@ -22,8 +22,7 @@ import { MenuProvider } from "react-native-popup-menu";
 import { GroupProvider } from "@/context/AppContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from "@/context/ThemeContext";
-import { BottomSheetProvider } from "@gorhom/bottom-sheet/lib/typescript/contexts";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { SheetProvider } from "react-native-actions-sheet";
 
 /**
  * Root application component
@@ -80,12 +79,12 @@ const App: React.FC = () => {
   return (
     <trpc.Provider queryClient={queryClient} client={trpcClient}>
       <QueryClientProvider client={queryClient}>
-        <KeyboardProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <KeyboardProvider>
             <ThemeProvider>
               <GroupProvider>
-                <BottomSheetModalProvider>
-                  <MenuProvider>
+                <MenuProvider>
+                  <SheetProvider>
                     <Stack
                       screenOptions={{
                         headerShown: false, // Hide header globally
@@ -96,12 +95,12 @@ const App: React.FC = () => {
                       <Stack.Screen name="(tabs)" />
                       <Stack.Screen name="create" />
                     </Stack>
-                  </MenuProvider>
-                </BottomSheetModalProvider>
+                  </SheetProvider>
+                </MenuProvider>
               </GroupProvider>
             </ThemeProvider>
-          </GestureHandlerRootView>
-        </KeyboardProvider>
+          </KeyboardProvider>
+        </GestureHandlerRootView>
       </QueryClientProvider>
     </trpc.Provider>
   );

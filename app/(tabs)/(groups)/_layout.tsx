@@ -175,7 +175,6 @@ export default function TabLayout() {
       </MaterialTopTabs>
 
       {/* AddGroupByUrlSheet and FloatingActionButton */}
-      <AddGroupByUrlSheet reference={addGroupByUrlSheetRef} />
       <FloatingActionButton />
     </ThemedView>
   );

@@ -39,12 +39,12 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
   );
 
   return (
-    <View style={{ height: "88%" }}>
+    <View style={{ height: 500 }}>
       <ThemedList
         type="sectionlist"
         data={allSections}
         showsVerticalScrollIndicator={false}
-        initialNumToRender={1}
+        initialNumToRender={2}
         searchEnabled
         searchConfig={{
           extractSearchableText: (item: Category) => item.name,

@@ -10,6 +10,7 @@ import { removeRecentGroup } from "@/services/recentGroups";
 import { useAppContext } from "@/context/AppContext";
 import { getString } from "@/strings/translations";
 import { useThemeContext } from "@/context/ThemeContext";
+import { SheetManager } from "react-native-actions-sheet";
 
 interface PopupMenuProps {
   groupId: string;
@@ -20,12 +21,6 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
     useAppContext();
 
   const { theme } = useThemeContext();
-
-  /** Reference to the shareGroupSheetRef */
-  const shareGroupSheetRef = useRef({
-    open: () => {},
-    close: () => {},
-  });
 
   const router = useRouter();
 
@@ -69,7 +64,12 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
           />
         </View>
       ),
-      handle: () => shareGroupSheetRef.current.open(),
+      handle: () =>
+        SheetManager.show("ShareGroupByUrlSheet", {
+          payload: {
+            groupId,
+          },
+        }),
     },
     {
       label: archived
@@ -112,12 +112,7 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
     },
   ];
 
-  return (
-    <>
-      <BasePopupMenu menuOptions={menuOptions} />
-      <ShareGroupByUrlSheet groupId={groupId} reference={shareGroupSheetRef} />
-    </>
-  );
+  return <BasePopupMenu menuOptions={menuOptions} />;
 };
 
 const styles = StyleSheet.create((theme) => ({

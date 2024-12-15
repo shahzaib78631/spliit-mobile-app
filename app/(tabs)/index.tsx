@@ -1,32 +1,20 @@
-import { View } from "react-native";
+import { Button, View } from "react-native";
 import React, { useRef } from "react";
 import ThemedView from "@/components/ui/ThemedView";
 import RecientGroupCard from "@/components/cards/RecentGroupCard";
-import { StyleSheet } from "react-native-unistyles";
+import { StyleSheet, UnistylesRuntime } from "react-native-unistyles";
 import { getString } from "@/strings/translations";
 
 // Components
 import ThemedText from "@/components/ui/ThemedText";
 import ThemedButton from "@/components/ui/ThemedButton";
 import StackedAvatars from "@/components/StackedAvatars";
-import BalanceCard from "@/components/cards/BalanceCard";
 import CreateSplitCard from "@/components/cards/CreateSplitCard";
 
-// Utils
-import { trpc } from "@/utils/trpc";
-import {
-  getRecentGroups,
-  initRecentGroup,
-  RecentGroup,
-} from "@/services/recentGroups";
-import {
-  RelativePathString,
-  useNavigation,
-  usePathname,
-  useRouter,
-} from "expo-router";
-import AddGroupByUrlSheet from "@/components/sheets/AddGroupByUrlSheet";
+import { RelativePathString, useRouter } from "expo-router";
 import { useAppContext } from "@/context/AppContext";
+import { SheetManager } from "react-native-actions-sheet";
+import { useThemeContext } from "@/context/ThemeContext";
 
 /**
  * Home screen component displaying recent groups, split options, and friends
@@ -40,11 +28,7 @@ export default function Home() {
 
   const { recentGroups } = useAppContext();
 
-  /** Reference to the AddGroupByUrlSheet */
-  const addGroupByUrlSheetRef = useRef({
-    open: () => {},
-    close: () => {},
-  });
+  const { setTheme } = useThemeContext();
 
   /** Dummy data for demonstration */
   const dummyData = {
@@ -58,7 +42,8 @@ export default function Home() {
 
   /** Open the AddGroupByUrl sheet */
   const openAddGroupByUrlSheet = () => {
-    addGroupByUrlSheetRef.current?.open();
+    // addGroupByUrlSheetRef.current?.open();
+    SheetManager.show("AddGroupByUrlSheet");
   };
 
   const handleAddExpenseNavigation = (groupId: string) => {
@@ -120,8 +105,9 @@ export default function Home() {
             addLabel={getString("common.add_friend")}
           />
         </View>
+
+        <Button title="Hello" onPress={() => setTheme("defaultLight")} />
       </ThemedView>
-      <AddGroupByUrlSheet reference={addGroupByUrlSheetRef} />
     </>
   );
 }

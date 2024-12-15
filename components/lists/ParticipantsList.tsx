@@ -25,14 +25,16 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
   const Component = multiple ? ThemedCheckbox : ThemedRadioButton;
 
   return (
-    <View style={{ height: "88%" }}>
+    <View style={{ height: 500 }}>
       <ThemedList
+        type="flashlist"
         keyExtractor={({ id }) => String(id)}
         data={participants}
         searchEnabled
         searchConfig={{
           extractSearchableText: (item: Participant) => item.name,
         }}
+        estimatedItemSize={41}
         renderItem={({ item }: { item: Participant }) => (
           <Component
             onValueChange={() =>

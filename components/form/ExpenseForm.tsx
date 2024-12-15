@@ -23,6 +23,7 @@ import Seperator from "../Seperator";
 import { enforceCurrencyPattern } from "@/utils/formatCurrency";
 import ErrorMessage from "./components/ErrorMessage";
 import { StyleSheet } from "react-native-unistyles";
+import { SheetManager } from "react-native-actions-sheet";
 
 const splitModes: Expense["splitMode"][] = [
   "EVENLY",
@@ -39,11 +40,6 @@ export default function ExpenseForm({
   const { commonStyles, theme } = useThemeContext();
   const { categoriesList } = useAppContext();
 
-  const participantsSheetRef = useRef({
-    open: () => {},
-    close: () => {},
-  });
-
   const { control, errors, splitMode, handleSubmit, isSubmitting, submitForm } =
     useExpenseForm({
       expense,
@@ -58,8 +54,16 @@ export default function ExpenseForm({
     keyName: "key",
   });
 
-  const handleDisplayParticipantsSheet = () =>
-    participantsSheetRef.current.open();
+  const handleDisplayParticipantsSheet = () => {
+    SheetManager.show("ParticipantsSheet", {
+      payload: {
+        multiple: true,
+        value: fields.map((i) => i.participant),
+        onChange: handleParticipantSelection,
+        participants: group?.participants as Participants,
+      },
+    });
+  };
 
   const handleParticipantSelection = (
     participant: Participant,
@@ -361,14 +365,6 @@ export default function ExpenseForm({
         title={getString("expenseform.save")}
         onPress={handleSubmit(submitForm)}
         loading={isSubmitting}
-      />
-
-      <ParticipantsSheet
-        multiple
-        value={fields.map((i) => i.participant)}
-        onChange={handleParticipantSelection}
-        reference={participantsSheetRef}
-        participants={group?.participants as Participants}
       />
     </View>
   );

@@ -4,9 +4,6 @@ import { View } from "react-native";
 // Translation
 import { getString } from "@/strings/translations";
 
-// Bottom Sheet
-import BaseBottomSheet from "../base/BaseBottomSheet";
-
 // Components
 import ThemedText from "../ui/ThemedText";
 import ThemedTextInput from "../ui/ThemedTextInput";
@@ -23,31 +20,16 @@ import { StyleSheet } from "react-native-unistyles";
 
 // Clipboard
 import * as Clipboard from "expo-clipboard";
+import { SheetProps } from "react-native-actions-sheet";
+import BaseBottomActionSheet from "../base/BaseBottomActionSheet";
 
-// Define the prop types for the AddGroupByUrlSheet component
-interface ShareGroupByUrlSheetProps {
-  /**
-   * The ID of the group to share.
-   */
-  groupId: string;
-
-  /**
-   * A reference to the bottom sheet instance.
-   */
-  reference: any;
-
-  /**
-   * A callback function to be triggered when the bottom sheet is closed.
-   * This is called when the bottom sheet triggers its close action.
-   * @default () => {}
-   */
-  onClose?: () => void;
-}
-
-const ShareGroupByUrlSheet: React.FC<ShareGroupByUrlSheetProps> = ({
-  groupId,
-  reference,
+const ShareGroupByUrlSheet: React.FC<SheetProps<"ShareGroupByUrlSheet">> = ({
+  payload,
 }) => {
+  if (!payload) return null;
+
+  const { groupId } = payload;
+
   const { commonStyles, theme } = useThemeContext();
 
   const Link = `https://spliit.app/groups/${groupId}/expenses?ref=share`;
@@ -59,11 +41,7 @@ const ShareGroupByUrlSheet: React.FC<ShareGroupByUrlSheetProps> = ({
   };
 
   return (
-    <BaseBottomSheet
-      height={320}
-      reference={reference}
-      title={getString("share.title")}
-    >
+    <BaseBottomActionSheet snapPoints={[100]} title={getString("share.title")}>
       <View style={commonStyles.gapVerticalMd}>
         <ThemedText type="light" fontSize="md">
           {getString("share.description")}
@@ -112,7 +90,7 @@ const ShareGroupByUrlSheet: React.FC<ShareGroupByUrlSheetProps> = ({
           </ThemedText>
         </View>
       </View>
-    </BaseBottomSheet>
+    </BaseBottomActionSheet>
   );
 };
 

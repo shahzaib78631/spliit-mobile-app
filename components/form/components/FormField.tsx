@@ -17,6 +17,8 @@ import ThemedCheckbox from "../../ui/ThemedCheckbox";
 import BaseBottomSheet from "@/components/base/BaseBottomSheet";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { useThemeContext } from "@/context/ThemeContext";
+import BaseBottomActionSheet from "@/components/base/BaseBottomActionSheet";
+import { ActionSheetRef } from "react-native-actions-sheet";
 
 /**
  * Props for the base form field component.
@@ -133,10 +135,7 @@ const FormField = ({
   // Use the useThemeContext hook to get the current theme
   const { commonStyles, theme } = useThemeContext();
 
-  const bottomSheetReference = useRef({
-    open: () => {},
-    close: () => {},
-  });
+  const bottomSheetReference = useRef<ActionSheetRef>(null);
   const [showPicker, setShowPicker] = useState(false);
   const [dateTimePickerValue, setDateTimePickerValue] = useState<
     Date | undefined
@@ -188,10 +187,6 @@ const FormField = ({
             color: theme.colors.outline,
             fontSize: theme.fontSize.md,
           }}
-          sliderStyle={{
-            backgroundColor: theme.colors.primary,
-            elevation: 0,
-          }}
           style={[
             commonStyles.marginBottomMd,
             {
@@ -209,7 +204,7 @@ const FormField = ({
             onPress={() =>
               pickerConfig
                 ? pickerConfig.open()
-                : bottomSheetReference.current.open()
+                : bottomSheetReference.current?.show()
             }
             activeOpacity={0.8}
           >
@@ -219,7 +214,7 @@ const FormField = ({
               onTouchStart={() =>
                 pickerConfig
                   ? pickerConfig.open()
-                  : bottomSheetReference.current.open()
+                  : bottomSheetReference.current?.show()
               }
               editable={false}
               inputStyle={inputStyle}
@@ -229,19 +224,19 @@ const FormField = ({
               onPress={() =>
                 pickerConfig
                   ? pickerConfig.open()
-                  : bottomSheetReference.current.open()
+                  : bottomSheetReference.current?.show()
               }
               {...props}
             />
           </TouchableOpacity>
           {renderPickerContentComponent && (
-            <BaseBottomSheet
-              height={Platform.OS === "ios" ? 500 : 650}
+            <BaseBottomActionSheet
+              snapPoints={[80]}
               reference={bottomSheetReference}
               title={pickerSheetTitle}
             >
               {renderPickerContentComponent(value, onChange)}
-            </BaseBottomSheet>
+            </BaseBottomActionSheet>
           )}
           {renderPickerComponent && renderPickerComponent(value, onChange)}
         </>

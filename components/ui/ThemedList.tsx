@@ -133,6 +133,11 @@ export interface ThemedListProps<T> {
    * Required when searchEnabled is true.
    */
   searchConfig?: SearchConfig<T>;
+
+  /**
+   * Estimated size of each list item.
+   */
+  estimatedItemSize?: number;
 }
 
 /**
@@ -177,6 +182,7 @@ const ThemedList = <T,>({
   searchEnabled = false,
   searchConfig,
   showsVerticalScrollIndicator,
+  estimatedItemSize,
   ...props
 }: ThemedListProps<T>) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -248,6 +254,7 @@ const ThemedList = <T,>({
       ItemSeparatorComponent={() => <View style={styles.itemSeperator} />}
       showsVerticalScrollIndicator={showsVerticalScrollIndicator}
       keyboardShouldPersistTaps="handled"
+      estimatedItemSize={estimatedItemSize}
       {...props}
     />
   );

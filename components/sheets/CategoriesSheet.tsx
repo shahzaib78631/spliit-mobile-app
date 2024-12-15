@@ -1,48 +1,28 @@
 import React from "react";
 import { getString } from "@/strings/translations";
-import BaseBottomSheet from "../base/BaseBottomSheet";
-import { Platform, View } from "react-native";
-import { Category } from "@/utils/trpc";
 import CategoriesList from "../lists/CategoriesList";
+import BaseBottomActionSheet from "../base/BaseBottomActionSheet";
+import { SheetProps } from "react-native-actions-sheet";
+import { View } from "react-native";
 
-// Define the prop types for the CategoriesSheet component
-interface CategoriesSheetProps {
-  reference: any;
+const CategoriesSheet: React.FC<SheetProps<"CategoriesSheet">> = ({
+  payload,
+}: SheetProps<"CategoriesSheet">) => {
+  if (!payload) return null;
 
-  categories: Category[];
+  const { categories, value, onChange } = payload;
 
-  value: Category["id"] | null;
-
-  onChange: (category: Category) => void;
-
-  /**
-   * A callback function to be triggered when the bottom sheet is closed.
-   * This is called when the bottom sheet triggers its close action.
-   * @default () => {}
-   */
-  onClose?: () => void;
-}
-
-const CategoriesSheet: React.FC<CategoriesSheetProps> = ({
-  reference,
-  categories,
-  value,
-  onChange,
-}) => {
   return (
-    <BaseBottomSheet
-      height={Platform.OS === "ios" ? 500 : 650}
-      reference={reference}
+    <BaseBottomActionSheet
+      snapPoints={[60]}
       title={getString("categories.title")}
     >
-      <View style={{ height: "88%" }}>
-        <CategoriesList
-          categories={categories}
-          value={value}
-          onChange={onChange}
-        />
-      </View>
-    </BaseBottomSheet>
+      <CategoriesList
+        categories={categories}
+        value={value}
+        onChange={onChange}
+      />
+    </BaseBottomActionSheet>
   );
 };
 

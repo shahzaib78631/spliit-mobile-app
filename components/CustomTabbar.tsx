@@ -1,10 +1,6 @@
 import React, { useEffect } from "react";
 import { View, TouchableOpacity, Dimensions } from "react-native";
-import {
-  AntDesign,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import ThemedText from "./ui/ThemedText";
@@ -16,6 +12,7 @@ import Animated, {
 import { getString } from "@/strings/translations";
 import { StyleSheet } from "react-native-unistyles";
 import { useThemeContext } from "@/context/ThemeContext";
+import { UnistylesTheme } from "react-native-unistyles/lib/typescript/src/types";
 
 /**
  * Custom bottom tab bar component for navigation
@@ -54,12 +51,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
   }));
 
   return (
-    <View
-      style={[
-        styles.tabBar,
-        { paddingBottom: bottom + 5, paddingTop: theme.padding.lg },
-      ]}
-    >
+    <View style={[styles.tabBar, styles.paddingBottom(bottom + 5)]}>
       <Animated.View style={[animatedStyle, styles.underline]} />
       {state.routes
         .filter((route) => allowedRoutes.includes(route.name))
@@ -170,8 +162,9 @@ const styles = StyleSheet.create((theme) => ({
     alignItems: "center",
     borderTopWidth: 0,
     borderColor: theme.colors.primaryOutline,
-    backgroundColor: theme.colors.surface2,
     position: "relative",
+    backgroundColor: theme.colors.surface2,
+    paddingTop: theme.padding.lg,
   },
   tabButton: {
     alignItems: "center",
@@ -197,4 +190,7 @@ const styles = StyleSheet.create((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
+  paddingBottom: (padding: number) => ({
+    paddingBottom: padding,
+  }),
 }));

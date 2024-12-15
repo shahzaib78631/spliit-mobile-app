@@ -24,9 +24,6 @@ const RecientGroupCard: React.FC<RecientGroupCardProps> = ({
   groupId,
   onSplitBtnPress,
 }) => {
-  // Use the useThemeContext hook to get the current theme
-  const { theme } = useThemeContext();
-
   const { data: stats, refetch: refetchStats } = useGroupStats({ groupId });
   const { data: details, refetch: refetchDetails } = useGroupDetails({
     groupId,
@@ -49,7 +46,7 @@ const RecientGroupCard: React.FC<RecientGroupCardProps> = ({
           </ThemedText>
           <PopupMenu groupId={groupId} />
         </View>
-        <Seperator margin={theme.margin.sm} />
+        <Seperator />
         <View style={styles.billSection}>
           <ThemedText type="medium" style={styles.totalText}>
             {getString("stats.totals.groupspendings")}
