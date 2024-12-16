@@ -106,7 +106,10 @@ export default function Home() {
           />
         </View>
 
-        <Button title="Hello" onPress={() => setTheme("tealTurquoiseLight")} />
+        <Button
+          title="Change Theme"
+          onPress={() => setTheme("tealTurquoiseLight")}
+        />
       </ThemedView>
     </>
   );
