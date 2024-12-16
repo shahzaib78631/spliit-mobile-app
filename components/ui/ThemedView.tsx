@@ -4,14 +4,10 @@ import {
   TouchableOpacity,
   ViewProps,
   ScrollViewProps,
-  ViewStyle,
-  ScrollView,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { AntDesign } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import { Colors, ThemeColors } from "@/theme/types";
+import { Colors } from "@/theme/types";
 import ThemedText from "./ThemedText";
 import { useThemeContext } from "@/context/ThemeContext";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
@@ -77,9 +73,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
               <ThemedMaterialIcons
                 name="arrow-back"
                 size={18}
-                uniProps={(theme) => ({
-                  color: theme.colors.onSurface,
-                })}
+                color="onSurface"
               />
             </TouchableOpacity>
           )}
@@ -98,7 +92,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
       )}
 
       {scrollable && (
-        <KeyboardAwareScrollView
+        <ThemedKeyboardAwareScrollView
           {...props}
           style={commonStyles.container}
           contentContainerStyle={commonStyles.gapMd}
@@ -106,7 +100,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
           showsVerticalScrollIndicator={false}
         >
           {children}
-        </KeyboardAwareScrollView>
+        </ThemedKeyboardAwareScrollView>
       )}
       {!scrollable && (
         <View

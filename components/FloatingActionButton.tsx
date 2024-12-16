@@ -1,5 +1,4 @@
 import { useThemeContext } from "@/context/ThemeContext";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useRef } from "react";
 import {
   SafeAreaView,
@@ -21,18 +20,23 @@ import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import { UnistylesTheme } from "react-native-unistyles/lib/typescript/src/types";
 import ThemedText from "./ui/ThemedText";
 import { ThemedMaterialCommunityIcons } from "./ui/ThemedIcons";
+import { SheetManager } from "react-native-actions-sheet";
 
+// Create Animated components for Pressable and Text
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const AnimatedText = withUnistyles(Animated.Text);
 
+// Spring animation configuration
 const SPRING_CONFIG = {
   duration: 1200,
   overshootClamping: true,
   dampingRatio: 0.8,
 };
 
+// Offset for expanding buttons
 const OFFSET = 60;
 
+// Shadow style configuration
 const shadow = {
   shadowColor: "#171717",
   shadowOffset: { width: -0.5, height: 3.5 },
@@ -40,13 +44,17 @@ const shadow = {
   shadowRadius: 3,
 };
 
+// Interface for individual floating buttons
 interface FloatingActionButtonProps {
-  isExpanded: SharedValue<boolean>;
-  index: number;
-  icon: any;
-  onPress: (event: GestureResponderEvent) => void;
+  isExpanded: SharedValue<boolean>; // Shared animated value for expansion
+  index: number; // Button index for animation delay
+  icon: any; // Icon name for the button
+  onPress: (event: GestureResponderEvent) => void; // Button click handler
 }
 
+/**
+ * FloatingButton - Renders an animated floating button.
+ */
 const FloatingButton = ({
   isExpanded,
   index,
@@ -55,6 +63,7 @@ const FloatingButton = ({
 }: FloatingActionButtonProps) => {
   const { commonStyles } = useThemeContext();
 
+  // Animated styles for button movement and scale
   const animatedStyles = useAnimatedStyle(() => {
     const moveValue = isExpanded.value ? OFFSET * index : 0;
     const translateValue = withSpring(-moveValue, SPRING_CONFIG);
@@ -72,6 +81,7 @@ const FloatingButton = ({
     };
   });
 
+  // Default button styling
   const button = {
     width: 40,
     height: 40,
@@ -97,30 +107,36 @@ const FloatingButton = ({
       <ThemedMaterialCommunityIcons
         name={icon}
         size={18}
-        uniProps={(theme) => ({ color: theme.colors.onSecondaryContainer })}
+        color="onSecondaryContainer"
       />
     </AnimatedPressable>
   );
 };
 
 type Props = {
-  theme: UnistylesTheme;
+  theme: UnistylesTheme; // Theme object from Unistyles
 };
 
+/**
+ * FloatingActionButton - A component with expandable floating action buttons.
+ */
 function FloatingActionButton({ theme }: Props) {
-  const isExpanded = useSharedValue(false);
+  const isExpanded = useSharedValue(false); // Tracks the expanded state of buttons
 
   const router = useRouter();
 
+  // Reference for external group sheet functionality
   const addGroupByUrlSheetRef = useRef({
     open: () => {},
     close: () => {},
   });
 
+  // Toggles button expansion
   const handlePress = () => {
     isExpanded.value = !isExpanded.value;
   };
 
+  // Animated style for the main "+" button
   const plusIconStyle = useAnimatedStyle(() => {
     const moveValue = interpolate(Number(isExpanded.value), [0, 1], [0, 2]);
     const translateValue = withTiming(moveValue);
@@ -134,6 +150,7 @@ function FloatingActionButton({ theme }: Props) {
     };
   });
 
+  // Animated style for backdrop
   const backdropStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(isExpanded.value ? 0.5 : 0, { duration: 300 }),
@@ -141,16 +158,19 @@ function FloatingActionButton({ theme }: Props) {
     };
   });
 
+  // Opens a sheet for adding a group by URL
   const openAddGroupByUrlSheet = () => {
-    addGroupByUrlSheetRef.current?.open();
+    SheetManager.show("AddGroupByUrlSheet");
     handlePress();
   };
 
+  // Redirects to the group creation screen
   const handleCreateGroup = () => {
     handlePress();
     router.push("/create");
   };
 
+  // Backdrop styling
   const backdrop = {
     position: "absolute",
     height: "100%",
@@ -159,6 +179,7 @@ function FloatingActionButton({ theme }: Props) {
     zIndex: 0,
   };
 
+  // Main button styling
   const button = {
     zIndex: 1,
     height: 60,
@@ -172,6 +193,7 @@ function FloatingActionButton({ theme }: Props) {
 
   return (
     <>
+      {/* Backdrop overlay */}
       <AnimatedPressable
         onPress={() => handlePress()}
         style={[backdrop, backdropStyle]}
@@ -179,6 +201,7 @@ function FloatingActionButton({ theme }: Props) {
       <SafeAreaView>
         <View style={styles.mainContainer}>
           <View style={styles.buttonContainer}>
+            {/* Main "+" button */}
             <AnimatedPressable onPress={handlePress} style={[shadow, button]}>
               <AnimatedText style={plusIconStyle}>
                 <ThemedText fontSize="xxxl" color="onPrimary">
@@ -186,6 +209,7 @@ function FloatingActionButton({ theme }: Props) {
                 </ThemedText>
               </AnimatedText>
             </AnimatedPressable>
+            {/* Additional floating buttons */}
             <FloatingButton
               isExpanded={isExpanded}
               index={1}
@@ -209,6 +233,7 @@ export default withUnistyles(FloatingActionButton, (theme) => ({
   theme,
 }));
 
+// Styles for main button and components
 const mainButtonStyles = StyleSheet.create((theme) => ({
   button: {
     zIndex: 1,

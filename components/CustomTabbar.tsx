@@ -18,6 +18,11 @@ interface CustomTabBarProps extends BottomTabBarProps {
   theme: UnistylesTheme;
 }
 
+// Allowed route names
+const allowedRoutes = ["index", "history", "(groups)", "settings"];
+
+const TAB_WIDTH = Dimensions.get("window").width / allowedRoutes.length;
+
 /**
  * Custom bottom tab bar component for navigation
  *
@@ -32,11 +37,6 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({
 }: CustomTabBarProps): React.ReactElement => {
   // Shared value for underline position
   const translateX = useSharedValue(0);
-
-  // Allowed route names
-  const allowedRoutes = ["index", "history", "(groups)", "settings"];
-
-  const TAB_WIDTH = Dimensions.get("window").width / allowedRoutes.length;
 
   // Update translateX when the focused index changes
   useEffect(() => {
@@ -70,11 +70,9 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({
                     <ThemedMaterialIcons
                       name="home"
                       size={iconSize}
-                      uniProps={(theme) => ({
-                        color: isFocused
-                          ? theme.colors.primary
-                          : theme.colors.outline,
-                      })}
+                      color={
+                        isFocused ? theme.colors.primary : theme.colors.outline
+                      }
                     />
                     <ThemedText
                       color={isFocused ? "primary" : "outline"}
@@ -90,11 +88,9 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({
                     <ThemedMaterialIcons
                       name="history"
                       size={iconSize}
-                      uniProps={(theme) => ({
-                        color: isFocused
-                          ? theme.colors.primary
-                          : theme.colors.outline,
-                      })}
+                      color={
+                        isFocused ? theme.colors.primary : theme.colors.outline
+                      }
                     />
                     <ThemedText
                       color={isFocused ? "primary" : "outline"}
@@ -110,11 +106,9 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({
                     <ThemedMaterialIcons
                       name="group"
                       size={iconSize}
-                      uniProps={(theme) => ({
-                        color: isFocused
-                          ? theme.colors.primary
-                          : theme.colors.outline,
-                      })}
+                      color={
+                        isFocused ? theme.colors.primary : theme.colors.outline
+                      }
                     />
                     <ThemedText
                       color={isFocused ? "primary" : "outline"}
@@ -130,11 +124,9 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({
                     <ThemedMaterialIcons
                       name="settings"
                       size={iconSize - 4}
-                      uniProps={(theme) => ({
-                        color: isFocused
-                          ? theme.colors.primary
-                          : theme.colors.outline,
-                      })}
+                      color={
+                        isFocused ? theme.colors.primary : theme.colors.outline
+                      }
                     />
                     <ThemedText
                       color={isFocused ? "primary" : "outline"}

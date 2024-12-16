@@ -51,22 +51,14 @@ const ShareGroupByUrlSheet: React.FC<SheetProps<"ShareGroupByUrlSheet">> = ({
             value={Link}
             editable={false}
             prepend={
-              <ThemedMaterialIcons
-                name="link"
-                uniProps={(theme) => ({
-                  color: theme.colors.onSurface,
-                })}
-                size={18}
-              />
+              <ThemedMaterialIcons name="link" color="onSurface" size={18} />
             }
           />
           <View>
             <ThemedButton onPress={copyGroupLink}>
               <ThemedMaterialIcons
                 name="copy-all"
-                uniProps={(theme) => ({
-                  color: theme.colors.onPrimary,
-                })}
+                color="onPrimary"
                 size={18}
               />
             </ThemedButton>

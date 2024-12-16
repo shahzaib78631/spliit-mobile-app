@@ -121,7 +121,7 @@ export default function TabLayout() {
           >
             <ThemedMaterialIcons
               name="link"
-              uniProps={(theme) => ({ color: theme.colors.onPrimaryContainer })}
+              color="onPrimaryContainer"
               size={24}
             />
           </ThemedButton>

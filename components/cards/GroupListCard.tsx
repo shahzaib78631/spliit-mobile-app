@@ -11,6 +11,7 @@ import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import ThemedButton from "../ui/ThemedButton";
 import { useAppContext } from "@/context/AppContext";
 import { StyleSheet } from "react-native-unistyles";
+import { ThemedAntDesign } from "../ui/ThemedIcons";
 
 interface GroupListCardProps {
   /**
@@ -67,7 +68,13 @@ const GroupListCard: React.FC<GroupListCardProps> = ({
   return (
     <BaseCard>
       <View style={styles.header}>
-        <ThemedText numberOfLines={1} type="medium" style={styles.title}>
+        <ThemedText
+          numberOfLines={1}
+          type="medium"
+          fontSize="lg"
+          color="onSurface"
+          style={commonStyles.width70}
+        >
           {group.name}
         </ThemedText>
         <View style={[commonStyles.rowAlignCenter, commonStyles.gapXs]}>
@@ -77,10 +84,10 @@ const GroupListCard: React.FC<GroupListCardProps> = ({
               style={commonStyles.paddingXs}
               onPress={handleGroupAction}
             >
-              <AntDesign
+              <ThemedAntDesign
                 name={starred ? "star" : "staro"}
                 size={16}
-                color={theme.colors.onSurface}
+                color="onSurface"
               />
             </ThemedButton>
           )}
@@ -93,29 +100,27 @@ const GroupListCard: React.FC<GroupListCardProps> = ({
               <MaterialCommunityIcons
                 name={starred ? "inbox-arrow-down" : "inbox-arrow-down-outline"}
                 size={16}
-                color={theme.colors.onSurface}
+                color="onSurface"
               />
             </ThemedButton>
           )}
           <PopupMenu groupId={group.id} />
         </View>
       </View>
-      <Seperator margin={theme.margin.xs} />
+      <Seperator margin={"xs"} />
       <View style={styles.personsContainer}>
         <View style={styles.header}>
           <View style={[commonStyles.rowAlignCenter, commonStyles.gapXs]}>
-            <AntDesign name="team" size={14} color={theme.colors.onSurface} />
-            <ThemedText style={styles.subText}>
+            <ThemedAntDesign name={"team"} size={14} color="onSurface" />
+            <ThemedText fontSize="xs" color="onSurface">
               {getGroupParticipants()}
             </ThemedText>
           </View>
           <View style={[commonStyles.rowAlignCenter, commonStyles.gapXs]}>
-            <AntDesign
-              name="calendar"
-              size={14}
-              color={theme.colors.onSurface}
-            />
-            <ThemedText style={styles.subText}>{getGroupDate()}</ThemedText>
+            <ThemedAntDesign name={"calendar"} size={14} color="onSurface" />
+            <ThemedText fontSize="xs" color="onSurface">
+              {getGroupDate()}
+            </ThemedText>
           </View>
         </View>
       </View>
@@ -136,15 +141,6 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  title: {
-    width: "70%",
-    fontSize: theme.fontSize.lg,
-    color: theme.colors.onSurface,
-  },
-  subText: {
-    fontSize: theme.fontSize.xs,
-    color: theme.colors.onSurface,
   },
   personsContainer: {
     width: "100%",

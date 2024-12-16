@@ -1,4 +1,5 @@
 import { useThemeContext } from "@/context/ThemeContext";
+import { Colors, Margins } from "@/theme/types";
 import React from "react";
 import { DimensionValue, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
@@ -7,8 +8,8 @@ import { StyleSheet } from "react-native-unistyles";
 interface SeperatorProps {
   height?: DimensionValue | undefined;
   width?: DimensionValue | undefined;
-  color?: string;
-  margin?: DimensionValue | undefined;
+  color?: keyof Colors | (string & {});
+  margin?: DimensionValue | keyof Margins | undefined;
 }
 
 const Seperator: React.FC<SeperatorProps> = ({
@@ -17,9 +18,6 @@ const Seperator: React.FC<SeperatorProps> = ({
   color,
   margin,
 }) => {
-  // Get the current theme from the context
-  const { theme } = useThemeContext();
-
   return (
     <View
       style={styles.container({
@@ -36,8 +34,10 @@ const styles = StyleSheet.create((theme) => ({
   container: ({ width, height, color, margin }: SeperatorProps) => ({
     width,
     height,
-    backgroundColor: color || theme.colors.outline,
-    marginVertical: margin || theme.margin.xs,
+    backgroundColor: ((theme.colors[color as keyof Colors] ?? color) ||
+      theme.colors.outline) as string,
+    marginVertical: ((theme.margin[color as keyof Margins] ?? margin) ||
+      theme.margin.xs) as DimensionValue,
   }),
 }));
 

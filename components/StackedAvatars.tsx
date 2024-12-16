@@ -1,7 +1,6 @@
 import React from "react";
 import {
   View,
-  Text,
   StyleProp,
   ViewStyle,
   ImageStyle,
@@ -12,7 +11,6 @@ import Avatar from "./Avatar";
 import ThemedText from "./ui/ThemedText";
 import { useThemeContext } from "@/context/ThemeContext";
 import { StyleSheet } from "react-native-unistyles";
-import { ThemedMaterialIcons } from "./ui/ThemedIcons";
 
 type Avatar = {
   uri?: string;
@@ -96,11 +94,9 @@ const StackedAvatars: React.FC<StackedAvatarsProps> = ({
           onPress={onAddPress}
           buttonStyle={styles.addButton(avatarSize, overlap)}
         >
-          <ThemedMaterialIcons
-            size={12}
-            name="add"
-            uniProps={(theme) => ({ color: theme.colors.primary })}
-          />
+          <ThemedText fontSize="lg" color="primary">
+            +
+          </ThemedText>
         </ThemedButton>
         {addLabel && (
           <ThemedText
