@@ -15,6 +15,7 @@ import { Colors, ThemeColors } from "@/theme/types";
 import ThemedText from "./ThemedText";
 import { useThemeContext } from "@/context/ThemeContext";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
+import { ThemedMaterialIcons } from "./ThemedIcons";
 
 /**
  * Props interface for ThemedView component
@@ -48,7 +49,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
   statusbarBackgroundColor = "background",
   ...props
 }: ThemedViewProps): React.ReactElement => {
-  const { commonStyles, theme } = useThemeContext();
+  const { commonStyles } = useThemeContext();
   const router = useRouter();
 
   const canGoBack = router?.canGoBack();
@@ -73,10 +74,12 @@ const ThemedView: React.FC<ThemedViewProps> = ({
               onPress={router.back}
               style={[commonStyles.absolute, commonStyles.paddingLg]}
             >
-              <AntDesign
-                name="arrowleft"
+              <ThemedMaterialIcons
+                name="arrow-back"
                 size={18}
-                color={theme.colors.onSurface}
+                uniProps={(theme) => ({
+                  color: theme.colors.onSurface,
+                })}
               />
             </TouchableOpacity>
           )}
@@ -95,7 +98,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
       )}
 
       {scrollable && (
-        <ScrollView
+        <KeyboardAwareScrollView
           {...props}
           style={commonStyles.container}
           contentContainerStyle={commonStyles.gapMd}
@@ -103,7 +106,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
           showsVerticalScrollIndicator={false}
         >
           {children}
-        </ScrollView>
+        </KeyboardAwareScrollView>
       )}
       {!scrollable && (
         <View
