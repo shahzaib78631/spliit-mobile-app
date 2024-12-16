@@ -1,5 +1,5 @@
 import { getColorWithAlpha } from "@/utils/colors";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   View,
   TextInput,
@@ -8,9 +8,13 @@ import {
   TextStyle,
   TextInputProps,
 } from "react-native";
-import { StyleSheet } from "react-native-unistyles";
+import { StyleSheet, UnistylesRuntime } from "react-native-unistyles";
 import ThemedText from "./ThemedText";
 import { useThemeContext } from "@/context/ThemeContext";
+import {
+  UnistyleText,
+  UnistyleView,
+} from "react-native-unistyles/lib/typescript/src/types";
 
 /**
  * Props interface for ThemedTextInput component
@@ -18,9 +22,9 @@ import { useThemeContext } from "@/context/ThemeContext";
 interface ThemedTextInputProps extends TextInputProps {
   label?: string;
   isLabelVisible?: boolean;
-  containerStyle?: StyleProp<ViewStyle>;
-  inputStyle?: StyleProp<TextStyle>;
-  labelStyle?: StyleProp<TextStyle>;
+  containerStyle?: UnistyleView;
+  inputStyle?: UnistyleText;
+  labelStyle?: UnistyleText;
   prepend?: React.ReactNode;
   append?: React.ReactNode;
 }
@@ -48,33 +52,27 @@ const ThemedTextInput: React.FC<ThemedTextInputProps> = ({
   const { commonStyles, theme } = useThemeContext();
   const [isFocused, setIsFocused] = useState(false);
 
+  styles.useVariants({
+    isFocused,
+    prepend: !!prepend,
+    append: !!append,
+  });
+
   return (
-    <View
-      style={[
-        styles.container,
-        containerStyle,
-        isFocused && { borderColor: theme.colors.primary, borderWidth: 1 },
-      ]}
-    >
+    <View style={[styles.container, containerStyle]}>
       {isLabelVisible && label && (
-        <ThemedText fontSize="sm" style={[labelStyle]}>
+        <ThemedText fontSize="sm" style={labelStyle}>
           {label}
         </ThemedText>
       )}
 
-      <View
-        style={[
-          styles.inputContainer,
-          commonStyles.gapHorizontalMd,
-          prepend || append ? commonStyles.paddingHorizontalNone : null,
-        ]}
-      >
+      <View style={[styles.inputContainer, commonStyles.gapHorizontalMd]}>
         {prepend && <View style={[commonStyles.center]}>{prepend}</View>}
 
         <TextInput
           style={[styles.input, commonStyles.flex1, inputStyle]}
-          placeholderTextColor={getColorWithAlpha(theme.colors.onSurface, 0.5)}
           placeholder={placeholder}
+          placeholderTextColor={theme.colors.onSurface}
           value={value}
           onChangeText={onChangeText}
           onFocus={() => setIsFocused(true)}
@@ -106,6 +104,11 @@ const styles = StyleSheet.create((theme) => ({
     paddingVertical: theme.spacing.sm,
     overflow: "hidden",
     height: 48,
+    variants: {
+      isFocused: {
+        true: { borderColor: theme.colors.primary, borderWidth: 1 },
+      },
+    },
   },
   inputContainer: {
     flex: 1,
@@ -114,6 +117,18 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: theme.borderRadius.md,
     backgroundColor: theme.colors.surface2,
     position: "relative",
+    variants: {
+      prepend: {
+        true: {
+          paddingHorizontal: theme.padding.none,
+        },
+      },
+      append: {
+        true: {
+          paddingHorizontal: theme.padding.none,
+        },
+      },
+    },
   },
   input: {
     color: theme.colors.onSurface,

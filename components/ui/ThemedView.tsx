@@ -49,7 +49,6 @@ const ThemedView: React.FC<ThemedViewProps> = ({
   ...props
 }: ThemedViewProps): React.ReactElement => {
   const { commonStyles, theme } = useThemeContext();
-  const { top } = useSafeAreaInsets();
   const router = useRouter();
 
   const canGoBack = router?.canGoBack();

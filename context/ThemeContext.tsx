@@ -28,6 +28,7 @@ interface ThemeProviderProps {
 
 // Create the ThemeProvider component
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  // Todo: Remove this and make it dynamic
   const theme: UnistylesTheme = UnistylesRuntime.getTheme();
 
   useEffect(() => {
