@@ -8,7 +8,6 @@ import {
   TextStyle,
 } from "react-native";
 import ThemedButton from "./ui/ThemedButton";
-import { AntDesign } from "@expo/vector-icons";
 import Avatar from "./Avatar";
 import ThemedText from "./ui/ThemedText";
 import { useThemeContext } from "@/context/ThemeContext";

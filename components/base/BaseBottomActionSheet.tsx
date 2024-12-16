@@ -6,7 +6,19 @@ import ActionSheet, {
 } from "react-native-actions-sheet";
 import ThemedText, { ThemedTextProps } from "../ui/ThemedText";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { StyleSheet } from "react-native-unistyles";
+import { withUnistyles } from "react-native-unistyles";
+import { commonStyles } from "@/theme/styles";
+
+const ThemedActionSheet = withUnistyles(ActionSheet, (theme) => ({
+  indicatorStyle: {
+    marginVertical: theme.margin.md,
+    backgroundColor: theme.colors.primary,
+  },
+  containerStyle: {
+    paddingHorizontal: theme.padding.lg,
+    backgroundColor: theme.colors.background,
+  },
+}));
 
 interface BaseBottomActionSheetProps extends ActionSheetProps {
   /**
@@ -42,22 +54,20 @@ const BaseBottomActionSheet = ({
   const insets = useSafeAreaInsets();
 
   return (
-    <ActionSheet
+    <ThemedActionSheet
       ref={reference}
       snapPoints={snapPoints}
       headerAlwaysVisible
       gestureEnabled
       safeAreaInsets={insets}
       useBottomSafeAreaPadding
-      indicatorStyle={styles.indicator}
       overdrawEnabled={false}
-      containerStyle={styles.container}
     >
       {title && (
         <ThemedText
           type="bold"
           fontSize="xxl"
-          style={styles.titleStyle}
+          style={commonStyles.marginBottomMd}
           color="primary"
           {...titleProps}
         >
@@ -65,23 +75,8 @@ const BaseBottomActionSheet = ({
         </ThemedText>
       )}
       {children}
-    </ActionSheet>
+    </ThemedActionSheet>
   );
 };
 
 export default BaseBottomActionSheet;
-
-// Styles for the BottomSheet content and container
-const styles = StyleSheet.create((theme) => ({
-  container: {
-    padding: theme.padding.sm,
-    backgroundColor: theme.colors.background,
-  },
-  indicator: {
-    marginVertical: theme.margin.md,
-    backgroundColor: theme.colors.primary,
-  },
-  titleStyle: {
-    marginBottom: theme.spacing.md,
-  },
-}));

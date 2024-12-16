@@ -14,7 +14,6 @@ import ErrorMessage from "./ErrorMessage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Pressable } from "react-native-gesture-handler";
 import ThemedCheckbox from "../../ui/ThemedCheckbox";
-import BaseBottomSheet from "@/components/base/BaseBottomSheet";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { useThemeContext } from "@/context/ThemeContext";
 import BaseBottomActionSheet from "@/components/base/BaseBottomActionSheet";

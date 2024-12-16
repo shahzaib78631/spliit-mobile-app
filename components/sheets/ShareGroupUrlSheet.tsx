@@ -12,9 +12,6 @@ import ThemedButton from "../ui/ThemedButton";
 // Context
 import { useThemeContext } from "@/context/ThemeContext";
 
-// Icons
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-
 // Styles
 import { StyleSheet } from "react-native-unistyles";
 
@@ -22,6 +19,7 @@ import { StyleSheet } from "react-native-unistyles";
 import * as Clipboard from "expo-clipboard";
 import { SheetProps } from "react-native-actions-sheet";
 import BaseBottomActionSheet from "../base/BaseBottomActionSheet";
+import { ThemedMaterialIcons } from "../ui/ThemedIcons";
 
 const ShareGroupByUrlSheet: React.FC<SheetProps<"ShareGroupByUrlSheet">> = ({
   payload,
@@ -30,7 +28,7 @@ const ShareGroupByUrlSheet: React.FC<SheetProps<"ShareGroupByUrlSheet">> = ({
 
   const { groupId } = payload;
 
-  const { commonStyles, theme } = useThemeContext();
+  const { commonStyles } = useThemeContext();
 
   const Link = `https://spliit.app/groups/${groupId}/expenses?ref=share`;
 
@@ -53,18 +51,22 @@ const ShareGroupByUrlSheet: React.FC<SheetProps<"ShareGroupByUrlSheet">> = ({
             value={Link}
             editable={false}
             prepend={
-              <AntDesign
+              <ThemedMaterialIcons
                 name="link"
-                color={theme.colors.onBackground}
+                uniProps={(theme) => ({
+                  color: theme.colors.onSurface,
+                })}
                 size={18}
               />
             }
           />
           <View>
             <ThemedButton onPress={copyGroupLink}>
-              <MaterialIcons
+              <ThemedMaterialIcons
                 name="copy-all"
-                color={theme.colors.onPrimary}
+                uniProps={(theme) => ({
+                  color: theme.colors.onPrimary,
+                })}
                 size={18}
               />
             </ThemedButton>

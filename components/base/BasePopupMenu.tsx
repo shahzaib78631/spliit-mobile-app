@@ -11,16 +11,8 @@ import {
 } from "react-native-popup-menu";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
-import { useThemeContext } from "@/context/ThemeContext";
 
 const { Popover } = renderers;
-
-// const ThemedMaterialCommunityIcons = withUnistyles(
-//   MaterialCommunityIcons,
-//   (theme) => ({
-//     color: theme.colors.onBackground,
-//   })
-// );
 
 /**
  * Base menu option type definition

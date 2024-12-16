@@ -1,6 +1,7 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import React from "react";
 import { DimensionValue, View } from "react-native";
+import { StyleSheet } from "react-native-unistyles";
 
 // Define prop types for the component to make it reusable
 interface SeperatorProps {
@@ -21,14 +22,23 @@ const Seperator: React.FC<SeperatorProps> = ({
 
   return (
     <View
-      style={{
+      style={styles.container({
         width,
         height,
-        backgroundColor: color || theme.colors.outline,
-        marginVertical: margin || theme.margin.xs,
-      }}
+        color,
+        margin,
+      })}
     />
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  container: ({ width, height, color, margin }: SeperatorProps) => ({
+    width,
+    height,
+    backgroundColor: color || theme.colors.outline,
+    marginVertical: margin || theme.margin.xs,
+  }),
+}));
 
 export default Seperator;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   TouchableOpacity,
@@ -95,7 +95,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
       )}
 
       {scrollable && (
-        <ThemedKeyboardAwareScrollView
+        <ScrollView
           {...props}
           style={commonStyles.container}
           contentContainerStyle={commonStyles.gapMd}
@@ -103,7 +103,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
           showsVerticalScrollIndicator={false}
         >
           {children}
-        </ThemedKeyboardAwareScrollView>
+        </ScrollView>
       )}
       {!scrollable && (
         <View
@@ -142,4 +142,4 @@ const styles = StyleSheet.create((theme, rt) => ({
   },
 }));
 
-export default withUnistyles(ThemedView);
+export default ThemedView;

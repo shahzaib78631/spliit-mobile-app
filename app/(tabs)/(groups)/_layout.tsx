@@ -19,7 +19,6 @@ import {
 import ThemedView from "@/components/ui/ThemedView";
 import ThemedText from "@/components/ui/ThemedText";
 import ThemedButton from "@/components/ui/ThemedButton";
-import AddGroupByUrlSheet from "@/components/sheets/AddGroupByUrlSheet";
 import FloatingActionButton from "@/components/FloatingActionButton";
 
 // Context
@@ -27,6 +26,8 @@ import { useThemeContext } from "@/context/ThemeContext";
 
 // Translation
 import { getString } from "@/strings/translations";
+import { ThemedMaterialIcons } from "@/components/ui/ThemedIcons";
+import { withUnistyles } from "react-native-unistyles";
 
 // Create a typed MaterialTopTabs navigator
 const { Navigator } = createMaterialTopTabNavigator();
@@ -37,6 +38,30 @@ export const MaterialTopTabs = withLayoutContext<
   TabNavigationState<ParamListBase>,
   MaterialTopTabNavigationEventMap
 >(Navigator);
+
+const ThemedMaterialTopTabs = withUnistyles(MaterialTopTabs, (theme) => ({
+  screenOptions: {
+    sceneStyle: {
+      backgroundColor: theme.colors.background,
+      paddingVertical: theme.padding.md,
+      paddingHorizontal: theme.padding.lg,
+    },
+    tabBarStyle: {
+      backgroundColor: theme.colors.surface2,
+      elevation: 0,
+    },
+    tabBarLabelStyle: {
+      fontFamily: theme.fontFamily.regular,
+      fontSize: theme.fontSize.sm,
+    },
+    tabBarActiveTintColor: theme.colors.primary,
+    tabBarInactiveTintColor: theme.colors.outline,
+    tabBarIndicatorStyle: {
+      backgroundColor: theme.colors.primary,
+      height: 2,
+    },
+  },
+}));
 
 export default function TabLayout() {
   // Extract styles and theme context
@@ -75,9 +100,7 @@ export default function TabLayout() {
           commonStyles.paddingVerticalSm,
           commonStyles.rowJustifySpaceBetween,
           commonStyles.rowAlignCenter,
-          {
-            backgroundColor: theme.colors.surface2,
-          },
+          commonStyles.backgroundColor("surface2"),
         ]}
       >
         <ThemedText type="medium" fontSize="xl" color="onPrimaryContainer">
@@ -93,12 +116,12 @@ export default function TabLayout() {
           </ThemedButton>
           <ThemedButton
             variant="text"
-            style={[commonStyles.paddingNone]}
+            style={commonStyles.paddingNone}
             onPress={openAddGroupByUrlSheet}
           >
-            <MaterialIcons
+            <ThemedMaterialIcons
               name="link"
-              color={theme.colors.onPrimaryContainer}
+              uniProps={(theme) => ({ color: theme.colors.onPrimaryContainer })}
               size={24}
             />
           </ThemedButton>
@@ -106,29 +129,7 @@ export default function TabLayout() {
       </View>
 
       {/* Tabs */}
-      <MaterialTopTabs
-        screenOptions={{
-          sceneStyle: {
-            backgroundColor: theme.colors.background,
-            paddingVertical: theme.padding.md,
-            paddingHorizontal: theme.padding.lg,
-          },
-          tabBarStyle: {
-            backgroundColor: theme.colors.surface2,
-            elevation: 0,
-          },
-          tabBarLabelStyle: {
-            fontFamily: theme.fontFamily.regular,
-            fontSize: theme.fontSize.sm,
-          },
-          tabBarActiveTintColor: theme.colors.primary,
-          tabBarInactiveTintColor: theme.colors.outline,
-          tabBarIndicatorStyle: {
-            backgroundColor: theme.colors.primary,
-            height: 2,
-          },
-        }}
-      >
+      <ThemedMaterialTopTabs>
         <MaterialTopTabs.Screen
           name="index"
           options={{
@@ -172,7 +173,7 @@ export default function TabLayout() {
             ),
           }}
         />
-      </MaterialTopTabs>
+      </ThemedMaterialTopTabs>
 
       {/* AddGroupByUrlSheet and FloatingActionButton */}
       <FloatingActionButton />

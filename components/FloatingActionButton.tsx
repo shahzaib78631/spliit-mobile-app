@@ -16,11 +16,14 @@ import Animated, {
   withTiming,
   SharedValue,
 } from "react-native-reanimated";
-import AddGroupByUrlSheet from "./sheets/AddGroupByUrlSheet";
 import { useRouter } from "expo-router";
-import { StyleSheet } from "react-native-unistyles";
+import { StyleSheet, withUnistyles } from "react-native-unistyles";
+import { UnistylesTheme } from "react-native-unistyles/lib/typescript/src/types";
+import ThemedText from "./ui/ThemedText";
+import { ThemedMaterialCommunityIcons } from "./ui/ThemedIcons";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+const AnimatedText = withUnistyles(Animated.Text);
 
 const SPRING_CONFIG = {
   duration: 1200,
@@ -36,6 +39,7 @@ const shadow = {
   shadowOpacity: 0.2,
   shadowRadius: 3,
 };
+
 interface FloatingActionButtonProps {
   isExpanded: SharedValue<boolean>;
   index: number;
@@ -49,7 +53,7 @@ const FloatingButton = ({
   icon = "link",
   onPress = () => {},
 }: FloatingActionButtonProps) => {
-  const { theme } = useThemeContext();
+  const { commonStyles } = useThemeContext();
 
   const animatedStyles = useAnimatedStyle(() => {
     const moveValue = isExpanded.value ? OFFSET * index : 0;
@@ -86,23 +90,25 @@ const FloatingButton = ({
         animatedStyles,
         shadow,
         button,
-        { backgroundColor: theme.colors.secondaryContainer },
+        commonStyles.backgroundColor("secondaryContainer"),
       ]}
       onPress={onPress}
     >
-      <MaterialCommunityIcons
+      <ThemedMaterialCommunityIcons
         name={icon}
         size={18}
-        color={theme.colors.onSecondaryContainer}
+        uniProps={(theme) => ({ color: theme.colors.onSecondaryContainer })}
       />
     </AnimatedPressable>
   );
 };
 
-export default function FloatingActionButton() {
-  const isExpanded = useSharedValue(false);
+type Props = {
+  theme: UnistylesTheme;
+};
 
-  const { theme } = useThemeContext();
+function FloatingActionButton({ theme }: Props) {
+  const isExpanded = useSharedValue(false);
 
   const router = useRouter();
 
@@ -164,8 +170,6 @@ export default function FloatingActionButton() {
     alignItems: "center",
   };
 
-  console.log("FloatingActionButton", theme.colors.name);
-
   return (
     <>
       <AnimatedPressable
@@ -176,9 +180,11 @@ export default function FloatingActionButton() {
         <View style={styles.mainContainer}>
           <View style={styles.buttonContainer}>
             <AnimatedPressable onPress={handlePress} style={[shadow, button]}>
-              <Animated.Text style={[plusIconStyle, mainButtonStyles.content]}>
-                +
-              </Animated.Text>
+              <AnimatedText style={plusIconStyle}>
+                <ThemedText fontSize="xxxl" color="onPrimary">
+                  +
+                </ThemedText>
+              </AnimatedText>
             </AnimatedPressable>
             <FloatingButton
               isExpanded={isExpanded}
@@ -198,6 +204,10 @@ export default function FloatingActionButton() {
     </>
   );
 }
+
+export default withUnistyles(FloatingActionButton, (theme) => ({
+  theme,
+}));
 
 const mainButtonStyles = StyleSheet.create((theme) => ({
   button: {
