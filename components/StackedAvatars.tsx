@@ -12,6 +12,8 @@ import { AntDesign } from "@expo/vector-icons";
 import Avatar from "./Avatar";
 import ThemedText from "./ui/ThemedText";
 import { useThemeContext } from "@/context/ThemeContext";
+import { StyleSheet } from "react-native-unistyles";
+import { ThemedMaterialIcons } from "./ui/ThemedIcons";
 
 type Avatar = {
   uri?: string;
@@ -56,7 +58,7 @@ const StackedAvatars: React.FC<StackedAvatarsProps> = ({
   addLabel,
   nameKey = "name",
 }) => {
-  const { commonStyles, theme } = useThemeContext();
+  const { commonStyles } = useThemeContext();
 
   return (
     <View
@@ -93,26 +95,23 @@ const StackedAvatars: React.FC<StackedAvatarsProps> = ({
           borderRadius="full"
           variant="dashed-outline"
           onPress={onAddPress}
-          buttonStyle={{
-            width: avatarSize,
-            height: avatarSize,
-            borderRadius: avatarSize / 2,
-            marginLeft: overlap,
-            padding: theme.padding.none,
-            backgroundColor: theme.colors.surface2,
-          }}
+          buttonStyle={styles.addButton(avatarSize, overlap)}
         >
-          <AntDesign size={12} name="plus" color={theme.colors.primary} />
+          <ThemedMaterialIcons
+            size={12}
+            name="add"
+            uniProps={(theme) => ({ color: theme.colors.primary })}
+          />
         </ThemedButton>
         {addLabel && (
           <ThemedText
             style={[
               commonStyles.marginTopMd,
               commonStyles.textCenter,
-              { marginLeft: overlap },
+              styles.addLabel(overlap),
             ]}
             fontSize="xs"
-            color="secondary"
+            color="primary"
           >
             {addLabel}
           </ThemedText>
@@ -121,5 +120,19 @@ const StackedAvatars: React.FC<StackedAvatarsProps> = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  addButton: (avatarSize: number, overlap: number) => ({
+    width: avatarSize,
+    height: avatarSize,
+    borderRadius: avatarSize / 2,
+    marginLeft: overlap,
+    padding: theme.padding.none,
+    backgroundColor: theme.colors.surface2,
+  }),
+  addLabel: (overlap: number) => ({
+    marginLeft: overlap,
+  }),
+}));
 
 export default StackedAvatars;

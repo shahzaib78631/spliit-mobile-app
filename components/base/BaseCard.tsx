@@ -1,5 +1,5 @@
 import { useThemeContext } from "@/context/ThemeContext";
-import { BorderRadius, Colors, ThemeColors } from "@/theme/types";
+import { BorderRadius, Colors } from "@/theme/types";
 import React from "react";
 import { View, ViewStyle } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
@@ -18,26 +18,14 @@ const BaseCard: React.FC<BaseCardProps> = ({
   color = "surface2",
   borderRadius = "lg",
 }: BaseCardProps) => {
-  // Get the theme
-  const { theme } = useThemeContext();
-
-  // Retrieve the borderRadius value from the theme or the prop
-  const cardBorderRadius = theme.borderRadius[borderRadius];
-
-  /**
-   * Retrieves theme color for status bar background
-   * @returns {string} Color value from theme
-   */
-  const getColor = (): string => {
-    const themeColors = theme.colors as Colors;
-    return themeColors[color] || themeColors.background;
-  };
+  const { commonStyles } = useThemeContext();
 
   return (
     <View
       style={[
         styles.cardContainer,
-        { borderRadius: cardBorderRadius, backgroundColor: getColor() },
+        commonStyles.borderRadius(borderRadius),
+        commonStyles.backgroundColor(color),
         style,
       ]}
     >

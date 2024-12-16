@@ -105,7 +105,7 @@ const GroupListCard: React.FC<GroupListCardProps> = ({
         <View style={styles.header}>
           <View style={[commonStyles.rowAlignCenter, commonStyles.gapXs]}>
             <AntDesign name="team" size={14} color={theme.colors.onSurface} />
-            <ThemedText style={[styles.subText]}>
+            <ThemedText style={styles.subText}>
               {getGroupParticipants()}
             </ThemedText>
           </View>
@@ -115,7 +115,7 @@ const GroupListCard: React.FC<GroupListCardProps> = ({
               size={14}
               color={theme.colors.onSurface}
             />
-            <ThemedText style={[styles.subText]}>{getGroupDate()}</ThemedText>
+            <ThemedText style={styles.subText}>{getGroupDate()}</ThemedText>
           </View>
         </View>
       </View>

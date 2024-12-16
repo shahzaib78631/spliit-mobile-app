@@ -4,15 +4,17 @@ import {
   TouchableOpacity,
   ViewProps,
   ScrollViewProps,
+  ViewStyle,
+  ScrollView,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import { Colors } from "@/theme/types";
+import { Colors, ThemeColors } from "@/theme/types";
 import ThemedText from "./ThemedText";
 import { useThemeContext } from "@/context/ThemeContext";
-import { StyleSheet } from "react-native-unistyles";
+import { StyleSheet, withUnistyles } from "react-native-unistyles";
 
 /**
  * Props interface for ThemedView component
@@ -26,6 +28,8 @@ interface ThemedViewProps extends ViewProps, ScrollViewProps {
   statusbarBackgroundColor?: keyof Colors;
   goBackEnabled?: boolean;
 }
+
+const ThemedKeyboardAwareScrollView = withUnistyles(KeyboardAwareScrollView);
 
 /**
  * Reusable themed view component with optional scrolling and header
@@ -48,38 +52,21 @@ const ThemedView: React.FC<ThemedViewProps> = ({
   const { top } = useSafeAreaInsets();
   const router = useRouter();
 
-  const Container = scrollable ? KeyboardAwareScrollView : View;
   const canGoBack = router?.canGoBack();
-
-  /**
-   * Retrieves theme color for status bar background
-   * @returns {string} Color value from theme
-   */
-  const getColor = (): string => {
-    const themeColors = theme.colors as Colors;
-    return themeColors[statusbarBackgroundColor] || themeColors.background;
-  };
 
   return (
     <View style={[commonStyles.flex1]}>
       {/* Status bar spacer */}
-      <View
-        style={[
-          { height: top, backgroundColor: getColor() },
-          commonStyles.paddingHorizontalLg,
-          statusBarHeaderStyle,
-        ]}
-      />
+      <View style={styles.statusBarStyle(statusbarBackgroundColor)} />
 
       {/* Header */}
       {title && (
         <View
           style={[
-            { backgroundColor: getColor() },
+            styles.header(statusbarBackgroundColor),
             commonStyles.rowJustifySpaceBetween,
             commonStyles.alignCenter,
             commonStyles.paddingLg,
-            styles.header,
           ]}
         >
           {canGoBack && goBackEnabled && (
@@ -108,24 +95,28 @@ const ThemedView: React.FC<ThemedViewProps> = ({
         </View>
       )}
 
-      {/* Main content */}
-      <Container
-        style={[
-          commonStyles.container,
-          !scrollable && commonStyles.paddingVerticalXl,
-          style,
-        ]}
-        {...props}
-        contentContainerStyle={[
-          commonStyles.gapXl,
-          commonStyles.paddingVerticalXl,
-          props.contentContainerStyle,
-        ]}
-        bottomOffset={20}
-        showsVerticalScrollIndicator={false}
-      >
-        {children}
-      </Container>
+      {scrollable && (
+        <ThemedKeyboardAwareScrollView
+          {...props}
+          style={commonStyles.container}
+          contentContainerStyle={commonStyles.gapMd}
+          bottomOffset={20}
+          showsVerticalScrollIndicator={false}
+        >
+          {children}
+        </ThemedKeyboardAwareScrollView>
+      )}
+      {!scrollable && (
+        <View
+          style={[
+            commonStyles.container,
+            commonStyles.paddingVerticalXl,
+            style,
+          ]}
+        >
+          {children}
+        </View>
+      )}
     </View>
   );
 };
@@ -136,11 +127,20 @@ const ThemedView: React.FC<ThemedViewProps> = ({
  * @param {Object} theme - The current application theme
  * @returns {Object} Styled object for themed view components
  */
-const styles = StyleSheet.create((theme) => ({
-  header: {
+const styles = StyleSheet.create((theme, rt) => ({
+  header: (color: keyof Colors) => ({
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.primaryOutline,
+    backgroundColor: theme.colors[color],
+  }),
+  statusBarStyle: (color: keyof Colors) => ({
+    backgroundColor: theme.colors[color],
+    height: rt.insets.top,
+    paddingHorizontal: theme.padding.lg,
+  }),
+  container: {
+    backgroundColor: theme.colors.background,
   },
 }));
 
-export default ThemedView;
+export default withUnistyles(ThemedView);

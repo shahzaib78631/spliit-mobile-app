@@ -2,15 +2,16 @@ import React from "react";
 import { ActivityIndicator, View } from "react-native";
 import ThemedView from "./ThemedView";
 import { useThemeContext } from "@/context/ThemeContext";
+import { withUnistyles } from "react-native-unistyles";
 
-const ThemedActivityIndicator = () => {
-  const { commonStyles, theme } = useThemeContext();
+interface ThemedActivityIndicatorProps {
+  color?: string;
+}
 
-  return (
-    <ThemedView style={[commonStyles.flex1, commonStyles.center]}>
-      <ActivityIndicator size={"small"} color={theme.colors.onBackground} />
-    </ThemedView>
-  );
+const ThemedActivityIndicator = ({ color }: ThemedActivityIndicatorProps) => {
+  return <ActivityIndicator size={"small"} color={color} />;
 };
 
-export default ThemedActivityIndicator;
+export default withUnistyles(ThemedActivityIndicator, (theme) => ({
+  color: theme.colors.onBackground,
+}));

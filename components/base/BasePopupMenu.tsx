@@ -7,12 +7,20 @@ import {
   MenuOptions,
   MenuOption,
   renderers,
+  MenuOptionsProps,
 } from "react-native-popup-menu";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { StyleSheet } from "react-native-unistyles";
+import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import { useThemeContext } from "@/context/ThemeContext";
 
 const { Popover } = renderers;
+
+// const ThemedMaterialCommunityIcons = withUnistyles(
+//   MaterialCommunityIcons,
+//   (theme) => ({
+//     color: theme.colors.onBackground,
+//   })
+// );
 
 /**
  * Base menu option type definition
@@ -29,6 +37,8 @@ export type BaseMenuOptions = Array<{
  */
 interface BasePopupMenuProps {
   menuOptions?: BaseMenuOptions;
+  triggerIconColor?: string;
+  menuOptionsCustomStyles?: MenuOptionsProps["customStyles"];
 }
 
 /**
@@ -40,25 +50,19 @@ interface BasePopupMenuProps {
  */
 const BasePopupMenu: React.FC<BasePopupMenuProps> = ({
   menuOptions = [],
+  triggerIconColor,
+  menuOptionsCustomStyles,
 }: BasePopupMenuProps): React.ReactElement => {
-  // Get the theme
-  const { theme } = useThemeContext();
-
   return (
     <Menu renderer={Popover} rendererProps={{ preferredPlacement: "bottom" }}>
       <MenuTrigger>
         <MaterialCommunityIcons
           name="dots-vertical"
           size={24}
-          color={theme.colors.onBackground}
+          color={triggerIconColor}
         />
       </MenuTrigger>
-      <MenuOptions
-        customStyles={{
-          optionText: styles.optionText,
-          optionsContainer: styles.optionsContainer,
-        }}
-      >
+      <MenuOptions customStyles={menuOptionsCustomStyles}>
         {menuOptions.map((option, index) =>
           option.render ? (
             <View key={option.value}>
@@ -98,15 +102,6 @@ const styles = StyleSheet.create((theme) => ({
     fontSize: 16,
     color: "green",
   },
-  optionText: {
-    fontSize: theme.fontSize.md,
-    fontFamily: theme.fontFamily.regular,
-  },
-  optionsContainer: {
-    padding: theme.spacing.md,
-    borderRadius: theme.borderRadius.lg,
-    backgroundColor: theme.colors.surfaceReader,
-  },
   divider: {
     marginVertical: 5,
     marginHorizontal: 2,
@@ -115,4 +110,13 @@ const styles = StyleSheet.create((theme) => ({
   },
 }));
 
-export default BasePopupMenu;
+export default withUnistyles(BasePopupMenu, (theme) => ({
+  triggerIconColor: theme.colors.onBackground,
+  menuOptionsCustomStyles: {
+    optionsContainer: {
+      padding: theme.spacing.md,
+      borderRadius: theme.borderRadius.lg,
+      backgroundColor: theme.colors.surfaceReader,
+    },
+  },
+}));

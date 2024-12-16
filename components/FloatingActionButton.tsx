@@ -164,6 +164,8 @@ export default function FloatingActionButton() {
     alignItems: "center",
   };
 
+  console.log("FloatingActionButton", theme.colors.name);
+
   return (
     <>
       <AnimatedPressable
@@ -192,7 +194,6 @@ export default function FloatingActionButton() {
             />
           </View>
         </View>
-        <AddGroupByUrlSheet reference={addGroupByUrlSheetRef} />
       </SafeAreaView>
     </>
   );

@@ -58,8 +58,8 @@ const RecientGroupCard: React.FC<RecientGroupCardProps> = ({
 
         <View style={styles.personsContainer}>
           <View style={styles.header}>
-            <ThemedText style={[styles.subText]}>Split with</ThemedText>
-            <ThemedText style={[styles.subText]}>
+            <ThemedText style={styles.subText}>Split with</ThemedText>
+            <ThemedText style={styles.subText}>
               {details?.participants?.length}{" "}
               {getString("groupform.participants.title")}
             </ThemedText>

@@ -55,7 +55,7 @@ export default function Home() {
 
   return (
     <>
-      <ThemedView scrollable contentContainerStyle={styles.container}>
+      <ThemedView scrollable>
         {/* Create split bill/group section */}
         <CreateSplitCard
           onAddUrlPress={() => openAddGroupByUrlSheet()}
@@ -106,7 +106,7 @@ export default function Home() {
           />
         </View>
 
-        <Button title="Hello" onPress={() => setTheme("defaultLight")} />
+        <Button title="Hello" onPress={() => setTheme("tealTurquoiseLight")} />
       </ThemedView>
     </>
   );
@@ -114,9 +114,6 @@ export default function Home() {
 
 /** Stylesheet for home screen layout */
 const styles = StyleSheet.create((theme) => ({
-  container: {
-    gap: theme.spacing.xl,
-  },
   section: {
     gap: theme.spacing.md,
   },

@@ -1,4 +1,5 @@
 import { useThemeContext } from "@/context/ThemeContext";
+import { commonStyles } from "@/theme/styles";
 import { Colors, FontSize } from "@/theme/types";
 import React from "react";
 import { Text, TextProps, TextStyle } from "react-native";
@@ -25,59 +26,16 @@ const ThemedText: React.FC<ThemedTextProps> = ({
   textAlign = "auto", // Default alignment
   ...otherProps
 }) => {
-  const { theme } = useThemeContext();
-
-  /**
-   * Determines the font family based on the "type" prop
-   * @returns Font family string
-   */
-  const getFontFamily = (): string => {
-    switch (type) {
-      case "medium":
-        return "e-Ukraine-Medium";
-      case "regular":
-        return "e-Ukraine-Regular";
-      case "light":
-        return "e-Ukraine-Light";
-      case "bold":
-        return "e-Ukraine-Bold";
-      case "thin":
-        return "e-Ukraine-Thin";
-      case "ultraLight":
-        return "e-Ukraine-ultraLight";
-      default:
-        return "e-Ukraine-Regular";
-    }
-  };
-
-  /**
-   * Retrieves the font size based on the `fontSize` prop
-   */
-  const getFontSize = (): number => {
-    const fontSizes: FontSize = theme.fontSize;
-    return fontSizes[fontSize] || fontSizes.md;
-  };
-
-  /**
-   * Retrieves the color based on the `color` prop
-   */
-  const getColor = (): string => {
-    const themeColors = theme.colors as Colors;
-    return themeColors[color] || themeColors.onSurface; // Default to `onSurface`
-  };
-
   return (
     <Text
+      {...otherProps}
       style={[
-        {
-          fontFamily: getFontFamily(),
-          fontSize: getFontSize(),
-          color: getColor(),
-          textAlign, // Apply textAlign prop here
-        },
+        commonStyles.fontFamily(type),
+        commonStyles.fontSize(fontSize),
+        commonStyles.color(color),
+        commonStyles.textAlign(textAlign),
         style,
       ]}
-      {...otherProps}
     >
       {children}
     </Text>

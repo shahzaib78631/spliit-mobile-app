@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useRef } from "react";
 import { View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
@@ -11,6 +10,7 @@ import { useAppContext } from "@/context/AppContext";
 import { getString } from "@/strings/translations";
 import { useThemeContext } from "@/context/ThemeContext";
 import { SheetManager } from "react-native-actions-sheet";
+import { ThemedMaterialCommunityIcons } from "./ui/ThemedIcons";
 
 interface PopupMenuProps {
   groupId: string;
@@ -19,8 +19,6 @@ interface PopupMenuProps {
 const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
   const { fetchGroups, archiveGroup, unarchiveGroup, isGroupArchived } =
     useAppContext();
-
-  const { theme } = useThemeContext();
 
   const router = useRouter();
 
@@ -35,10 +33,12 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
           <ThemedText type="regular" fontSize="md" color="onSurface">
             Edit
           </ThemedText>
-          <MaterialCommunityIcons
+          <ThemedMaterialCommunityIcons
             name="pencil-outline"
             size={20}
-            color={theme.colors.onSurface}
+            uniProps={(theme) => ({
+              color: theme.colors.onSurface,
+            })}
           />
         </View>
       ),
@@ -57,10 +57,12 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
           <ThemedText type="regular" fontSize="md" color="onSurface">
             Share
           </ThemedText>
-          <MaterialCommunityIcons
+          <ThemedMaterialCommunityIcons
             name="share-variant-outline"
             size={20}
-            color={theme.colors.onSurface}
+            uniProps={(theme) => ({
+              color: theme.colors.onSurface,
+            })}
           />
         </View>
       ),
@@ -83,10 +85,12 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
               ? getString("common.recent")
               : getString("common.archive")}
           </ThemedText>
-          <MaterialCommunityIcons
+          <ThemedMaterialCommunityIcons
             name="archive-outline"
             size={20}
-            color={theme.colors.onSurface}
+            uniProps={(theme) => ({
+              color: theme.colors.onSurface,
+            })}
           />
         </View>
       ),
@@ -101,10 +105,12 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
           <ThemedText type="regular" fontSize="md" color="danger">
             Delete
           </ThemedText>
-          <MaterialCommunityIcons
+          <ThemedMaterialCommunityIcons
             name="delete"
             size={20}
-            color={theme.colors.danger}
+            uniProps={(theme) => ({
+              color: theme.colors.danger,
+            })}
           />
         </View>
       ),

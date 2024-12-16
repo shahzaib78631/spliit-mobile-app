@@ -84,17 +84,7 @@ const Avatar: React.FC<AvatarProps> = ({
       ]}
     >
       {name && (
-        <ThemedText
-          type="light"
-          style={[
-            {
-              fontSize: size / 3,
-              color: Color(generateColorFromName(name)).isDark()
-                ? "white"
-                : "black",
-            },
-          ]}
-        >
+        <ThemedText type="light" style={styles.initials(size, name)}>
           {getInitials(name)}
         </ThemedText>
       )}
@@ -114,6 +104,10 @@ const styles = StyleSheet.create((theme) => ({
   placeholderAvatar: {
     backgroundColor: theme.colors.surface,
   },
+  initials: (size, name) => ({
+    fontSize: size / 3,
+    color: Color(generateColorFromName(name)).isDark() ? "white" : "black",
+  }),
 }));
 
 export default Avatar;

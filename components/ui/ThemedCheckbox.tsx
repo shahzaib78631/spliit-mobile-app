@@ -1,9 +1,10 @@
 import React from "react";
 import { View, ViewProps, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { StyleSheet } from "react-native-unistyles";
+import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import ThemedText from "./ThemedText";
 import { useThemeContext } from "@/context/ThemeContext";
+import { Colors } from "@/theme/types";
 
 // Define the props for the ThemedCheckbox component
 interface ThemedCheckboxProps extends ViewProps {
@@ -29,6 +30,8 @@ interface ThemedCheckboxProps extends ViewProps {
    * @default "left"
    */
   buttonPosition?: "left" | "right";
+
+  checkmarkColor?: string;
 }
 
 const ThemedCheckbox: React.FC<ThemedCheckboxProps> = ({
@@ -37,6 +40,7 @@ const ThemedCheckbox: React.FC<ThemedCheckboxProps> = ({
   onValueChange,
   buttonPosition = "left",
   style,
+  checkmarkColor,
   ...props
 }) => {
   // Get the theme from the context
@@ -63,7 +67,7 @@ const ThemedCheckbox: React.FC<ThemedCheckboxProps> = ({
           <MaterialCommunityIcons
             name="check"
             size={16}
-            color={theme.colors.onPrimary} // Checkmark color
+            color={checkmarkColor} // Checkmark color
           />
         )}
       </View>
@@ -76,7 +80,9 @@ const ThemedCheckbox: React.FC<ThemedCheckboxProps> = ({
   );
 };
 
-export default ThemedCheckbox;
+export default withUnistyles(ThemedCheckbox, (theme) => ({
+  checkmarkColor: theme.colors.onPrimary,
+}));
 
 const styles = StyleSheet.create((theme) => ({
   container: {

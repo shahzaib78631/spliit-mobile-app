@@ -60,6 +60,6 @@ StyleSheet.configure({
     yotsubaDark: createTheme(Themes.yotsubaTheme.dark),
   },
   settings: {
-    initialTheme: "yotsubaDark",
+    initialTheme: "defaultDark",
   },
 });

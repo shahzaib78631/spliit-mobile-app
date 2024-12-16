@@ -1,10 +1,25 @@
-import { Dimensions, I18nManager } from "react-native";
+import { Dimensions, I18nManager, TextStyle } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
+import { BorderRadius, Colors, FontFamily, FontSize, Spacing } from "../types";
 
 const { width, height } = Dimensions.get("window");
 
 // COMMON STYLESHEET
 export const commonStyles = StyleSheet.create((theme) => ({
+  // Background Color
+  backgroundColor: (color: keyof Colors) => ({
+    backgroundColor: theme.colors[color],
+  }),
+
+  // COLOR
+  color: (color: keyof Colors) => ({
+    color: theme.colors[color] || theme.colors.onPrimary,
+  }),
+
+  textAlign: (alignment: TextStyle["textAlign"]) => ({
+    textAlign: alignment,
+  }),
+
   // CONTAINER
   container: {
     paddingHorizontal: theme.padding.lg,
@@ -129,108 +144,34 @@ export const commonStyles = StyleSheet.create((theme) => ({
   textLeft: { textAlign: "left" },
 
   //** PADDINGS */
+  padding: (padding: keyof Spacing) => ({
+    padding: theme.spacing[padding],
+  }),
 
-  // Padding Horizontal
-  paddingHorizontal24: { paddingHorizontal: 24 },
-  paddingHorizontal20: { paddingHorizontal: 20 },
-  paddingHorizontal18: { paddingHorizontal: 18 },
-  paddingHorizontal16: { paddingHorizontal: 16 },
-  paddingHorizontal14: { paddingHorizontal: 14 },
-  paddingHorizontal12: { paddingHorizontal: 12 },
-  paddingHorizontal10: { paddingHorizontal: 10 },
-  paddingHorizontal8: { paddingHorizontal: 8 },
-  paddingHorizontal6: { paddingHorizontal: 6 },
-  paddingHorizontal4: { paddingHorizontal: 4 },
-  paddingHorizontal2: { paddingHorizontal: 2 },
-  paddingHorizontal1: { paddingHorizontal: 1 },
-  paddingHorizontal0: { paddingHorizontal: 0 },
+  paddingHorizontal: (padding: keyof Spacing) => ({
+    paddingHorizontal: theme.spacing[padding],
+  }),
 
-  // Padding Vertical
-  paddingVertical24: { paddingVertical: 24 },
-  paddingVertical20: { paddingVertical: 20 },
-  paddingVertical18: { paddingVertical: 18 },
-  paddingVertical16: { paddingVertical: 16 },
-  paddingVertical14: { paddingVertical: 14 },
-  paddingVertical12: { paddingVertical: 12 },
-  paddingVertical10: { paddingVertical: 10 },
-  paddingVertical8: { paddingVertical: 8 },
-  paddingVertical6: { paddingVertical: 6 },
-  paddingVertical4: { paddingVertical: 4 },
-  paddingVertical2: { paddingVertical: 2 },
-  paddingVertical1: { paddingVertical: 1 },
-  paddingVertical0: { paddingVertical: 0 },
+  paddingVertical: (padding: keyof Spacing) => ({
+    paddingVertical: theme.spacing[padding],
+  }),
 
-  // Padding Top
-  paddingTop24: { paddingTop: 24 },
-  paddingTop20: { paddingTop: 20 },
-  paddingTop18: { paddingTop: 18 },
-  paddingTop16: { paddingTop: 16 },
-  paddingTop14: { paddingTop: 14 },
-  paddingTop12: { paddingTop: 12 },
-  paddingTop10: { paddingTop: 10 },
-  paddingTop8: { paddingTop: 8 },
-  paddingTop6: { paddingTop: 6 },
-  paddingTop4: { paddingTop: 4 },
-  paddingTop2: { paddingTop: 2 },
-  paddingTop0: { paddingTop: 0 },
+  paddingTop: (padding: keyof Spacing) => ({
+    paddingTop: theme.spacing[padding],
+  }),
 
-  // Padding Bottom
-  paddingBottom26: { paddingBottom: 26 },
-  paddingBottom24: { paddingBottom: 24 },
-  paddingBottom20: { paddingBottom: 20 },
-  paddingBottom18: { paddingBottom: 18 },
-  paddingBottom16: { paddingBottom: 16 },
-  paddingBottom14: { paddingBottom: 14 },
-  paddingBottom12: { paddingBottom: 12 },
-  paddingBottom10: { paddingBottom: 10 },
-  paddingBottom8: { paddingBottom: 8 },
-  paddingBottom6: { paddingBottom: 6 },
-  paddingBottom4: { paddingBottom: 4 },
-  paddingBottom2: { paddingBottom: 2 },
+  paddingBottom: (padding: keyof Spacing) => ({
+    paddingBottom: theme.spacing[padding],
+  }),
 
-  // Padding Left
-  paddingLeft24: { paddingLeft: 24 },
-  paddingLeft20: { paddingLeft: 20 },
-  paddingLeft18: { paddingLeft: 18 },
-  paddingLeft16: { paddingLeft: 16 },
-  paddingLeft14: { paddingLeft: 14 },
-  paddingLeft12: { paddingLeft: 12 },
-  paddingLeft10: { paddingLeft: 10 },
-  paddingLeft8: { paddingLeft: 8 },
-  paddingLeft6: { paddingLeft: 6 },
-  paddingLeft4: { paddingLeft: 4 },
-  paddingLeft2: { paddingLeft: 2 },
-  paddingLeft0: { paddingLeft: 0 },
+  paddingLeft: (padding: keyof Spacing) => ({
+    paddingLeft: theme.spacing[padding],
+  }),
 
-  // Padding Right
-  paddingRight24: { paddingRight: 24 },
-  paddingRight20: { paddingRight: 20 },
-  paddingRight18: { paddingRight: 18 },
-  paddingRight16: { paddingRight: 16 },
-  paddingRight14: { paddingRight: 14 },
-  paddingRight12: { paddingRight: 12 },
-  paddingRight10: { paddingRight: 10 },
-  paddingRight8: { paddingRight: 8 },
-  paddingRight6: { paddingRight: 6 },
-  paddingRight4: { paddingRight: 4 },
-  paddingRight2: { paddingRight: 2 },
-  paddingRight0: { paddingRight: 0 },
+  paddingRight: (padding: keyof Spacing) => ({
+    paddingRight: theme.spacing[padding],
+  }),
 
-  // Padding
-  padding24: { padding: 24 },
-  padding20: { padding: 20 },
-  padding18: { padding: 18 },
-  padding16: { padding: 16 },
-  padding14: { padding: 14 },
-  padding12: { padding: 12 },
-  padding10: { padding: 10 },
-  padding8: { padding: 8 },
-  padding6: { padding: 6 },
-  padding4: { padding: 4 },
-  padding2: { padding: 2 },
-  padding1: { padding: 1 },
-  padding0: { padding: 0 },
-  // Themed Padding
   paddingXxl: {
     padding: theme.padding.xxl,
   },
@@ -392,117 +333,35 @@ export const commonStyles = StyleSheet.create((theme) => ({
   },
 
   //** MARGINS */
-  // Margin Horizontal
-  marginHorizontal24: { marginHorizontal: 24 },
-  marginHorizontal22: { marginHorizontal: 22 },
-  marginHorizontal20: { marginHorizontal: 20 },
-  marginHorizontal18: { marginHorizontal: 18 },
-  marginHorizontal16: { marginHorizontal: 16 },
-  marginHorizontal14: { marginHorizontal: 14 },
-  marginHorizontal12: { marginHorizontal: 12 },
-  marginHorizontal10: { marginHorizontal: 10 },
-  marginHorizontal8: { marginHorizontal: 8 },
-  marginHorizontal6: { marginHorizontal: 6 },
-  marginHorizontal4: { marginHorizontal: 4 },
-  marginHorizontal2: { marginHorizontal: 2 },
-  marginHorizontal0: { marginHorizontal: 0 },
 
-  // Margin Vertical
-  marginVertical24: { marginVertical: 24 },
-  marginVertical22: { marginVertical: 22 },
-  marginVertical20: { marginVertical: 20 },
-  marginVertical18: { marginVertical: 18 },
-  marginVertical16: { marginVertical: 16 },
-  marginVertical14: { marginVertical: 14 },
-  marginVertical12: { marginVertical: 12 },
-  marginVertical10: { marginVertical: 10 },
-  marginVertical8: { marginVertical: 8 },
-  marginVertical6: { marginVertical: 6 },
-  marginVertical4: { marginVertical: 4 },
-  marginVertical2: { marginVertical: 2 },
-  marginVertical0: { marginVertical: 0 },
+  margin: (margin: keyof Spacing) => ({
+    margin: theme.spacing[margin],
+  }),
 
-  // Margin Top
-  marginTopAuto: { marginTop: "auto" },
-  marginTop32: { marginTop: 32 },
-  marginTop30: { marginTop: 30 },
-  marginTop28: { marginTop: 28 },
-  marginTop26: { marginTop: 26 },
-  marginTop24: { marginTop: 24 },
-  marginTop22: { marginTop: 22 },
-  marginTop20: { marginTop: 20 },
-  marginTop18: { marginTop: 18 },
-  marginTop16: { marginTop: 16 },
-  marginTop14: { marginTop: 14 },
-  marginTop12: { marginTop: 12 },
-  marginTop10: { marginTop: 10 },
-  marginTop8: { marginTop: 8 },
-  marginTop6: { marginTop: 6 },
-  marginTop4: { marginTop: 4 },
-  marginTop2: { marginTop: 2 },
-  marginTop0: { marginTop: 0 },
+  marginHorizontal: (margin: keyof Spacing) => ({
+    marginHorizontal: theme.spacing[margin],
+  }),
 
-  // Margin Bottom
-  marginBottom24: { marginBottom: 24 },
-  marginBottom22: { marginBottom: 22 },
-  marginBottom20: { marginBottom: 20 },
-  marginBottom18: { marginBottom: 18 },
-  marginBottom16: { marginBottom: 16 },
-  marginBottom14: { marginBottom: 14 },
-  marginBottom12: { marginBottom: 12 },
-  marginBottom10: { marginBottom: 10 },
-  marginBottom8: { marginBottom: 8 },
-  marginBottom6: { marginBottom: 6 },
-  marginBottom4: { marginBottom: 4 },
-  marginBottom2: { marginBottom: 2 },
-  marginBottom0: { marginBottom: 0 },
+  marginVertical: (margin: keyof Spacing) => ({
+    marginVertical: theme.spacing[margin],
+  }),
 
-  // Margin Left
-  marginLeftAuto: { marginLeft: "auto" },
-  marginLeft24: { marginLeft: 24 },
-  marginLeft22: { marginLeft: 22 },
-  marginLeft20: { marginLeft: 20 },
-  marginLeft18: { marginLeft: 18 },
-  marginLeft16: { marginLeft: 16 },
-  marginLeft14: { marginLeft: 14 },
-  marginLeft12: { marginLeft: 12 },
-  marginLeft10: { marginLeft: 10 },
-  marginLeft8: { marginLeft: 8 },
-  marginLeft6: { marginLeft: 6 },
-  marginLeft4: { marginLeft: 4 },
-  marginLeft2: { marginLeft: 2 },
-  marginLeft0: { marginLeft: 0 },
+  marginTop: (margin: keyof Spacing) => ({
+    marginTop: theme.spacing[margin],
+  }),
 
-  // Margin Right
-  marginRightAuto: { marginRight: "auto" },
-  marginRight24: { marginRight: 24 },
-  marginRight22: { marginRight: 22 },
-  marginRight20: { marginRight: 20 },
-  marginRight18: { marginRight: 18 },
-  marginRight16: { marginRight: 16 },
-  marginRight14: { marginRight: 14 },
-  marginRight12: { marginRight: 12 },
-  marginRight10: { marginRight: 10 },
-  marginRight8: { marginRight: 8 },
-  marginRight6: { marginRight: 6 },
-  marginRight4: { marginRight: 4 },
-  marginRight2: { marginRight: 2 },
-  marginRight0: { marginRight: 0 },
+  marginBottom: (margin: keyof Spacing) => ({
+    marginBottom: theme.spacing[margin],
+  }),
 
-  // Margin
-  margin24: { margin: 24 },
-  margin22: { margin: 22 },
-  margin20: { margin: 20 },
-  margin18: { margin: 18 },
-  margin16: { margin: 16 },
-  margin14: { margin: 14 },
-  margin12: { margin: 12 },
-  margin10: { margin: 10 },
-  margin8: { margin: 8 },
-  margin6: { margin: 6 },
-  margin4: { margin: 4 },
-  margin2: { margin: 2 },
-  margin0: { margin: 0 },
+  marginLeft: (margin: keyof Spacing) => ({
+    marginLeft: theme.spacing[margin],
+  }),
+
+  marginRight: (margin: keyof Spacing) => ({
+    marginRight: theme.spacing[margin],
+  }),
+
   // Themed Margin
   marginXxl: {
     margin: theme.margin.xxl,
@@ -643,20 +502,40 @@ export const commonStyles = StyleSheet.create((theme) => ({
     marginVertical: theme.margin.xs,
   },
 
-  // BORDER RADIUS
-  borderRadius24: { borderRadius: 24 },
-  borderRadius22: { borderRadius: 22 },
-  borderRadius20: { borderRadius: 20 },
-  borderRadius18: { borderRadius: 18 },
-  borderRadius16: { borderRadius: 16 },
-  borderRadius14: { borderRadius: 14 },
-  borderRadius12: { borderRadius: 12 },
-  borderRadius10: { borderRadius: 10 },
-  borderRadius8: { borderRadius: 8 },
-  borderRadius6: { borderRadius: 6 },
-  borderRadius4: { borderRadius: 4 },
-  borderRadius2: { borderRadius: 2 },
-  borderRadius0: { borderRadius: 0 },
+  borderRadius: (radius: keyof BorderRadius) => ({
+    borderRadius: theme.borderRadius[radius],
+  }),
+
+  borderRadiusTopLeft: (radius: keyof BorderRadius) => ({
+    borderTopLeftRadius: theme.borderRadius[radius],
+  }),
+
+  borderRadiusTopRight: (radius: keyof BorderRadius) => ({
+    borderTopRightRadius: theme.borderRadius[radius],
+  }),
+
+  borderRadiusBottomLeft: (radius: keyof BorderRadius) => ({
+    borderBottomLeftRadius: theme.borderRadius[radius],
+  }),
+
+  borderRadiusBottomRight: (radius: keyof BorderRadius) => ({
+    borderBottomRightRadius: theme.borderRadius[radius],
+  }),
+
+  borderRadiusHorizontal: (radius: keyof BorderRadius) => ({
+    borderTopLeftRadius: theme.borderRadius[radius],
+    borderTopRightRadius: theme.borderRadius[radius],
+    borderBottomLeftRadius: theme.borderRadius[radius],
+    borderBottomRightRadius: theme.borderRadius[radius],
+  }),
+
+  borderRadiusVertical: (radius: keyof BorderRadius) => ({
+    borderTopLeftRadius: theme.borderRadius[radius],
+    borderTopRightRadius: theme.borderRadius[radius],
+    borderBottomLeftRadius: theme.borderRadius[radius],
+    borderBottomRightRadius: theme.borderRadius[radius],
+  }),
+
   // Themed Border Radius
   borderRadiusXxl: {
     borderRadius: theme.borderRadius.xxl,
@@ -857,6 +736,31 @@ export const commonStyles = StyleSheet.create((theme) => ({
   borderDanger: { borderColor: theme.colors.error, borderWidth: 1 },
   borderPrimary: { borderColor: theme.colors.primaryOutline, borderWidth: 1 },
 
+  border: (width: number, color: keyof Colors) => ({
+    borderWidth: width,
+    borderColor: theme.colors[color],
+  }),
+
+  borderTop: (width: number, color: keyof Colors) => ({
+    borderTopWidth: width,
+    borderTopColor: theme.colors[color],
+  }),
+
+  borderBottom: (width: number, color: keyof Colors) => ({
+    borderBottomWidth: width,
+    borderBottomColor: theme.colors[color],
+  }),
+
+  borderLeft: (width: number, color: keyof Colors) => ({
+    borderLeftWidth: width,
+    borderLeftColor: theme.colors[color],
+  }),
+
+  borderRight: (width: number, color: keyof Colors) => ({
+    borderRightWidth: width,
+    borderRightColor: theme.colors[color],
+  }),
+
   borderLeft1: {
     borderLeftWidth: 1,
     borderColor: theme.colors.outline,
@@ -881,6 +785,19 @@ export const commonStyles = StyleSheet.create((theme) => ({
     borderRightWidth: 1,
     borderColor: theme.colors.outline,
   },
+
+  gap: (gap: keyof Spacing) => ({
+    gap: theme.spacing[gap],
+  }),
+
+  gapVertical: (gap: keyof Spacing) => ({
+    rowGap: theme.spacing[gap],
+  }),
+
+  gapHorizontal: (gap: keyof Spacing) => ({
+    columnGap: theme.spacing[gap],
+  }),
+
   // Themed Gap
   gapXxl: {
     gap: theme.spacing.xxl,
@@ -945,138 +862,9 @@ export const commonStyles = StyleSheet.create((theme) => ({
     height: 32,
   },
 
-  fontSize1: {
-    fontSize: 1,
-  },
-  fontSize2: {
-    fontSize: 2,
-  },
-  fontSize3: {
-    fontSize: 3,
-  },
-  fontSize4: {
-    fontSize: 4,
-  },
-  fontSize5: {
-    fontSize: 5,
-  },
-  fontSize6: {
-    fontSize: 6,
-  },
-  fontSize7: {
-    fontSize: 7,
-  },
-  fontSize8: {
-    fontSize: 8,
-  },
-  fontSize9: {
-    fontSize: 9,
-  },
-  fontSize10: {
-    fontSize: 10,
-  },
-  fontSize11: {
-    fontSize: 11,
-  },
-  fontSize12: {
-    fontSize: 12,
-  },
-  fontSize13: {
-    fontSize: 13,
-  },
-  fontSize14: {
-    fontSize: 14,
-  },
-  fontSize15: {
-    fontSize: 15,
-  },
-  fontSize16: {
-    fontSize: 16,
-  },
-  fontSize17: {
-    fontSize: 17,
-  },
-  fontSize18: {
-    fontSize: 18,
-  },
-  fontSize19: {
-    fontSize: 19,
-  },
-  fontSize20: {
-    fontSize: 20,
-  },
-  fontSize21: {
-    fontSize: 21,
-  },
-  fontSize22: {
-    fontSize: 22,
-  },
-  fontSize23: {
-    fontSize: 23,
-  },
-  fontSize24: {
-    fontSize: 24,
-  },
-  fontSize25: {
-    fontSize: 25,
-  },
-  fontSize26: {
-    fontSize: 26,
-  },
-  fontSize27: {
-    fontSize: 27,
-  },
-  fontSize28: {
-    fontSize: 28,
-  },
-  fontSize29: {
-    fontSize: 29,
-  },
-  fontSize30: {
-    fontSize: 30,
-  },
-  fontSize31: {
-    fontSize: 31,
-  },
-  fontSize32: {
-    fontSize: 32,
-  },
-  fontSize33: {
-    fontSize: 33,
-  },
-  fontSize34: {
-    fontSize: 34,
-  },
-  fontSize35: {
-    fontSize: 35,
-  },
-  fontSize36: {
-    fontSize: 36,
-  },
-  fontSize37: {
-    fontSize: 37,
-  },
-  fontSize38: {
-    fontSize: 38,
-  },
-  fontSize39: {
-    fontSize: 39,
-  },
-  fontSize40: {
-    fontSize: 40,
-  },
-  fontSize41: {
-    fontSize: 41,
-  },
-  fontSize42: {
-    fontSize: 42,
-  },
-  fontSize43: {
-    fontSize: 43,
-  },
-  fontSize44: {
-    fontSize: 44,
-  },
+  fontSize: (size: keyof FontSize) => ({
+    fontSize: theme.fontSize[size],
+  }),
 
   // Themed Font Size
   fontSizeXxl: {
@@ -1111,6 +899,10 @@ export const commonStyles = StyleSheet.create((theme) => ({
     fontSize: theme.fontSize.lg,
     fontFamily: theme.fontFamily.bold,
   },
+
+  fontFamily: (weight: keyof FontFamily) => ({
+    fontFamily: theme.fontFamily[weight],
+  }),
 
   fontRegular: {
     fontFamily: theme.fontFamily.regular,

@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import ThemedText from "./ThemedText";
 import { useThemeContext } from "@/context/ThemeContext";
+import { StyleSheet } from "react-native-unistyles";
+import ThemedActivityIndicator from "./ThemedActivityIndicator";
 
 interface ThemedButtonProps extends TouchableOpacityProps {
   /** The text to display on the button */
@@ -23,6 +25,8 @@ interface ThemedButtonProps extends TouchableOpacityProps {
   fontSize?: keyof FontSize;
   /** Whether the button is in a loading state */
   loading?: boolean;
+  /** Color for the loading indicator */
+  indicatorColor?: string;
 }
 
 const ThemedButton: React.FC<ThemedButtonProps> = ({
@@ -32,64 +36,36 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
   borderRadius = "md",
   fontSize = "md",
   loading = false, // Default loading is false
+  indicatorColor,
   ...props
 }) => {
-  const { commonStyles, theme } = useThemeContext();
+  const { commonStyles } = useThemeContext();
 
-  // Get dynamic styles based on the variant
-  const getVariantStyles = (): ViewStyle => {
-    switch (variant) {
-      case "primary":
-        return { backgroundColor: theme.colors.primary };
-      case "secondary":
-        return { backgroundColor: theme.colors.secondary };
-      case "outline":
-        return {
-          backgroundColor: "transparent",
-          borderWidth: 1,
-          borderColor: theme.colors.primary,
-        };
-      case "text":
-        return { backgroundColor: "transparent" };
-      case "dashed-outline":
-        return {
-          backgroundColor: "transparent",
-          borderWidth: 1,
-          borderColor: theme.colors.primary,
-          borderStyle: "dashed",
-        };
-      default:
-        return { backgroundColor: theme.colors.primary };
-    }
-  };
+  styles.useVariants({
+    type: variant,
+  });
 
   return (
     <TouchableOpacity
       style={[
+        styles.container,
+        commonStyles.borderRadius(borderRadius),
         commonStyles.paddingMd,
         commonStyles.center,
-        getVariantStyles(),
-        { borderRadius: theme.borderRadius[borderRadius] },
         buttonStyle,
       ]}
       disabled={loading} // Disable the button when loading is true
       {...props}
     >
       {loading ? (
-        <ActivityIndicator color={theme.colors.onPrimary} />
+        <ThemedActivityIndicator
+          uniProps={(theme) => ({
+            color: indicatorColor || theme.colors.onPrimary,
+          })}
+        />
       ) : (
         title && (
-          <ThemedText
-            type="bold"
-            style={[
-              { fontSize: theme.fontSize[fontSize] },
-              variant === "text" ||
-              variant === "outline" ||
-              variant === "dashed-outline"
-                ? { color: theme.colors.primary }
-                : { color: theme.colors.onPrimary },
-            ]}
-          >
+          <ThemedText type={"bold"} fontSize={fontSize} style={styles.title}>
             {title}
           </ThemedText>
         )
@@ -98,5 +74,45 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  borderRadius: (radius: keyof BorderRadius) => ({
+    borderRadius: theme.borderRadius[radius],
+  }),
+  container: {
+    variants: {
+      type: {
+        primary: { backgroundColor: theme.colors.primary },
+        secondary: { backgroundColor: theme.colors.secondary },
+        outline: {
+          backgroundColor: "transparent",
+          borderWidth: 1,
+          borderColor: theme.colors.primary,
+        },
+        text: { backgroundColor: "transparent" },
+        "dashed-outline": {
+          backgroundColor: "transparent",
+          borderWidth: 1,
+          borderColor: theme.colors.primary,
+          borderStyle: "dashed",
+        },
+      },
+    },
+  },
+  title: {
+    variants: {
+      type: {
+        primary: { color: theme.colors.onPrimary },
+        secondary: { color: theme.colors.onSecondary },
+        text: { color: theme.colors.primary },
+        outline: { color: theme.colors.primary },
+        "dashed-outline": { color: theme.colors.primary },
+      },
+    },
+  },
+  activityIndicator: {
+    color: theme.colors.onPrimary,
+  },
+}));
 
 export default ThemedButton;

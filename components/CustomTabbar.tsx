@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { View, TouchableOpacity, Dimensions } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import ThemedText from "./ui/ThemedText";
 import Animated, {
@@ -10,25 +8,28 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { getString } from "@/strings/translations";
-import { StyleSheet } from "react-native-unistyles";
-import { useThemeContext } from "@/context/ThemeContext";
+import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import { UnistylesTheme } from "react-native-unistyles/lib/typescript/src/types";
+import { ThemedMaterialIcons } from "./ui/ThemedIcons";
+
+const ThemedAnimatedView = withUnistyles(Animated.View);
+
+interface CustomTabBarProps extends BottomTabBarProps {
+  theme: UnistylesTheme;
+}
 
 /**
  * Custom bottom tab bar component for navigation
  *
  * @component
- * @param {BottomTabBarProps} props - Navigation state and methods
+ * @param {CustomTabBarProps} props - Navigation state and methods
  * @returns {React.ReactElement} Customized bottom tab bar
  */
-const CustomTabBar: React.FC<BottomTabBarProps> = ({
+const CustomTabBar: React.FC<CustomTabBarProps> = ({
+  theme,
   state,
   navigation,
-}: BottomTabBarProps): React.ReactElement => {
-  const { theme } = useThemeContext();
-
-  const { bottom } = useSafeAreaInsets();
-
+}: CustomTabBarProps): React.ReactElement => {
   // Shared value for underline position
   const translateX = useSharedValue(0);
 
@@ -47,30 +48,33 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
     transform: [{ translateX: translateX.value }],
     width: TAB_WIDTH,
     height: 2,
+    top: 0,
+    position: "absolute",
     backgroundColor: theme.colors.primary,
   }));
 
   return (
-    <View style={[styles.tabBar, styles.paddingBottom(bottom + 5)]}>
-      <Animated.View style={[animatedStyle, styles.underline]} />
+    <View style={[styles.tabBar]}>
+      <ThemedAnimatedView style={animatedStyle} />
       {state.routes
         .filter((route) => allowedRoutes.includes(route.name))
         .map((route, index) => {
           const isFocused = state.index === index;
           const iconSize = 24;
 
-          const activeColor = theme.colors.primary;
-          const inactiveColor = theme.colors.outline;
-
           const renderRouteContent = () => {
             switch (route.name) {
               case "index":
                 return (
                   <>
-                    <MaterialIcons
+                    <ThemedMaterialIcons
                       name="home"
                       size={iconSize}
-                      color={isFocused ? activeColor : inactiveColor}
+                      uniProps={(theme) => ({
+                        color: isFocused
+                          ? theme.colors.primary
+                          : theme.colors.outline,
+                      })}
                     />
                     <ThemedText
                       color={isFocused ? "primary" : "outline"}
@@ -83,10 +87,14 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
               case "history":
                 return (
                   <>
-                    <MaterialIcons
+                    <ThemedMaterialIcons
                       name="history"
                       size={iconSize}
-                      color={isFocused ? activeColor : inactiveColor}
+                      uniProps={(theme) => ({
+                        color: isFocused
+                          ? theme.colors.primary
+                          : theme.colors.outline,
+                      })}
                     />
                     <ThemedText
                       color={isFocused ? "primary" : "outline"}
@@ -99,10 +107,14 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
               case "(groups)":
                 return (
                   <>
-                    <MaterialIcons
+                    <ThemedMaterialIcons
                       name="group"
                       size={iconSize}
-                      color={isFocused ? activeColor : inactiveColor}
+                      uniProps={(theme) => ({
+                        color: isFocused
+                          ? theme.colors.primary
+                          : theme.colors.outline,
+                      })}
                     />
                     <ThemedText
                       color={isFocused ? "primary" : "outline"}
@@ -115,10 +127,14 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
               case "settings":
                 return (
                   <>
-                    <MaterialIcons
+                    <ThemedMaterialIcons
                       name="settings"
                       size={iconSize - 4}
-                      color={isFocused ? activeColor : inactiveColor}
+                      uniProps={(theme) => ({
+                        color: isFocused
+                          ? theme.colors.primary
+                          : theme.colors.outline,
+                      })}
                     />
                     <ThemedText
                       color={isFocused ? "primary" : "outline"}
@@ -147,7 +163,9 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
   );
 };
 
-export default CustomTabBar;
+export default withUnistyles(CustomTabBar, (theme) => ({
+  theme: theme as UnistylesTheme,
+}));
 
 /**
  * Stylesheet for CustomTabBar using theme-based styling
@@ -155,7 +173,7 @@ export default CustomTabBar;
  * @param {Object} theme - The current application theme
  * @returns {Object} Styled object for tab bar components
  */
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, rt) => ({
   tabBar: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -165,6 +183,7 @@ const styles = StyleSheet.create((theme) => ({
     position: "relative",
     backgroundColor: theme.colors.surface2,
     paddingTop: theme.padding.lg,
+    paddingBottom: rt.insets.bottom + 5,
   },
   tabButton: {
     alignItems: "center",
@@ -179,8 +198,9 @@ const styles = StyleSheet.create((theme) => ({
     gap: theme.spacing.xs,
   },
   underline: {
-    position: "absolute",
     top: 0,
+    position: "absolute",
+    backgroundColor: theme.colors.primary,
   },
   createGroupBtn: {
     backgroundColor: theme.colors.primary,
@@ -190,7 +210,4 @@ const styles = StyleSheet.create((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
-  paddingBottom: (padding: number) => ({
-    paddingBottom: padding,
-  }),
 }));

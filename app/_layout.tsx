@@ -23,6 +23,9 @@ import { GroupProvider } from "@/context/AppContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { SheetProvider } from "react-native-actions-sheet";
+import { withUnistyles } from "react-native-unistyles";
+
+const ThemedMenuProvider = withUnistyles(MenuProvider);
 
 /**
  * Root application component
@@ -83,7 +86,7 @@ const App: React.FC = () => {
           <KeyboardProvider>
             <ThemeProvider>
               <GroupProvider>
-                <MenuProvider>
+                <ThemedMenuProvider>
                   <SheetProvider>
                     <Stack
                       screenOptions={{
@@ -96,7 +99,7 @@ const App: React.FC = () => {
                       <Stack.Screen name="create" />
                     </Stack>
                   </SheetProvider>
-                </MenuProvider>
+                </ThemedMenuProvider>
               </GroupProvider>
             </ThemeProvider>
           </KeyboardProvider>
