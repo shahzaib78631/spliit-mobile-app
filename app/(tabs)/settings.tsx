@@ -1,20 +1,31 @@
-import { Text, View } from "react-native";
+import { TouchableOpacity } from "react-native";
 import React, { useMemo } from "react";
-import ThemedView from "@/components/ui/ThemedView";
-import { getString } from "@/strings/translations";
-import ThemedList from "@/components/ui/ThemedList";
+
+// Router
+import { router } from "expo-router";
+
+// Context
 import { useThemeContext } from "@/context/ThemeContext";
-import ThemedText from "@/components/ui/ThemedText";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+
+// Translation
+import { getString } from "@/strings/translations";
+
+// Icon
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+// Components
+import { ThemedView, ThemedList, ThemedText } from "@/components/ui";
+import { ThemedMaterialCommunityIcons } from "@/components/ui/ThemedIcons";
 
 type SettingItem = {
   id: number;
   label: string;
   icon: keyof typeof MaterialCommunityIcons.glyphMap;
+  navigate: () => void;
 };
 
 export default function Profile() {
-  const { commonStyles, theme } = useThemeContext();
+  const { commonStyles } = useThemeContext();
 
   const list: SettingItem[] = useMemo(
     () => [
@@ -22,6 +33,7 @@ export default function Profile() {
         id: 1,
         label: getString("settings.appearance"),
         icon: "palette-outline",
+        navigate: () => router.push("/settings/appearance"),
       },
     ],
     []
@@ -31,20 +43,25 @@ export default function Profile() {
     <ThemedView
       title={getString("settings.title")}
       statusbarBackgroundColor="surface2"
+      goBackEnabled={false}
     >
       <ThemedList
         data={list}
         renderItem={({ item }: { item: SettingItem }) => (
-          <View style={[commonStyles.rowAlignCenter, commonStyles.gapLg]}>
-            <MaterialCommunityIcons
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={item.navigate}
+            style={[commonStyles.rowAlignCenter, commonStyles.gapLg]}
+          >
+            <ThemedMaterialCommunityIcons
               name={item.icon}
               size={24}
-              color={theme.colors.primary}
+              color="primary"
             />
             <ThemedText fontSize="lg" color="onBackground">
               {item.label}
             </ThemedText>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </ThemedView>

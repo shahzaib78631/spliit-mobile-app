@@ -1,13 +1,13 @@
 import { StyleSheet } from "react-native-unistyles";
-import Themes from "./md3";
-import { Theme, ThemeColors } from "./types";
-import { baseTheme } from "./baseTheme";
+import Themes from "@/theme/md3";
+import { Theme, ThemeColors } from "@/theme/types";
+import { baseTheme } from "@/theme/baseTheme";
 import { getColorWithAlpha, getElevationColor } from "@/utils/colors";
 
 // Define app themes type
 type AppThemes = Record<
-  | "defaultLight"
-  | "defaultDark"
+  | "light"
+  | "dark"
   | "tabbieLight"
   | "tabbieDark"
   | "strawberryDaiquiriLight"
@@ -46,8 +46,8 @@ const createTheme = (lightOrDarkColors: ThemeColors): Theme => ({
 // Configure StyleSheet with themes and settings
 StyleSheet.configure({
   themes: {
-    defaultLight: createTheme(Themes.defaultTheme.light),
-    defaultDark: createTheme(Themes.defaultTheme.dark),
+    light: createTheme(Themes.defaultTheme.light),
+    dark: createTheme(Themes.defaultTheme.dark),
     tabbieLight: createTheme(Themes.tabbieTheme.light),
     tabbieDark: createTheme(Themes.tabbieTheme.dark),
     strawberryDaiquiriLight: createTheme(Themes.strawberryDaiquiriTheme.light),
@@ -60,6 +60,6 @@ StyleSheet.configure({
     yotsubaDark: createTheme(Themes.yotsubaTheme.dark),
   },
   settings: {
-    initialTheme: "defaultDark",
+    initialTheme: "dark",
   },
 });

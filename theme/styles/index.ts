@@ -1,19 +1,27 @@
 import { Dimensions, I18nManager, TextStyle } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
-import { BorderRadius, Colors, FontFamily, FontSize, Spacing } from "../types";
+import {
+  BorderRadius,
+  Colors,
+  FontFamily,
+  FontSize,
+  Margins,
+  Paddings,
+  Spacing,
+} from "../types";
 
 const { width, height } = Dimensions.get("window");
 
 // COMMON STYLESHEET
 export const commonStyles = StyleSheet.create((theme) => ({
   // Background Color
-  backgroundColor: (color: keyof Colors) => ({
-    backgroundColor: theme.colors[color],
+  backgroundColor: (color: keyof Colors | (string & {})) => ({
+    backgroundColor: theme.colors[color as keyof Colors] ?? color,
   }),
 
   // COLOR
-  color: (color: keyof Colors) => ({
-    color: theme.colors[color] || theme.colors.onPrimary,
+  color: (color: keyof Colors | (string & {})) => ({
+    color: theme.colors[color as keyof Colors] ?? color,
   }),
 
   textAlign: (alignment: TextStyle["textAlign"]) => ({
@@ -144,32 +152,32 @@ export const commonStyles = StyleSheet.create((theme) => ({
   textLeft: { textAlign: "left" },
 
   //** PADDINGS */
-  padding: (padding: keyof Spacing) => ({
-    padding: theme.spacing[padding],
+  padding: (padding: keyof Paddings) => ({
+    padding: theme.padding[padding],
   }),
 
-  paddingHorizontal: (padding: keyof Spacing) => ({
-    paddingHorizontal: theme.spacing[padding],
+  paddingHorizontal: (padding: keyof Paddings) => ({
+    paddingHorizontal: theme.padding[padding],
   }),
 
-  paddingVertical: (padding: keyof Spacing) => ({
-    paddingVertical: theme.spacing[padding],
+  paddingVertical: (padding: keyof Paddings) => ({
+    paddingVertical: theme.padding[padding],
   }),
 
-  paddingTop: (padding: keyof Spacing) => ({
-    paddingTop: theme.spacing[padding],
+  paddingTop: (padding: keyof Paddings) => ({
+    paddingTop: theme.padding[padding],
   }),
 
-  paddingBottom: (padding: keyof Spacing) => ({
-    paddingBottom: theme.spacing[padding],
+  paddingBottom: (padding: keyof Paddings) => ({
+    paddingBottom: theme.padding[padding],
   }),
 
-  paddingLeft: (padding: keyof Spacing) => ({
-    paddingLeft: theme.spacing[padding],
+  paddingLeft: (padding: keyof Paddings) => ({
+    paddingLeft: theme.padding[padding],
   }),
 
-  paddingRight: (padding: keyof Spacing) => ({
-    paddingRight: theme.spacing[padding],
+  paddingRight: (padding: keyof Paddings) => ({
+    paddingRight: theme.padding[padding],
   }),
 
   paddingXxl: {
@@ -334,32 +342,32 @@ export const commonStyles = StyleSheet.create((theme) => ({
 
   //** MARGINS */
 
-  margin: (margin: keyof Spacing) => ({
-    margin: theme.spacing[margin],
+  margin: (margin: keyof Margins) => ({
+    margin: theme.margin[margin],
   }),
 
-  marginHorizontal: (margin: keyof Spacing) => ({
-    marginHorizontal: theme.spacing[margin],
+  marginHorizontal: (margin: keyof Margins) => ({
+    marginHorizontal: theme.margin[margin],
   }),
 
-  marginVertical: (margin: keyof Spacing) => ({
-    marginVertical: theme.spacing[margin],
+  marginVertical: (margin: keyof Margins) => ({
+    marginVertical: theme.margin[margin],
   }),
 
-  marginTop: (margin: keyof Spacing) => ({
-    marginTop: theme.spacing[margin],
+  marginTop: (margin: keyof Margins) => ({
+    marginTop: theme.margin[margin],
   }),
 
-  marginBottom: (margin: keyof Spacing) => ({
-    marginBottom: theme.spacing[margin],
+  marginBottom: (margin: keyof Margins) => ({
+    marginBottom: theme.margin[margin],
   }),
 
-  marginLeft: (margin: keyof Spacing) => ({
-    marginLeft: theme.spacing[margin],
+  marginLeft: (margin: keyof Margins) => ({
+    marginLeft: theme.margin[margin],
   }),
 
-  marginRight: (margin: keyof Spacing) => ({
-    marginRight: theme.spacing[margin],
+  marginRight: (margin: keyof Margins) => ({
+    marginRight: theme.margin[margin],
   }),
 
   // Themed Margin

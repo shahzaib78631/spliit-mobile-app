@@ -1,20 +1,26 @@
 import { Button, View } from "react-native";
 import React, { useRef } from "react";
-import ThemedView from "@/components/ui/ThemedView";
-import RecientGroupCard from "@/components/cards/RecentGroupCard";
-import { StyleSheet, UnistylesRuntime } from "react-native-unistyles";
+
+// Action Sheet Manager
+import { SheetManager } from "react-native-actions-sheet";
+
+// Router
+import { RelativePathString, useRouter } from "expo-router";
+
+// Styles
+import { StyleSheet } from "react-native-unistyles";
+
+// Translation
 import { getString } from "@/strings/translations";
 
-// Components
-import ThemedText from "@/components/ui/ThemedText";
-import ThemedButton from "@/components/ui/ThemedButton";
-import StackedAvatars from "@/components/StackedAvatars";
-import CreateSplitCard from "@/components/cards/CreateSplitCard";
-
-import { RelativePathString, useRouter } from "expo-router";
+// Context
 import { useAppContext } from "@/context/AppContext";
-import { SheetManager } from "react-native-actions-sheet";
 import { useThemeContext } from "@/context/ThemeContext";
+
+// Components
+import { StackedAvatars } from "@/components/Avatars";
+import { ThemedView, ThemedText, ThemedButton } from "@/components/ui";
+import { RecentGroupCard, CreateSplitCard } from "@/components/cards";
 
 /**
  * Home screen component displaying recent groups, split options, and friends
@@ -55,7 +61,7 @@ export default function Home() {
 
   return (
     <>
-      <ThemedView scrollable>
+      <ThemedView scrollEnabled>
         {/* Create split bill/group section */}
         <CreateSplitCard
           onAddUrlPress={() => openAddGroupByUrlSheet()}
@@ -76,7 +82,7 @@ export default function Home() {
               </ThemedButton>
             </View>
 
-            <RecientGroupCard
+            <RecentGroupCard
               groupId={recentGroups?.[0]?.groupId}
               onSplitBtnPress={() =>
                 handleAddExpenseNavigation(recentGroups?.[0]?.groupId)

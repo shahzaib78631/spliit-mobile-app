@@ -1,15 +1,11 @@
 import React from "react";
 
-// Styles
-import { StyleSheet } from "react-native-unistyles";
-
 // Context
 import { useAppContext } from "@/context/AppContext";
 
 // Components
-import ThemedView from "@/components/ui/ThemedView";
-import GroupForm from "@/components/form/GroupForm";
-import ThemedActivityIndicator from "@/components/ui/ThemedActivityIndicator";
+import { ThemedActivityIndicator, ThemedView } from "@/components/ui";
+import { GroupForm } from "@/components/forms";
 
 /**
  * Group Layout Component
@@ -29,7 +25,7 @@ const EditGroup: React.FC = () => {
 
   return (
     <ThemedView
-      scrollable
+      scrollEnabled
       statusbarBackgroundColor="surface2"
       title={activeGroup?.name}
     >

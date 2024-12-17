@@ -1,7 +1,7 @@
 import "@/components/sheets/sheets"; // Global Sheets import
 
 import React, { useEffect, useState } from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Stack } from "expo-router"; // Navigation stack
 
 // Keyboard provider
@@ -13,19 +13,31 @@ import * as Font from "expo-font";
 // Import translations initializer
 import { initI18n } from "@/strings/translations";
 
+import { SheetProvider } from "react-native-actions-sheet";
+
 // React Query and TRPC imports
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { trpc } from "@/utils/trpc";
 import { httpBatchLink } from "@trpc/client";
-import SuperJSON from "superjson";
-import { MenuProvider } from "react-native-popup-menu";
-import { GroupProvider } from "@/context/AppContext";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { ThemeProvider } from "@/context/ThemeContext";
-import { SheetProvider } from "react-native-actions-sheet";
-import { withUnistyles } from "react-native-unistyles";
 
-const ThemedMenuProvider = withUnistyles(MenuProvider);
+// Superjson
+import SuperJSON from "superjson";
+
+// Menu
+import { MenuProvider } from "react-native-popup-menu";
+
+// Gesture
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+// Context
+import { GroupProvider } from "@/context/AppContext";
+import { ThemeProvider } from "@/context/ThemeContext";
+
+// Common styles
+import { commonStyles } from "@/theme/styles";
+
+// Components
+import { ThemedActivityIndicator } from "@/components/ui";
 
 /**
  * Root application component
@@ -72,8 +84,14 @@ const App: React.FC = () => {
   /** Show loading indicator while fonts are loading */
   if (!fontsLoaded) {
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" />
+      <View
+        style={[
+          commonStyles.flex1,
+          commonStyles.center,
+          commonStyles.container,
+        ]}
+      >
+        <ThemedActivityIndicator />
       </View>
     );
   }
@@ -82,11 +100,11 @@ const App: React.FC = () => {
   return (
     <trpc.Provider queryClient={queryClient} client={trpcClient}>
       <QueryClientProvider client={queryClient}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
+        <GestureHandlerRootView style={commonStyles.flex1}>
           <KeyboardProvider>
             <ThemeProvider>
               <GroupProvider>
-                <ThemedMenuProvider>
+                <MenuProvider>
                   <SheetProvider>
                     <Stack
                       screenOptions={{
@@ -99,7 +117,7 @@ const App: React.FC = () => {
                       <Stack.Screen name="create" />
                     </Stack>
                   </SheetProvider>
-                </ThemedMenuProvider>
+                </MenuProvider>
               </GroupProvider>
             </ThemeProvider>
           </KeyboardProvider>

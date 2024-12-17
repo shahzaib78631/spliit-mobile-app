@@ -9,11 +9,7 @@ import { withLayoutContext } from "expo-router";
 import { ParamListBase, TabNavigationState } from "@react-navigation/native";
 
 // Icons
-import {
-  AntDesign,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
 // COmponents
 import ThemedView from "@/components/ui/ThemedView";
@@ -65,7 +61,7 @@ const ThemedMaterialTopTabs = withUnistyles(MaterialTopTabs, (theme) => ({
 
 export default function TabLayout() {
   // Extract styles and theme context
-  const { commonStyles, theme } = useThemeContext();
+  const { commonStyles } = useThemeContext();
 
   /**
    * Reference to the AddGroupByUrlSheet.
@@ -87,10 +83,7 @@ export default function TabLayout() {
 
   return (
     <ThemedView
-      style={[
-        commonStyles.paddingVerticalNone,
-        commonStyles.paddingHorizontalNone,
-      ]}
+      style={{ paddingVertical: 0, paddingHorizontal: 0 }}
       statusbarBackgroundColor="surface2"
     >
       {/* Top Bar */}
@@ -108,9 +101,9 @@ export default function TabLayout() {
         </ThemedText>
         <View style={[commonStyles.rowAlignCenter]}>
           <ThemedButton variant="text">
-            <MaterialIcons
+            <ThemedMaterialIcons
               name="add"
-              color={theme.colors.onPrimaryContainer}
+              color={"onPrimaryContainer"}
               size={24}
             />
           </ThemedButton>

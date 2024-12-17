@@ -1,15 +1,18 @@
 import { registerSheet, SheetDefinition } from "react-native-actions-sheet";
 
 // Sheets
-import AddGroupByUrlSheet from "./AddGroupByUrlSheet";
-import CategoriesSheet from "./CategoriesSheet";
-import ShareGroupByUrlSheet from "./ShareGroupUrlSheet";
-import ParticipantsSheet from "./ParticipantsSheet";
+import {
+  AddGroupByUrlSheet,
+  CategoriesSheet,
+  ShareGroupUrlSheet,
+  ParticipantsSheet,
+} from "./";
+
 import { Category, Participant, Participants } from "@/utils/trpc";
 
 registerSheet("AddGroupByUrlSheet", AddGroupByUrlSheet);
 registerSheet("CategoriesSheet", CategoriesSheet);
-registerSheet("ShareGroupByUrlSheet", ShareGroupByUrlSheet);
+registerSheet("ShareGroupUrlSheet", ShareGroupUrlSheet);
 registerSheet("ParticipantsSheet", ParticipantsSheet);
 
 // We extend some of the types here to give us great intellisense
@@ -18,7 +21,7 @@ declare module "react-native-actions-sheet" {
   interface Sheets {
     AddGroupByUrlSheet: SheetDefinition;
 
-    ShareGroupByUrlSheet: SheetDefinition<{
+    ShareGroupUrlSheet: SheetDefinition<{
       payload: {
         groupId: string;
       };

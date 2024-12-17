@@ -1,8 +1,8 @@
 import React from "react";
 
 // Components
-import ThemedView from "@/components/ui/ThemedView";
-import ExpenseForm from "@/components/form/ExpenseForm";
+import { ThemedView } from "@/components/ui";
+import { ExpenseForm } from "@/components/forms";
 import { useAppContext } from "@/context/AppContext";
 
 /**
@@ -13,12 +13,11 @@ import { useAppContext } from "@/context/AppContext";
  */
 export default function CreateExpenseScreen(): React.ReactElement {
   const { activeGroup } = useAppContext();
-  const handleSaveExpense = async () => {};
 
   return (
     <ThemedView
       title={activeGroup?.name}
-      scrollable
+      scrollEnabled
       statusbarBackgroundColor="surface2"
     >
       <ExpenseForm expense={null} group={activeGroup} />

@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
 
-// Icons
-import { AntDesign } from "@expo/vector-icons";
-
 // Translation
 import { useGroupDetails } from "@/hooks/useGroupDetails";
 import { useAppContext } from "@/context/AppContext";

@@ -1,5 +1,3 @@
-import "@/theme/unistyles";
-
 import {
   changeNavigationBarColor,
   setStatusBarColor,

@@ -1,8 +1,9 @@
 import React from "react";
 
 // Components
-import ThemedView from "@/components/ui/ThemedView";
-import GroupForm from "@/components/form/GroupForm";
+import { ThemedView } from "@/components/ui";
+import { GroupForm } from "@/components/forms";
+import { getString } from "@/strings/translations";
 
 /**
  * Screen for creating a new group
@@ -13,8 +14,8 @@ import GroupForm from "@/components/form/GroupForm";
 function CreateGroupScreen(): React.ReactElement {
   return (
     <ThemedView
-      title="Create Group"
-      scrollable
+      title={getString("groups.create")}
+      scrollEnabled
       statusbarBackgroundColor="surface2"
     >
       <GroupForm groupDetails={null} isEditing={false} />

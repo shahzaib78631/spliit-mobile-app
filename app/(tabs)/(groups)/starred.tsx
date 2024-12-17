@@ -3,7 +3,7 @@ import React from "react";
 // Components
 import ThemedList from "@/components/ui/ThemedList";
 import { useAppContext } from "@/context/AppContext";
-import GroupListCard from "@/components/cards/GroupListCard";
+import GroupListCard from "@/components/cards/GroupListCard/GroupListCard";
 import { GroupListItem } from "@/utils/trpc";
 import { getString } from "@/strings/translations";
 

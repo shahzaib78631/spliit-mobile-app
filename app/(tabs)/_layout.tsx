@@ -3,13 +3,13 @@ import { Tabs } from "expo-router";
 
 // Translation
 import { getString } from "@/strings/translations";
-import CustomTabBar from "@/components/CustomTabbar";
+import { BottomAppBar } from "@/components/AppBars";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
 const App: React.FC = () => {
   return (
     <Tabs
-      tabBar={(props: BottomTabBarProps) => <CustomTabBar {...props} />}
+      tabBar={(props: BottomTabBarProps) => <BottomAppBar {...props} />}
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -44,14 +44,6 @@ const App: React.FC = () => {
           headerTitle: getString("screen.settings.title"),
         }}
       />
-
-      {/* <Tabs.Screen
-        name="create"
-        options={{
-          title: getString("screen.create.title"),
-          headerTitle: getString("screen.create.title"),
-        }}
-      /> */}
     </Tabs>
   );
 };

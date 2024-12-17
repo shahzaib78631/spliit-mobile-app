@@ -6,7 +6,7 @@ import {
 } from "spliit-api/src/lib/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ExpenseFormProps } from "@/components/form/types";
+import { ExpenseFormProps } from "@/components/forms/types";
 import { ExpenseDetails, Group, Reimbursement } from "@/utils/trpc";
 
 interface Params {
