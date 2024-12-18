@@ -53,6 +53,7 @@ const ThemedButton: React.FC<ThemedButtonProps> = ({
         commonStyles.paddingMd,
         commonStyles.center,
         buttonStyle,
+        props.style,
       ]}
       disabled={loading} // Disable the button when loading is true
       {...props}

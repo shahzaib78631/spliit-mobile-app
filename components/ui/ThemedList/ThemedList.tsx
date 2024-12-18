@@ -150,6 +150,13 @@ export interface ThemedListProps<T> {
    * extraData={selectedItems.map((item) => item.id).join(",")}
    **/
   extraData?: FlashListProps<T>["extraData"];
+
+  /**
+   * Horizontal props
+   */
+  horizontal?: boolean;
+
+  showsHorizontalScrollIndicator?: boolean;
 }
 
 /**
@@ -269,6 +276,7 @@ const ThemedList = <T,>({
       keyboardShouldPersistTaps="handled"
       estimatedItemSize={estimatedItemSize}
       extraData={extraData}
+      contentContainerStyle={contentContainerStyle as any}
       {...props}
     />
   );

@@ -4,6 +4,7 @@ export const lavenderTheme: ThemeType = {
   light: {
     id: 14,
     name: "Lavender", // getString('appearanceScreen.theme.lavender') will return this string
+    code: "lavender",
     isDark: false,
     primary: "rgb(121, 68, 173)",
     onPrimary: "rgb(255, 255, 255)",
@@ -21,6 +22,7 @@ export const lavenderTheme: ThemeType = {
     onBackground: "#111129",
     surface: "#EDE2FF",
     onSurface: "#111129",
+    onSurfaceVariant: "rgb(74, 69, 78)",
     error: "rgb(186, 26, 26)",
     onError: "rgb(255, 255, 255)",
     errorContainer: "rgb(255, 218, 214)",
@@ -35,6 +37,7 @@ export const lavenderTheme: ThemeType = {
     id: 15,
     name: "Lavender", // getString('appearanceScreen.theme.lavender') will return this string
     isDark: true,
+    code: "lavender",
     primary: "rgb(221, 184, 255)",
     onPrimary: "rgb(72, 8, 123)",
     primaryContainer: "rgb(96, 42, 147)",
@@ -51,6 +54,7 @@ export const lavenderTheme: ThemeType = {
     onBackground: "rgb(231, 225, 229)",
     surface: "#111129",
     onSurface: "rgb(231, 225, 229)",
+    onSurfaceVariant: "rgb(204, 196, 206)",
     error: "rgb(255, 180, 171)",
     onError: "rgb(105, 0, 5)",
     errorContainer: "rgb(147, 0, 10)",

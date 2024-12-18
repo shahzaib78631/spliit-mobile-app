@@ -4,6 +4,7 @@ export const defaultTheme: ThemeType = {
   light: {
     id: 1,
     name: "Default Light Theme",
+    code: "default",
     isDark: false,
     primary: "#6750A4",
     onPrimary: "#FFFFFF",
@@ -21,6 +22,7 @@ export const defaultTheme: ThemeType = {
     onBackground: "#1C1B1F",
     surface: "#FFFFFF",
     onSurface: "#1C1B1F",
+    onSurfaceVariant: "rgb(68, 70, 79)",
     error: "#B3261E",
     onError: "#FFFFFF",
     errorContainer: "#F9DEDC",
@@ -34,6 +36,7 @@ export const defaultTheme: ThemeType = {
   dark: {
     id: 2,
     name: "Default Dark Theme",
+    code: "default",
     isDark: true,
     primary: "#D0BCFF",
     onPrimary: "#381E72",
@@ -51,6 +54,7 @@ export const defaultTheme: ThemeType = {
     onBackground: "#E6E1E5",
     surface: "#1C1B1F",
     onSurface: "#E6E1E5",
+    onSurfaceVariant: "rgb(197, 198, 208)",
     error: "#F2B8B5",
     onError: "#601410",
     errorContainer: "#8C1D18",

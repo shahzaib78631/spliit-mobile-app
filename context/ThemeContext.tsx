@@ -8,6 +8,7 @@ import { UnistylesTheme } from "react-native-unistyles/lib/typescript/src/types"
 import { UnistylesRuntime } from "react-native-unistyles";
 import { commonStyles } from "@/theme/styles";
 import { AppThemeName } from "react-native-unistyles/lib/typescript/src/specs/types";
+import { Platform } from "react-native";
 
 // Define the shape of the context data
 interface ThemeContextType {
@@ -38,14 +39,26 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       UnistylesRuntime.setTheme(name);
     }
 
-    setTimeout(async () => {
-      const theme: UnistylesTheme = UnistylesRuntime.getTheme();
+    const theme: UnistylesTheme = UnistylesRuntime.getTheme();
+    if (Platform.OS === "android") {
+      setTimeout(async () => {
+        setStatusBarColor(theme.colors);
+        changeNavigationBarColor(
+          Color(theme.colors.surface2).hex(),
+          theme.colors.isDark
+        );
+      }, 50);
+    } else {
       setStatusBarColor(theme.colors);
       changeNavigationBarColor(
         Color(theme.colors.surface2).hex(),
         theme.colors.isDark
       );
-    }, 500);
+    }
+  };
+
+  const setDarkMode = () => {
+    setTheme("dark");
   };
 
   return (

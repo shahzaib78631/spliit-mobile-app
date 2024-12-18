@@ -32,11 +32,13 @@ export interface MD3ThemeType {
 }
 
 export interface ThemeColors extends MD3ThemeType {
+  code: string;
   overlay?: string;
   rippleColor?: string;
   surface2?: string;
   surfaceReader?: string;
   primaryOutline?: string;
+  onSurfaceVariant?: string;
   primaryOutlineVariant?: string;
 }
 
@@ -149,6 +151,10 @@ export interface BaseTheme {
 }
 
 export interface Theme extends BaseTheme {
+  id: number;
+  name: string;
+  isDark: boolean;
+  code: string;
   colors: ThemeColors;
 }
 

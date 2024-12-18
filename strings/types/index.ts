@@ -207,6 +207,8 @@ export interface StringMap {
   "information.empty": string;
   "settings.title": string;
   "settings.appearance": string;
+  "settings.about": string;
+  "settings.language": string;
   "locale.en-us": string;
   "locale.fi": string;
   "locale.fr-fr": string;
@@ -291,6 +293,14 @@ export interface StringMap {
   "categories.utilities.trash": string;
   "categories.utilities.tv_phone/internet": string;
   "categories.utilities.water": string;
+
+  "appearance.title": string;
+  "appearance.description": string;
+  "appearance.theme": string;
+  "appearance.light_theme": string;
+  "appearance.dark_theme": string;
+  "appearance.app_theme": string;
+
   "common.welcome_to_split": string;
   "common.welcome_to_split_desc": string;
   "common.friends": string;

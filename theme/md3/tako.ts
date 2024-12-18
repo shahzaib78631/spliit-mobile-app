@@ -5,6 +5,7 @@ export const takoTheme: ThemeType = {
     id: 18,
     name: "Tako", // getString('appearanceScreen.theme.tako') will return this string
     isDark: false,
+    code: "tako",
     primary: "#66577E",
     onPrimary: "rgb(255, 255, 255)",
     primaryContainer: "rgb(236, 220, 255)",
@@ -21,6 +22,7 @@ export const takoTheme: ThemeType = {
     onBackground: "#21212E",
     surface: "#F7F5FF",
     onSurface: "#21212E",
+    onSurfaceVariant: "rgb(73, 69, 78)",
     error: "rgb(186, 26, 26)",
     onError: "rgb(255, 255, 255)",
     errorContainer: "rgb(255, 218, 214)",
@@ -35,6 +37,7 @@ export const takoTheme: ThemeType = {
     id: 19,
     name: "Tako", // getString('appearanceScreen.theme.tako') will return this string
     isDark: true,
+    code: "tako",
     primary: "#F3B375",
     onPrimary: "rgb(61, 28, 111)",
     primaryContainer: "rgb(85, 53, 135)",
@@ -51,6 +54,7 @@ export const takoTheme: ThemeType = {
     onBackground: "rgb(230, 225, 230)",
     surface: "#21212E",
     onSurface: "rgb(230, 225, 230)",
+    onSurfaceVariant: "rgb(203, 196, 207)",
     error: "rgb(255, 180, 171)",
     onError: "rgb(105, 0, 5)",
     errorContainer: "rgb(147, 0, 10)",

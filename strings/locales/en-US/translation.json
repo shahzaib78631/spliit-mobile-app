@@ -323,7 +323,9 @@
   },
   "settings": {
     "title": "Settings",
-    "appearance": "Appearance"
+    "appearance": "Appearance",
+    "about": "About",
+    "language": "Language"
   },
   "locale": {
     "en-us": "English",
@@ -430,6 +432,12 @@
       "tv/phone/internet": "TV/Phone/Internet",
       "water": "Water"
     }
+  },
+  "appearance": {
+    "title": "Appearance",
+    "dark_theme": "Dark theme",
+    "light_theme": "Light theme",
+    "app_theme": "App theme"
   },
   "common": {
     "welcome_to_split": "Welcome to Spliit!",

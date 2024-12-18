@@ -5,6 +5,7 @@ export const strawberryDaiquiriTheme: ThemeType = {
     id: 16,
     name: "Strawberry", // getString('appearanceScreen.theme.strawberry') will return this string
     isDark: false,
+    code: "strawberry",
     primary: "rgb(182, 30, 64)",
     onPrimary: "rgb(255, 255, 255)",
     primaryContainer: "rgb(255, 218, 219)",
@@ -21,6 +22,7 @@ export const strawberryDaiquiriTheme: ThemeType = {
     onBackground: "rgb(32, 26, 26)",
     surface: "rgb(255, 251, 255)",
     onSurface: "rgb(32, 26, 26)",
+    onSurfaceVariant: "rgb(82, 67, 68)",
     error: "rgb(186, 26, 26)",
     onError: "rgb(255, 255, 255)",
     errorContainer: "rgb(255, 218, 214)",
@@ -35,6 +37,7 @@ export const strawberryDaiquiriTheme: ThemeType = {
     id: 17,
     name: "Strawberry", // getString('appearanceScreen.theme.strawberry') will return this string
     isDark: true,
+    code: "strawberry",
     primary: "rgb(255, 178, 184)",
     onPrimary: "rgb(103, 0, 29)",
     primaryContainer: "rgb(145, 0, 44)",
@@ -51,6 +54,7 @@ export const strawberryDaiquiriTheme: ThemeType = {
     onBackground: "rgb(236, 224, 223)",
     surface: "rgb(32, 26, 26)",
     onSurface: "rgb(236, 224, 223)",
+    onSurfaceVariant: "rgb(215, 193, 194)",
     error: "rgb(255, 180, 171)",
     onError: "rgb(105, 0, 5)",
     errorContainer: "rgb(147, 0, 10)",

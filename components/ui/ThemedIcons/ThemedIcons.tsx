@@ -7,6 +7,7 @@ import {
 } from "@expo/vector-icons";
 import { Colors } from "@/theme/types";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
+import { UnistyleView } from "react-native-unistyles/lib/typescript/src/types";
 
 interface Props {
   /** Name of the icon from the library's glyph map */
@@ -20,6 +21,8 @@ interface Props {
   color: keyof Colors | (string & {});
   /** Size of the icon */
   size: number;
+  /** Style object */
+  style?: UnistyleView;
 }
 
 /** A helper to resolve color from theme or fallback to the provided color */
@@ -38,11 +41,12 @@ const UniThemedIonicons = withUnistyles(Ionicons);
 const UniThemedAntDesign = withUnistyles(AntDesign);
 
 /** Themed MaterialCommunityIcons */
-const ThemedMaterialCommunityIcons = ({ name, color, size }: Props) => {
+const ThemedMaterialCommunityIcons = ({ name, color, size, style }: Props) => {
   return (
     <UniThemedMaterialCommunityIcons
       name={name as keyof typeof MaterialCommunityIcons.glyphMap}
       size={size}
+      style={style as any}
       uniProps={(theme) => ({
         color: resolveColor(theme, color),
       })}

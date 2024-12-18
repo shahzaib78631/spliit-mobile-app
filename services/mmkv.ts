@@ -9,14 +9,14 @@ export const storage = new MMKV();
  * It works for both MMKV (React Native) and localStorage (Web).
  *
  * @param key - Storage key
- * @param schema - Zod schema for validation
+ * @param schema - Optional Zod schema for validation
  * @param storageType - Type of storage ('localStorage' or 'mmkv')
- * @returns The parsed data if valid or an empty array if invalid
+ * @returns The parsed data if valid or raw data if schema is not provided
  */
 export function getStorageData<T>(
   key: string,
-  schema: z.ZodType<T>,
-  storageType: "localStorage" | "mmkv"
+  schema?: z.ZodType<T>,
+  storageType: "localStorage" | "mmkv" = "localStorage"
 ): T {
   try {
     let rawData: string | null | undefined;
@@ -25,9 +25,18 @@ export function getStorageData<T>(
     } else {
       rawData = localStorage.getItem(key);
     }
+
+    // Parse the data
     const parsedData = rawData ? JSON.parse(rawData) : [];
-    const parseResult = schema.safeParse(parsedData);
-    return parseResult.success ? parseResult.data : ([] as unknown as T);
+
+    // If schema is provided, validate it
+    if (schema) {
+      const parseResult = schema.safeParse(parsedData);
+      return parseResult.success ? parseResult.data : ([] as unknown as T);
+    }
+
+    // Return parsed data as is if no schema is provided
+    return (parsedData || []) as T;
   } catch (error) {
     console.error("Error reading from storage", error);
     return [] as unknown as T;

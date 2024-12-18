@@ -4,6 +4,7 @@ export const midnightDusk: ThemeType = {
   light: {
     id: 10,
     name: "Daybreak Bloom", // getString('appearanceScreen.theme.daybreakBloom') will return this string
+    code: "midnightDusk",
     isDark: false,
     primary: "rgb(240, 36, 117)",
     onPrimary: "rgb(255, 255, 255)",
@@ -21,6 +22,7 @@ export const midnightDusk: ThemeType = {
     onBackground: "rgb(28, 27, 31)",
     surface: "rgb(254, 251, 255)",
     onSurface: "rgb(28, 27, 31)",
+    onSurfaceVariant: "rgb(82, 67, 70)",
     error: "rgb(186, 26, 26)",
     onError: "rgb(255, 255, 255)",
     errorContainer: "rgb(255, 218, 214)",
@@ -35,6 +37,7 @@ export const midnightDusk: ThemeType = {
     id: 11,
     name: "Midnight Dusk", // getString('appearanceScreen.theme.midnightDusk') will return this string
     isDark: true,
+    code: "midnightDusk",
     primary: "rgb(240, 36, 117)",
     onPrimary: "rgb(255, 255, 255)",
     primaryContainer: "rgb(189, 28, 92)",
@@ -51,6 +54,7 @@ export const midnightDusk: ThemeType = {
     onBackground: "rgb(229, 225, 229)",
     surface: "rgb(22, 21, 29)",
     onSurface: "rgb(229, 225, 229)",
+    onSurfaceVariant: "rgb(214, 193, 196)",
     error: "rgb(255, 180, 171)",
     onError: "rgb(105, 0, 5)",
     errorContainer: "rgb(147, 0, 10)",

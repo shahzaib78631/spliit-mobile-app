@@ -12,6 +12,7 @@ import ThemedText from "@/components/ui/ThemedText";
 import { useThemeContext } from "@/context/ThemeContext";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import { ThemedMaterialIcons } from "@/components/ui/ThemedIcons";
+import ThemedButton from "../ThemedButton";
 
 /**
  * Props interface for ThemedView component
@@ -72,16 +73,21 @@ const ThemedView: React.FC<ThemedViewProps> = ({
           ]}
         >
           {canGoBack && goBackEnabled && (
-            <TouchableOpacity
+            <ThemedButton
+              style={[
+                commonStyles.paddingMd,
+                commonStyles.absolute,
+                commonStyles.borderRadiusXl,
+                { left: 10 },
+              ]}
               onPress={() => router.dismiss()}
-              style={[commonStyles.absolute, commonStyles.paddingLg]}
             >
               <ThemedMaterialIcons
                 name="arrow-back"
                 size={18}
                 color="onSurface"
               />
-            </TouchableOpacity>
+            </ThemedButton>
           )}
           <View
             style={[
@@ -90,7 +96,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
               commonStyles.alignCenter,
             ]}
           >
-            <ThemedText type="bold" fontSize="lg" color="onSurface">
+            <ThemedText type="regular" fontSize="xl" color="onSurface">
               {title}
             </ThemedText>
           </View>
@@ -99,8 +105,8 @@ const ThemedView: React.FC<ThemedViewProps> = ({
 
       {scrollEnabled && (
         <ThemedKeyboardAwareScrollView
-          {...props}
           style={commonStyles.container}
+          {...props}
           contentContainerStyle={styles.contentContainer}
           bottomOffset={20}
           showsVerticalScrollIndicator={false}

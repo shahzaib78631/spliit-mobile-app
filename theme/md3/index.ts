@@ -18,4 +18,23 @@ const Themes = {
   strawberryDaiquiriTheme,
 };
 
+export const lightThemes = [
+  defaultTheme.light,
+  midnightDusk.light,
+  tealTurquoiseTheme.light,
+  yotsubaTheme.light,
+  lavenderTheme.light,
+  strawberryDaiquiriTheme.light,
+  takoTheme.light,
+];
+export const darkThemes = [
+  defaultTheme.dark,
+  midnightDusk.dark,
+  tealTurquoiseTheme.dark,
+  yotsubaTheme.dark,
+  lavenderTheme.dark,
+  strawberryDaiquiriTheme.dark,
+  takoTheme.dark,
+];
+
 export default Themes;

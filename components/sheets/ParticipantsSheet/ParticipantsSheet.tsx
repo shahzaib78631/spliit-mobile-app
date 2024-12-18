@@ -12,10 +12,7 @@ const ParticipantsSheet: React.FC<SheetProps<"ParticipantsSheet">> = ({
   const { participants, value, onChange, multiple } = payload;
 
   return (
-    <BaseBottomActionSheet
-      snapPoints={[80]}
-      title={getString("common.participants")}
-    >
+    <BaseBottomActionSheet title={getString("common.participants")}>
       <ParticipantsList
         participants={participants}
         value={value}

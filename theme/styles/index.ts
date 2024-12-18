@@ -14,6 +14,11 @@ const { width, height } = Dimensions.get("window");
 
 // COMMON STYLESHEET
 export const commonStyles = StyleSheet.create((theme) => ({
+  // Border Color
+  borderColor: (color: keyof Colors | (string & {})) => ({
+    borderColor: theme.colors[color as keyof Colors] ?? color,
+  }),
+
   // Background Color
   backgroundColor: (color: keyof Colors | (string & {})) => ({
     backgroundColor: theme.colors[color as keyof Colors] ?? color,

@@ -91,7 +91,7 @@ const ShareGroupUrlSheet: React.FC<SheetProps<"ShareGroupUrlSheet">> = ({
 const styles = StyleSheet.create((theme) => ({
   warningContainer: {
     borderWidth: 1,
-    backgroundColor: theme.colors.overlay,
+    backgroundColor: theme.colors.surface,
     borderColor: theme.colors.error,
     padding: theme.padding.md,
     borderRadius: theme.borderRadius.lg,

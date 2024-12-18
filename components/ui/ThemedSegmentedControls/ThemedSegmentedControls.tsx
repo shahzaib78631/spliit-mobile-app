@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View, ViewStyle } from "react-native";
 import React from "react";
 import SegmentedControl, {
   SegmentedControlProps,
 } from "@react-native-segmented-control/segmented-control";
-import { withUnistyles } from "react-native-unistyles";
+import { StyleSheet, withUnistyles } from "react-native-unistyles";
 
 const UniSegmentedControl = withUnistyles(SegmentedControl, (theme) => ({
   backgroundColor: theme.colors.surface2,
@@ -15,14 +14,6 @@ const UniSegmentedControl = withUnistyles(SegmentedControl, (theme) => ({
     color: theme.colors.outline,
     fontSize: theme.fontSize.md,
   },
-  style: [
-    {
-      marginBottom: theme.spacing.md,
-      borderWidth: 1,
-      borderRadius: 9,
-      borderColor: theme.colors.primaryOutline,
-    },
-  ],
 }));
 
 interface ThemedSegmentedControlsProps
@@ -39,6 +30,7 @@ const ThemedSegmentedControls = ({
   return (
     <UniSegmentedControl
       values={values}
+      style={styles.segmentedControl}
       selectedIndex={selectedIndex}
       {...props}
     />
@@ -47,4 +39,11 @@ const ThemedSegmentedControls = ({
 
 export default ThemedSegmentedControls;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create((theme) => ({
+  segmentedControl: {
+    marginBottom: theme.margin.md,
+    borderWidth: 1,
+    borderRadius: 9,
+    borderColor: theme.colors.primaryOutline,
+  },
+}));

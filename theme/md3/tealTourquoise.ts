@@ -5,6 +5,7 @@ export const tealTurquoiseTheme: ThemeType = {
     id: 8,
     name: "Teal", // getString('appearanceScreen.theme.teal') will return this string
     isDark: false,
+    code: "tealTurquoise",
     primary: "rgb(0, 106, 106)",
     onPrimary: "rgb(255, 255, 255)",
     primaryContainer: "rgb(111, 247, 246)",
@@ -21,6 +22,7 @@ export const tealTurquoiseTheme: ThemeType = {
     onBackground: "rgb(25, 28, 28)",
     surface: "rgb(250, 253, 252)",
     onSurface: "rgb(25, 28, 28)",
+    onSurfaceVariant: "rgb(63, 73, 72)",
     error: "rgb(186, 26, 26)",
     onError: "rgb(255, 255, 255)",
     errorContainer: "rgb(255, 218, 214)",
@@ -35,6 +37,7 @@ export const tealTurquoiseTheme: ThemeType = {
     id: 9,
     name: "Turquoise", // getString('appearanceScreen.theme.turquoise') will return this string
     isDark: true,
+    code: "tealTurquoise",
     primary: "rgb(76, 218, 218)",
     onPrimary: "rgb(0, 55, 55)",
     primaryContainer: "rgb(0, 79, 79)",
@@ -51,6 +54,7 @@ export const tealTurquoiseTheme: ThemeType = {
     onBackground: "rgb(224, 227, 226)",
     surface: "rgb(25, 28, 28)",
     onSurface: "rgb(224, 227, 226)",
+    onSurfaceVariant: "rgb(190, 201, 200)",
     error: "rgb(255, 180, 171)",
     onError: "rgb(105, 0, 5)",
     errorContainer: "rgb(147, 0, 10)",

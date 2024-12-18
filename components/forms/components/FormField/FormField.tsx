@@ -223,7 +223,6 @@ const FormField = ({
           </TouchableOpacity>
           {renderPickerContentComponent && (
             <BaseBottomActionSheet
-              snapPoints={[80]}
               reference={bottomSheetReference}
               title={pickerSheetTitle}
             >

@@ -5,6 +5,7 @@ export const yotsubaTheme: ThemeType = {
     id: 12,
     name: "Yotsuba", // getString('appearanceScreen.theme.yotsuba') will return this string
     isDark: false,
+    code: "yotsuba",
     primary: "rgb(174, 50, 0)",
     onPrimary: "rgb(255, 255, 255)",
     primaryContainer: "rgb(255, 219, 208)",
@@ -21,6 +22,7 @@ export const yotsubaTheme: ThemeType = {
     onBackground: "rgb(32, 26, 24)",
     surface: "rgb(255, 251, 255)",
     onSurface: "rgb(32, 26, 24)",
+    onSurfaceVariant: "rgb(83, 67, 63)",
     error: "rgb(186, 26, 26)",
     onError: "rgb(255, 255, 255)",
     errorContainer: "rgb(255, 218, 214)",
@@ -35,6 +37,7 @@ export const yotsubaTheme: ThemeType = {
     id: 13,
     name: "Yotsuba", // getString('appearanceScreen.theme.yotsuba') will return this string
     isDark: true,
+    code: "yotsuba",
     primary: "rgb(255, 181, 158)",
     onPrimary: "rgb(94, 23, 0)",
     primaryContainer: "rgb(133, 36, 0)",
@@ -51,6 +54,7 @@ export const yotsubaTheme: ThemeType = {
     onBackground: "rgb(237, 224, 220)",
     surface: "rgb(32, 26, 24)",
     onSurface: "rgb(237, 224, 220)",
+    onSurfaceVariant: "rgb(216, 194, 188)",
     error: "rgb(255, 180, 171)",
     onError: "rgb(105, 0, 5)",
     errorContainer: "rgb(147, 0, 10)",

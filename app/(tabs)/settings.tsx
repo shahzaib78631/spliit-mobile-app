@@ -21,7 +21,7 @@ type SettingItem = {
   id: number;
   label: string;
   icon: keyof typeof MaterialCommunityIcons.glyphMap;
-  navigate: () => void;
+  action: () => void;
 };
 
 export default function Profile() {
@@ -33,7 +33,19 @@ export default function Profile() {
         id: 1,
         label: getString("settings.appearance"),
         icon: "palette-outline",
-        navigate: () => router.push("/settings/appearance"),
+        action: () => router.push("/settings/appearance"),
+      },
+      {
+        id: 2,
+        label: getString("settings.language"),
+        icon: "translate",
+        action: () => console.log("Language"),
+      },
+      {
+        id: 3,
+        label: getString("settings.about"),
+        icon: "information-outline",
+        action: () => console.log("About"),
       },
     ],
     []
@@ -44,21 +56,27 @@ export default function Profile() {
       title={getString("settings.title")}
       statusbarBackgroundColor="surface2"
       goBackEnabled={false}
+      style={commonStyles.paddingHorizontalNone}
     >
       <ThemedList
         data={list}
         renderItem={({ item }: { item: SettingItem }) => (
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={item.navigate}
-            style={[commonStyles.rowAlignCenter, commonStyles.gapLg]}
+            onPress={item.action}
+            style={[
+              commonStyles.rowAlignCenter,
+              commonStyles.paddingVerticalSm,
+              commonStyles.gapLg,
+              commonStyles.paddingHorizontalMd,
+            ]}
           >
             <ThemedMaterialCommunityIcons
               name={item.icon}
               size={24}
               color="primary"
             />
-            <ThemedText fontSize="lg" color="onBackground">
+            <ThemedText type="light" fontSize="lg" color="onBackground">
               {item.label}
             </ThemedText>
           </TouchableOpacity>

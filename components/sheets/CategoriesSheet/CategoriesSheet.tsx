@@ -12,10 +12,7 @@ const CategoriesSheet: React.FC<SheetProps<"CategoriesSheet">> = ({
   const { categories, value, onChange } = payload;
 
   return (
-    <BaseBottomActionSheet
-      snapPoints={[60]}
-      title={getString("categories.title")}
-    >
+    <BaseBottomActionSheet title={getString("categories.title")}>
       <CategoriesList
         categories={categories}
         value={value}

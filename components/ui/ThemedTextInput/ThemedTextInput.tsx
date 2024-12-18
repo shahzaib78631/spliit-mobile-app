@@ -49,7 +49,7 @@ const ThemedTextInput: React.FC<ThemedTextInputProps> = ({
   append,
   ...rest
 }: ThemedTextInputProps): React.ReactElement => {
-  const { commonStyles, theme } = useThemeContext();
+  const { commonStyles } = useThemeContext();
   const [isFocused, setIsFocused] = useState(false);
 
   styles.useVariants({
@@ -57,6 +57,11 @@ const ThemedTextInput: React.FC<ThemedTextInputProps> = ({
     prepend: !!prepend,
     append: !!append,
   });
+
+  const theme = useMemo(
+    () => UnistylesRuntime.getTheme(),
+    [UnistylesRuntime.themeName]
+  );
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -66,14 +71,14 @@ const ThemedTextInput: React.FC<ThemedTextInputProps> = ({
         </ThemedText>
       )}
 
-      <View style={[styles.inputContainer, commonStyles.gapHorizontalMd]}>
+      <View style={[styles.inputContainer]}>
         {prepend && <View style={[commonStyles.center]}>{prepend}</View>}
 
         <TextInput
           style={[styles.input, commonStyles.flex1, inputStyle]}
           placeholder={placeholder}
-          placeholderTextColor={theme.colors.onSurface}
           value={value}
+          placeholderTextColor={theme.colors.onSurface}
           onChangeText={onChangeText}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
@@ -117,6 +122,7 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: theme.borderRadius.md,
     backgroundColor: theme.colors.surface2,
     position: "relative",
+    columnGap: theme.spacing.md,
     variants: {
       prepend: {
         true: {

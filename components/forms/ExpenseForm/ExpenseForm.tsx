@@ -219,7 +219,7 @@ export default function ExpenseForm({
         }
       />
 
-      <Seperator color={"overlay"} />
+      <Seperator color={"onSurfaceVariant"} />
 
       <ThemedText type="bold">
         {getString("expenseform.splitmodefield.label")}
@@ -239,7 +239,7 @@ export default function ExpenseForm({
         helpText={getString("expenseform.expense.splitmodedescription")}
       />
 
-      <Seperator color={"overlay"} />
+      <Seperator color={"onSurfaceVariant"} />
 
       {/* Paid for Section */}
       <View style={[commonStyles.rowSpaceBetween, commonStyles.gapSm]}>
