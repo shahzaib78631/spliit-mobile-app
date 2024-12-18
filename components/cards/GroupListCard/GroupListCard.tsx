@@ -14,6 +14,7 @@ import Seperator from "@/components/Seperator";
 import ThemedButton from "@/components/ui/ThemedButton";
 import { useAppContext } from "@/context/AppContext";
 import { ThemedAntDesign } from "@/components/ui/ThemedIcons";
+import { useRouter } from "expo-router";
 
 interface GroupListCardProps {
   /**
@@ -28,8 +29,7 @@ const GroupListCard: React.FC<GroupListCardProps> = ({
   group,
   page = "recent",
 }) => {
-  // Use the useThemeContext hook to get the current theme
-  const { theme } = useThemeContext();
+  const router = useRouter();
 
   const { commonStyles } = useThemeContext();
   const {
@@ -67,8 +67,12 @@ const GroupListCard: React.FC<GroupListCardProps> = ({
     }
   };
 
+  const handleNavigation = () => {
+    router.push(`/${group.id}/(tabs)`);
+  };
+
   return (
-    <BaseCard>
+    <BaseCard onPress={handleNavigation} style={styles.cardContainer}>
       <View style={styles.header}>
         <ThemedText
           numberOfLines={1}

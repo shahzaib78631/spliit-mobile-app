@@ -14,8 +14,8 @@ type AppThemes = Record<
   | "default-dark"
   | "tabbie-light"
   | "tabbie-dark"
-  | "strawberryDaiquiri-light"
-  | "strawberryDaiquiri-dark"
+  | "strawberry-light"
+  | "strawberry-dark"
   | "tako-light"
   | "tako-dark"
   | "tealTurquoise-light"
@@ -64,10 +64,8 @@ StyleSheet.configure({
     "default-dark": createTheme(Themes.defaultTheme.dark),
     "tabbie-light": createTheme(Themes.tabbieTheme.light),
     "tabbie-dark": createTheme(Themes.tabbieTheme.dark),
-    "strawberryDaiquiri-light": createTheme(
-      Themes.strawberryDaiquiriTheme.light
-    ),
-    "strawberryDaiquiri-dark": createTheme(Themes.strawberryDaiquiriTheme.dark),
+    "strawberry-light": createTheme(Themes.strawberryDaiquiriTheme.light),
+    "strawberry-dark": createTheme(Themes.strawberryDaiquiriTheme.dark),
     "tako-light": createTheme(Themes.takoTheme.light),
     "tako-dark": createTheme(Themes.takoTheme.dark),
     "tealTurquoise-light": createTheme(Themes.tealTurquoiseTheme.light),

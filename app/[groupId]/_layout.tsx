@@ -65,6 +65,7 @@ const EditGroup: React.FC<EditGroupProps> = () => {
         headerShown: false, // Hide header for this layout
       }}
     >
+      <Stack.Screen name="(tabs)" />
       <Stack.Screen name="edit" />
       <Stack.Screen name="create-expense" />
     </Stack>

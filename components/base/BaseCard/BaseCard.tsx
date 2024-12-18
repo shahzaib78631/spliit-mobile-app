@@ -1,13 +1,15 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import { BorderRadius, Colors } from "@/theme/types";
 import React from "react";
-import { View, ViewStyle } from "react-native";
+import { Pressable, TouchableOpacity, View, ViewStyle } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
 
 // Define prop types for the component to make it reusable
 interface BaseCardProps {
   children?: React.ReactNode;
   style?: ViewStyle;
+  onPress?: () => void;
+  disabled?: boolean;
   color?: keyof Colors | undefined;
   borderRadius?: keyof BorderRadius; // Add the borderRadius prop
 }
@@ -15,13 +17,17 @@ interface BaseCardProps {
 const BaseCard: React.FC<BaseCardProps> = ({
   children,
   style,
+  onPress,
+  disabled,
   color = "surface2",
   borderRadius = "lg",
 }: BaseCardProps) => {
   const { commonStyles } = useThemeContext();
 
   return (
-    <View
+    <Pressable
+      disabled={disabled}
+      onPress={onPress}
       style={[
         styles.cardContainer,
         commonStyles.borderRadius(borderRadius),
@@ -30,7 +36,7 @@ const BaseCard: React.FC<BaseCardProps> = ({
       ]}
     >
       {children}
-    </View>
+    </Pressable>
   );
 };
 

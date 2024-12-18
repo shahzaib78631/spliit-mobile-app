@@ -39,13 +39,12 @@ const ThemePicker = ({ theme, selected, onPress }: ThemePickerProps) => {
 
   return (
     <View style={[commonStyles.center, commonStyles.marginRightSm]}>
-      <Animated.View
+      <View
         style={[
           styles.cardContainer,
+          styles.selectedBorderColor(theme.id),
           {
             backgroundColor: theme?.background,
-            borderColor: selected ? theme?.primary : "transparent",
-            transform: [{ scale: buttonScale }],
             width: width > 400 ? 95 : 90, // Adjust size for smaller screens
             height: width > 400 ? 140 : 120,
           },
@@ -60,14 +59,12 @@ const ThemePicker = ({ theme, selected, onPress }: ThemePickerProps) => {
           accessible
           accessibilityLabel={`Select theme: ${theme?.name}`}
         >
-          {selected && (
-            <ThemedMaterialCommunityIcons
-              name="check"
-              color={theme?.onPrimary}
-              size={15}
-              style={styles.checkIcon}
-            />
-          )}
+          <ThemedMaterialCommunityIcons
+            name="check"
+            color={theme?.onPrimary}
+            size={15}
+            style={styles.checkIcon(theme.id)}
+          />
           <View style={[styles.topBar, { backgroundColor: theme?.surface }]}>
             <View
               style={[
@@ -137,7 +134,7 @@ const ThemePicker = ({ theme, selected, onPress }: ThemePickerProps) => {
             </View>
           </View>
         </TouchableOpacity>
-      </Animated.View>
+      </View>
       <ThemedText
         color="onSurfaceVariant"
         fontSize="sm"
@@ -158,10 +155,13 @@ const styles = StyleSheet.create((theme) => ({
     overflow: "hidden",
     elevation: 1,
   },
+  selectedBorderColor: (themeId) => ({
+    borderColor: themeId === theme.id ? theme.colors.primary : "transparent",
+  }),
   flex: {
     flex: 1,
   },
-  checkIcon: {
+  checkIcon: (themeId) => ({
     position: "absolute",
     top: 5,
     right: 5,
@@ -169,8 +169,9 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: 50,
     padding: 1.6,
     zIndex: 1,
+    opacity: themeId === theme.id ? 1 : 0,
     backgroundColor: theme?.colors.primary,
-  },
+  }),
   topBar: {
     height: 20,
     elevation: 1,

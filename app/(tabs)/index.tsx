@@ -61,7 +61,7 @@ export default function Home() {
 
   return (
     <>
-      <ThemedView scrollEnabled>
+      <ThemedView scrollEnabled goBackEnabled={false}>
         {/* Create split bill/group section */}
         <CreateSplitCard
           onAddUrlPress={() => openAddGroupByUrlSheet()}
@@ -111,11 +111,6 @@ export default function Home() {
             addLabel={getString("common.add_friend")}
           />
         </View>
-
-        <Button
-          title="Change Theme"
-          onPress={() => setTheme("tealTurquoiseLight")}
-        />
       </ThemedView>
     </>
   );

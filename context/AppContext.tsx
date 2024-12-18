@@ -6,6 +6,7 @@ import React, {
   Dispatch,
   SetStateAction,
   useEffect,
+  useMemo,
 } from "react";
 import { useGroupsList } from "@/hooks/useGroupsList";
 import { RecentGroup } from "@/services/recentGroups";
@@ -40,6 +41,8 @@ interface AppContextProps {
   isGroupArchived: (groupId: string) => boolean; // Method to check if a group is archived
   categoriesList: Category[];
   refetchCategories: () => void;
+  isActiveGroupStarred: boolean;
+  toggleStarActiveGroup: () => void;
 }
 
 // Create the context with a proper type
@@ -103,6 +106,20 @@ export const GroupProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   const isGroupArchived = (groupId: string) => archivedGroups.includes(groupId);
 
+  const toggleStarActiveGroup = () => {
+    if (activeGroup) {
+      if (isGroupStarred(activeGroup.id)) {
+        unstarGroup(activeGroup.id);
+      } else {
+        starGroup(activeGroup.id);
+      }
+    }
+  };
+
+  const isActiveGroupStarred = useMemo(() => {
+    return activeGroup ? isGroupStarred(activeGroup.id) : false;
+  }, [activeGroup, starredGroups]);
+
   return (
     <AppContext.Provider
       value={{
@@ -122,6 +139,8 @@ export const GroupProvider: React.FC<AppProviderProps> = ({ children }) => {
         isGroupArchived,
         categoriesList,
         refetchCategories,
+        isActiveGroupStarred,
+        toggleStarActiveGroup,
       }}
     >
       {children}

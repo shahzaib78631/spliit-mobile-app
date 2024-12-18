@@ -4,19 +4,15 @@ import { ThemedList, ThemedText, ThemedView } from "@/components/ui";
 import { getString } from "@/strings/translations";
 import ThemePicker from "@/components/ThemePicker";
 import { darkThemes, lightThemes } from "@/theme/md3";
-import { UnistylesRuntime, UnistylesThemes } from "react-native-unistyles";
 import { useThemeContext } from "@/context/ThemeContext";
 import { ThemeColors } from "@/theme/types";
-import { AppThemeName } from "react-native-unistyles/lib/typescript/src/specs/types";
 import { setCurrentTheme } from "@/services/theme";
+import { UnistylesRuntime } from "react-native-unistyles";
 
 const AppearanceSettings = () => {
-  const [currenThemeName, setCurrentThemeName] = useState<
-    keyof UnistylesThemes | undefined
-  >(UnistylesRuntime.themeName);
   const { setTheme, commonStyles } = useThemeContext();
 
-  console.log("currenThemeName", currenThemeName);
+  console.log("UnistylesRuntime.themeName", UnistylesRuntime.themeName);
 
   return (
     <ThemedView
@@ -51,13 +47,13 @@ const AppearanceSettings = () => {
         <ThemedList
           type="flashlist"
           data={lightThemes}
-          extraData={currenThemeName}
+          extraData={UnistylesRuntime.themeName}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }: { item: ThemeColors }) => (
             <ThemePicker
               key={item.id}
               selected={
-                currenThemeName ===
+                UnistylesRuntime.themeName ===
                 `${item.code}${item.isDark ? "-dark" : "-light"}`
               }
               theme={item}
@@ -66,7 +62,6 @@ const AppearanceSettings = () => {
                   item.isDark ? "-dark" : "-light"
                 }`;
                 setTheme(themeName);
-                setCurrentThemeName(themeName);
                 setCurrentTheme({
                   name: item.code,
                   isDark: item.isDark,
@@ -96,13 +91,13 @@ const AppearanceSettings = () => {
         <ThemedList
           type="flatlist"
           data={darkThemes}
-          extraData={currenThemeName}
+          extraData={UnistylesRuntime.themeName}
           renderItem={({ item }: { item: ThemeColors }) => (
             <ThemePicker
               key={item.id}
               theme={item}
               selected={
-                currenThemeName ===
+                UnistylesRuntime.themeName ===
                 `${item.code}${item.isDark ? "-dark" : "-light"}`
               }
               onPress={() => {
@@ -110,7 +105,6 @@ const AppearanceSettings = () => {
                   item.isDark ? "-dark" : "-light"
                 }`;
                 setTheme(themeName);
-                setCurrentThemeName(themeName);
                 setCurrentTheme({
                   name: item.code,
                   isDark: item.isDark,

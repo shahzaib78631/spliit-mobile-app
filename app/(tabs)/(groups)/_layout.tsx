@@ -24,6 +24,7 @@ import { useThemeContext } from "@/context/ThemeContext";
 import { getString } from "@/strings/translations";
 import { ThemedMaterialIcons } from "@/components/ui/ThemedIcons";
 import { withUnistyles } from "react-native-unistyles";
+import TopAppBar from "@/components/AppBars/TopAppBar/TopAppBar";
 
 // Create a typed MaterialTopTabs navigator
 const { Navigator } = createMaterialTopTabNavigator();
@@ -82,94 +83,138 @@ export default function TabLayout() {
   };
 
   return (
-    <ThemedView
-      style={{ paddingVertical: 0, paddingHorizontal: 0 }}
-      statusbarBackgroundColor="surface2"
-    >
-      {/* Top Bar */}
-      <View
-        style={[
-          commonStyles.paddingHorizontalXl,
-          commonStyles.paddingVerticalSm,
-          commonStyles.rowJustifySpaceBetween,
-          commonStyles.rowAlignCenter,
-          commonStyles.backgroundColor("surface2"),
-        ]}
-      >
-        <ThemedText type="medium" fontSize="xl" color="onPrimaryContainer">
-          {getString("screen.groups.title")}
-        </ThemedText>
-        <View style={[commonStyles.rowAlignCenter]}>
-          <ThemedButton variant="text">
-            <ThemedMaterialIcons
-              name="add"
-              color={"onPrimaryContainer"}
-              size={24}
-            />
-          </ThemedButton>
-          <ThemedButton
-            variant="text"
-            style={commonStyles.paddingNone}
-            onPress={openAddGroupByUrlSheet}
-          >
-            <ThemedMaterialIcons
-              name="link"
-              color="onPrimaryContainer"
-              size={24}
-            />
-          </ThemedButton>
-        </View>
-      </View>
+    // <ThemedView
+    //   style={{ paddingVertical: 0, paddingHorizontal: 0 }}
+    //   statusbarBackgroundColor="surface2"
+    //   goBackEnabled={false}
+    // >
+    //   {/* Top Bar */}
+    //   <View
+    //     style={[
+    //       commonStyles.paddingHorizontalXl,
+    //       commonStyles.paddingVerticalSm,
+    //       commonStyles.rowJustifySpaceBetween,
+    //       commonStyles.rowAlignCenter,
+    //       commonStyles.backgroundColor("surface2"),
+    //     ]}
+    //   >
+    //     <ThemedText type="medium" fontSize="xl" color="onPrimaryContainer">
+    //       {getString("screen.groups.title")}
+    //     </ThemedText>
+    //     <View style={[commonStyles.rowAlignCenter]}>
+    //       <ThemedButton variant="text">
+    //         <ThemedMaterialIcons
+    //           name="add"
+    //           color={"onPrimaryContainer"}
+    //           size={24}
+    //         />
+    //       </ThemedButton>
+    //       <ThemedButton
+    //         variant="text"
+    //         style={commonStyles.paddingNone}
+    //         onPress={openAddGroupByUrlSheet}
+    //       >
+    //         <ThemedMaterialIcons
+    //           name="link"
+    //           color="onPrimaryContainer"
+    //           size={24}
+    //         />
+    //       </ThemedButton>
+    //     </View>
+    //   </View>
 
-      {/* Tabs */}
-      <ThemedMaterialTopTabs>
-        <MaterialTopTabs.Screen
-          name="index"
-          options={{
-            title: getString("common.recent"),
-            tabBarIcon: (props) => (
-              <AntDesign
-                {...props}
-                size={16}
-                name={`${props.focused ? "clockcircle" : "clockcircleo"}`}
-              />
-            ),
-          }}
-        />
-        <MaterialTopTabs.Screen
-          name="starred"
-          options={{
-            title: getString("common.starred"),
-            tabBarIcon: (props) => (
-              <AntDesign
-                {...props}
-                size={16}
-                name={`${props.focused ? "star" : "staro"}`}
-              />
-            ),
-          }}
-        />
-        <MaterialTopTabs.Screen
-          name="archived"
-          options={{
-            title: getString("common.archived"),
-            tabBarIcon: (props) => (
-              <MaterialCommunityIcons
-                {...props}
-                size={16}
-                name={`${
-                  props.focused
-                    ? "inbox-arrow-down"
-                    : "inbox-arrow-down-outline"
-                }`}
-              />
-            ),
-          }}
-        />
-      </ThemedMaterialTopTabs>
+    //   {/* Tabs */}
+    //   <ThemedMaterialTopTabs>
+    //     <MaterialTopTabs.Screen
+    //       name="index"
+    //       options={{
+    //         title: getString("common.recent"),
+    //         tabBarIcon: (props) => (
+    //           <AntDesign
+    //             {...props}
+    //             size={16}
+    //             name={`${props.focused ? "clockcircle" : "clockcircleo"}`}
+    //           />
+    //         ),
+    //       }}
+    //     />
+    //     <MaterialTopTabs.Screen
+    //       name="starred"
+    //       options={{
+    //         title: getString("common.starred"),
+    //         tabBarIcon: (props) => (
+    //           <AntDesign
+    //             {...props}
+    //             size={16}
+    //             name={`${props.focused ? "star" : "staro"}`}
+    //           />
+    //         ),
+    //       }}
+    //     />
+    //     <MaterialTopTabs.Screen
+    //       name="archived"
+    //       options={{
+    //         title: getString("common.archived"),
+    //         tabBarIcon: (props) => (
+    //           <MaterialCommunityIcons
+    //             {...props}
+    //             size={16}
+    //             name={`${
+    //               props.focused
+    //                 ? "inbox-arrow-down"
+    //                 : "inbox-arrow-down-outline"
+    //             }`}
+    //           />
+    //         ),
+    //       }}
+    //     />
+    //   </ThemedMaterialTopTabs>
 
-      {/* AddGroupByUrlSheet and FloatingActionButton */}
-      <FloatingActionButton />
-    </ThemedView>
+    //   {/* AddGroupByUrlSheet and FloatingActionButton */}
+    //   <FloatingActionButton />
+    // </ThemedView>
+
+    <TopAppBar
+      title={getString("screen.groups.title")}
+      renderFloatingButton={() => <FloatingActionButton />}
+      goBackEnabled={false}
+      tabs={[
+        {
+          name: "index",
+          title: getString("common.recent"),
+          icon: (props) => (
+            <AntDesign
+              {...props}
+              size={16}
+              name={`${props.focused ? "clockcircle" : "clockcircleo"}`}
+            />
+          ),
+        },
+        {
+          name: "starred",
+          title: getString("common.starred"),
+          icon: (props) => (
+            <AntDesign
+              {...props}
+              size={16}
+              name={`${props.focused ? "star" : "staro"}`}
+            />
+          ),
+        },
+        {
+          name: "archived",
+          title: getString("common.archived"),
+          icon: (props) => (
+            <MaterialCommunityIcons
+              {...props}
+              size={16}
+              name={`${
+                props.focused ? "inbox-arrow-down" : "inbox-arrow-down-outline"
+              }`}
+            />
+          ),
+        },
+      ]}
+    />
   );
 }

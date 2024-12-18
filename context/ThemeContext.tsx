@@ -40,6 +40,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     }
 
     const theme: UnistylesTheme = UnistylesRuntime.getTheme();
+
     if (Platform.OS === "android") {
       setTimeout(async () => {
         setStatusBarColor(theme.colors);

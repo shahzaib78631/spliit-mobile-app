@@ -14,42 +14,30 @@ import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import { ThemedMaterialIcons } from "@/components/ui/ThemedIcons";
 import ThemedButton from "../ThemedButton";
 
-/**
- * Props interface for ThemedView component
- */
-interface ThemedViewProps extends ViewProps, ScrollViewProps {
-  statusBarHeaderStyle?: ViewProps["style"];
-  style?: ViewProps["style"];
-  children?: React.ReactNode;
-  title?: string;
-  statusbarBackgroundColor?: keyof Colors;
-  scrollEnabled?: boolean;
-  goBackEnabled?: boolean;
-}
-
 const ThemedKeyboardAwareScrollView = withUnistyles(KeyboardAwareScrollView);
 
-/**
- * Reusable themed view component with optional scrolling and header
- *
- * @component
- * @param {ThemedViewProps} props - Component configuration
- * @returns {React.ReactElement} Themed view with optional header and scrolling
- */
 const ThemedView: React.FC<ThemedViewProps> = ({
   children,
   style,
   statusBarHeaderStyle,
   title,
+  titleAlignment = "left", // default alignment
+  size = "regular", // default size
   scrollEnabled = false,
   goBackEnabled = true,
   statusbarBackgroundColor = "background",
+  actions = [],
   ...props
 }: ThemedViewProps): React.ReactElement => {
   const { commonStyles } = useThemeContext();
   const router = useRouter();
 
   const canGoBack = router?.canGoBack();
+
+  // Dynamic styles for title alignment and position
+  styles.useVariants({
+    textAlignment: titleAlignment,
+  });
 
   return (
     <View style={[commonStyles.flex1]}>
@@ -61,45 +49,82 @@ const ThemedView: React.FC<ThemedViewProps> = ({
         ]}
       />
 
-      {/* Header */}
-      {title && (
+      {/* Top Bar */}
+      {(title || (canGoBack && goBackEnabled)) && (
         <View
           style={[
-            styles.header,
+            commonStyles.paddingHorizontalXl,
+            commonStyles.paddingVerticalXl,
             commonStyles.rowJustifySpaceBetween,
-            commonStyles.alignCenter,
-            commonStyles.paddingLg,
-            commonStyles.backgroundColor(statusbarBackgroundColor),
+            commonStyles.rowAlignCenter,
+            commonStyles.backgroundColor("surface2"),
+            size === "large" && {
+              flexDirection: "column",
+              alignItems: "flex-start",
+            }, // Adjust for large size
           ]}
         >
-          {canGoBack && goBackEnabled && (
-            <ThemedButton
+          <View style={[commonStyles.rowAlignCenter, commonStyles.width100]}>
+            <View style={[commonStyles.rowAlignCenter]}>
+              {canGoBack && goBackEnabled && (
+                <ThemedButton
+                  variant="text"
+                  onPress={() => router.dismiss()}
+                  style={{ marginRight: 16 }}
+                >
+                  <ThemedMaterialIcons
+                    name="arrow-back"
+                    size={18}
+                    color="onPrimaryContainer"
+                  />
+                </ThemedButton>
+              )}
+            </View>
+
+            {size === "regular" && (
+              <ThemedText
+                type="medium"
+                fontSize="lg"
+                color="onPrimaryContainer"
+                style={styles.title}
+              >
+                {title}
+              </ThemedText>
+            )}
+            <View
               style={[
-                commonStyles.paddingMd,
-                commonStyles.absolute,
-                commonStyles.borderRadiusXl,
-                { left: 10 },
+                commonStyles.rowAlignCenter,
+                commonStyles.marginLeft("auto"),
+                commonStyles.gapHorizontalMd,
               ]}
-              onPress={() => router.dismiss()}
             >
-              <ThemedMaterialIcons
-                name="arrow-back"
-                size={18}
-                color="onSurface"
-              />
-            </ThemedButton>
-          )}
-          <View
-            style={[
-              commonStyles.flex1,
-              commonStyles.justifyCenter,
-              commonStyles.alignCenter,
-            ]}
-          >
-            <ThemedText type="regular" fontSize="xl" color="onSurface">
-              {title}
-            </ThemedText>
+              {actions.map((action, index) => (
+                <ThemedButton
+                  key={index}
+                  variant="text"
+                  style={commonStyles.paddingNone}
+                  onPress={action.onPress}
+                >
+                  {action.icon}
+                </ThemedButton>
+              ))}
+            </View>
           </View>
+          {
+            // Large size title
+            size === "large" && (
+              <View style={[commonStyles.marginTopXl, commonStyles.width100]}>
+                <ThemedText
+                  type="medium"
+                  fontSize="xl"
+                  color="onPrimaryContainer"
+                  style={styles.largeTitle}
+                >
+                  {title}
+                </ThemedText>
+              </View>
+            )
+          }
         </View>
       )}
 
@@ -129,12 +154,23 @@ const ThemedView: React.FC<ThemedViewProps> = ({
   );
 };
 
-/**
- * Stylesheet for ThemedView using theme-based styling
- *
- * @param {Object} theme - The current application theme
- * @returns {Object} Styled object for themed view components
- */
+export default ThemedView;
+
+// Updated Props Interface
+interface ThemedViewProps extends ViewProps, ScrollViewProps {
+  statusBarHeaderStyle?: ViewProps["style"];
+  style?: ViewProps["style"];
+  children?: React.ReactNode;
+  title?: string;
+  statusbarBackgroundColor?: keyof Colors;
+  scrollEnabled?: boolean;
+  goBackEnabled?: boolean;
+  actions?: { icon: React.ReactNode; onPress: () => void }[];
+  titleAlignment?: "left" | "center" | "right"; // New prop
+  size?: "regular" | "large"; // New prop
+}
+
+// Updated Styles
 const styles = StyleSheet.create((theme, rt) => ({
   header: {
     borderBottomWidth: 1,
@@ -151,6 +187,35 @@ const styles = StyleSheet.create((theme, rt) => ({
     gap: theme.spacing.md,
     paddingVertical: theme.padding.lg,
   },
+  title: {
+    flex: 1,
+    variants: {
+      textAlignment: {
+        left: {
+          textAlign: "left",
+        },
+        center: {
+          textAlign: "center",
+        },
+        right: {
+          textAlign: "right",
+        },
+      },
+    },
+  },
+  largeTitle: {
+    variants: {
+      textAlignment: {
+        left: {
+          textAlign: "left",
+        },
+        center: {
+          textAlign: "center",
+        },
+        right: {
+          textAlign: "right",
+        },
+      },
+    },
+  },
 }));
-
-export default ThemedView;
