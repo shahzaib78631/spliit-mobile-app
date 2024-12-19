@@ -1,4 +1,4 @@
-import { getRecentGroups, RecentGroup } from "@/services/recentGroups";
+import { getRecentGroups, RecentGroup } from "@/storage/recentGroups";
 import { GroupList, trpc } from "@/utils/trpc";
 import { useCallback, useEffect, useState } from "react";
 

@@ -68,7 +68,10 @@ const GroupListCard: React.FC<GroupListCardProps> = ({
   };
 
   const handleNavigation = () => {
-    router.push(`/${group.id}/(tabs)`);
+    router.push({
+      pathname: "/[groupId]/(tabs)/expenses",
+      params: { groupId: group.id },
+    });
   };
 
   return (
@@ -137,7 +140,6 @@ const GroupListCard: React.FC<GroupListCardProps> = ({
 const styles = StyleSheet.create((theme) => ({
   cardContainer: {
     backgroundColor: theme.colors.surface2,
-    borderRadius: theme.borderRadius.xxl,
     overflow: "hidden",
     borderWidth: 1,
     borderColor: theme.colors.primaryOutline,

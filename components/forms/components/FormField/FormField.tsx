@@ -28,6 +28,7 @@ import BaseBottomActionSheet from "@/components/base/BaseBottomActionSheet";
 import ErrorMessage from "@/components/forms/components/ErrorMessage";
 import { ThemedTextInput, ThemedText, ThemedCheckbox } from "@/components/ui";
 import ThemedSegmentedControls from "@/components/ui/ThemedSegmentedControls";
+import dayjs from "dayjs";
 
 /**
  * Props for the base form field component.
@@ -241,10 +242,10 @@ const FormField = ({
             <ThemedTextInput
               placeholder={placeholder}
               value={
-                dateTimePickerValue
+                value
                   ? type === "date"
-                    ? dateTimePickerValue.toLocaleDateString()
-                    : dateTimePickerValue.toLocaleTimeString()
+                    ? dayjs(value).format("MMM D, YYYY")
+                    : value.toLocaleTimeString()
                   : ""
               }
               editable={false}
@@ -257,7 +258,7 @@ const FormField = ({
           </Pressable>
           {showPicker && (
             <DateTimePicker
-              value={dateTimePickerValue || new Date()}
+              value={value ? dayjs(value).toDate() : new Date()}
               mode={type}
               display="default"
               onChange={(event, date) =>

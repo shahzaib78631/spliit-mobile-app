@@ -10,6 +10,7 @@ import { useGroupDetails } from "@/hooks/useGroupDetails";
 import PopupMenu from "@/components/PopupMenu";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { StyleSheet } from "react-native-unistyles";
+import { BaseCard } from "@/components/base";
 
 const { width } = Dimensions.get("window");
 
@@ -37,51 +38,49 @@ const RecentGroupCard: React.FC<RecentGroupCardProps> = ({
   }
 
   return (
-    <View style={[styles.cardContainer]}>
-      <View style={styles.contentContainer}>
-        <View style={styles.header}>
-          <ThemedText numberOfLines={1} type="medium" style={styles.title}>
-            {details?.name}
-          </ThemedText>
-          <PopupMenu groupId={groupId} />
-        </View>
-        <Seperator />
-        <View style={styles.billSection}>
-          <ThemedText type="medium" style={styles.totalText}>
-            {getString("stats.totals.groupspendings")}
-          </ThemedText>
-          <ThemedText numberOfLines={1} type="bold" style={styles.amountText}>
-            {`${formatCurrency(details?.currency, stats?.totalGroupSpendings)}`}
-          </ThemedText>
-        </View>
+    <BaseCard>
+      <View style={styles.header}>
+        <ThemedText numberOfLines={1} type="medium" style={styles.title}>
+          {details?.name}
+        </ThemedText>
+        <PopupMenu groupId={groupId} />
+      </View>
+      <Seperator />
+      <View style={styles.billSection}>
+        <ThemedText type="medium" style={styles.totalText}>
+          {getString("stats.totals.groupspendings")}
+        </ThemedText>
+        <ThemedText numberOfLines={1} type="bold" style={styles.amountText}>
+          {`${formatCurrency(details?.currency, stats?.totalGroupSpendings)}`}
+        </ThemedText>
+      </View>
 
-        <View style={styles.personsContainer}>
-          <View style={styles.header}>
-            <ThemedText style={styles.subText}>Split with</ThemedText>
-            <ThemedText style={styles.subText}>
-              {details?.participants?.length}{" "}
-              {getString("groupform.participants.title")}
-            </ThemedText>
-          </View>
-          <View style={styles.stackedAvatars}>
-            <StackedAvatars
-              nameKey="name"
-              avatars={details?.participants}
-              avatarSize={40}
-              overlap={-8}
-            />
-          </View>
+      <View style={styles.personsContainer}>
+        <View style={styles.header}>
+          <ThemedText style={styles.subText}>Split with</ThemedText>
+          <ThemedText style={styles.subText}>
+            {details?.participants?.length}{" "}
+            {getString("groupform.participants.title")}
+          </ThemedText>
         </View>
-        <View style={styles.footer}>
-          <ThemedButton
-            title={getString("expenses.add")}
-            borderRadius="lg"
-            fontSize="sm"
-            onPress={onSplitBtnPress}
+        <View style={styles.stackedAvatars}>
+          <StackedAvatars
+            nameKey="name"
+            avatars={details?.participants}
+            avatarSize={40}
+            overlap={-8}
           />
         </View>
       </View>
-    </View>
+      <View style={styles.footer}>
+        <ThemedButton
+          title={getString("expenses.add")}
+          borderRadius="lg"
+          fontSize="sm"
+          onPress={onSplitBtnPress}
+        />
+      </View>
+    </BaseCard>
   );
 };
 
@@ -116,6 +115,7 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    width: "100%",
   },
   totalText: {
     fontSize: theme.fontSize.sm,

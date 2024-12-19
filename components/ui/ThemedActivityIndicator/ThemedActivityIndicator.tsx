@@ -7,7 +7,11 @@ interface ThemedActivityIndicatorProps {
 }
 
 const ThemedActivityIndicator = ({ color }: ThemedActivityIndicatorProps) => {
-  return <ActivityIndicator size={"small"} />;
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator size={"small"} />
+    </View>
+  );
 };
 
 export default withUnistyles(ThemedActivityIndicator, (theme) => ({

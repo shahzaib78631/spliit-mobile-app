@@ -4,6 +4,7 @@ import ThemedButton from "@/components/ui/ThemedButton";
 import { getString } from "@/strings/translations";
 import ThemedText from "@/components/ui/ThemedText";
 import { StyleSheet } from "react-native-unistyles";
+import { BaseCard } from "@/components/base";
 
 // Define prop types for the component to make it reusable
 interface CreateSplitCardProps {
@@ -16,44 +17,42 @@ const CreateSplitCard: React.FC<CreateSplitCardProps> = ({
   onAddUrlPress,
 }) => {
   return (
-    <View style={[styles.cardContainer]}>
-      <View style={styles.contentContainer}>
-        <View style={styles.infoContainer}>
-          <Image
-            source={require("@/assets/images/logo.png")}
-            width={80}
-            height={80}
-            resizeMode="contain"
-            style={styles.logo}
+    <BaseCard>
+      <View style={styles.infoContainer}>
+        <Image
+          source={require("@/assets/images/logo.png")}
+          width={80}
+          height={80}
+          resizeMode="contain"
+          style={styles.logo}
+        />
+        <ThemedText type="medium" fontSize="xl" textAlign="center">
+          {getString("common.welcome_to_split")}
+        </ThemedText>
+        <ThemedText type="light" fontSize="sm" textAlign="center">
+          {getString("common.welcome_to_split_desc")}
+        </ThemedText>
+      </View>
+      <View style={styles.footer}>
+        <View style={styles.footerBtn}>
+          <ThemedButton
+            title={getString("common.create_group")}
+            borderRadius="lg"
+            fontSize="sm"
+            onPress={onCreateGroupPress}
           />
-          <ThemedText type="medium" fontSize="xl" textAlign="center">
-            {getString("common.welcome_to_split")}
-          </ThemedText>
-          <ThemedText type="light" fontSize="sm" textAlign="center">
-            {getString("common.welcome_to_split_desc")}
-          </ThemedText>
         </View>
-        <View style={styles.footer}>
-          <View style={styles.footerBtn}>
-            <ThemedButton
-              title={getString("common.create_group")}
-              borderRadius="lg"
-              fontSize="sm"
-              onPress={onCreateGroupPress}
-            />
-          </View>
-          <View style={styles.footerBtn}>
-            <ThemedButton
-              title={getString("common.add_by_url")}
-              borderRadius="lg"
-              fontSize="sm"
-              variant="outline"
-              onPress={onAddUrlPress}
-            />
-          </View>
+        <View style={styles.footerBtn}>
+          <ThemedButton
+            title={getString("common.add_by_url")}
+            borderRadius="lg"
+            fontSize="sm"
+            variant="outline"
+            onPress={onAddUrlPress}
+          />
         </View>
       </View>
-    </View>
+    </BaseCard>
   );
 };
 
@@ -61,7 +60,7 @@ const CreateSplitCard: React.FC<CreateSplitCardProps> = ({
 const styles = StyleSheet.create((theme) => ({
   cardContainer: {
     backgroundColor: theme.colors.surface2,
-    borderRadius: theme.borderRadius.xxl,
+    borderRadius: theme.borderRadius.lg,
     overflow: "hidden",
     height: 270,
     borderWidth: 1,

@@ -1,12 +1,12 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useMemo, useState } from "react";
+import { ScrollView, StyleSheet } from "react-native";
+import React from "react";
 import { ThemedList, ThemedText, ThemedView } from "@/components/ui";
 import { getString } from "@/strings/translations";
 import ThemePicker from "@/components/ThemePicker";
 import { darkThemes, lightThemes } from "@/theme/md3";
 import { useThemeContext } from "@/context/ThemeContext";
 import { ThemeColors } from "@/theme/types";
-import { setCurrentTheme } from "@/services/theme";
+import { setCurrentTheme } from "@/storage/theme";
 import { UnistylesRuntime } from "react-native-unistyles";
 
 const AppearanceSettings = () => {

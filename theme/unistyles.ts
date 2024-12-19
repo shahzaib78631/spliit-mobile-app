@@ -3,7 +3,7 @@ import Themes from "@/theme/md3";
 import { Theme, ThemeColors } from "@/theme/types";
 import { baseTheme } from "@/theme/baseTheme";
 import { getColorWithAlpha, getElevationColor } from "@/utils/colors";
-import { getStoredTheme } from "@/services/theme";
+import { getStoredTheme } from "@/storage/theme";
 import { AppThemeName } from "react-native-unistyles/lib/typescript/src/specs/types";
 
 // Define app themes type

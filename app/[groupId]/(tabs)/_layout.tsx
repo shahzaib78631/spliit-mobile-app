@@ -1,32 +1,11 @@
-import React, { useRef } from "react";
-import { View } from "react-native";
-import {
-  MaterialTopTabNavigationEventMap,
-  MaterialTopTabNavigationOptions,
-  createMaterialTopTabNavigator,
-} from "@react-navigation/material-top-tabs";
-import { withLayoutContext } from "expo-router";
-import { ParamListBase, TabNavigationState } from "@react-navigation/native";
+import React from "react";
 
 // Icons
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
-
-// COmponents
-import ThemedView from "@/components/ui/ThemedView";
-import ThemedText from "@/components/ui/ThemedText";
-import ThemedButton from "@/components/ui/ThemedButton";
-import FloatingActionButton from "@/components/FloatingActionButton";
-
-// Context
-import { useThemeContext } from "@/context/ThemeContext";
+import { AntDesign } from "@expo/vector-icons";
 
 // Translation
 import { getString } from "@/strings/translations";
-import {
-  ThemedAntDesign,
-  ThemedMaterialIcons,
-} from "@/components/ui/ThemedIcons";
-import { withUnistyles } from "react-native-unistyles";
+import { ThemedAntDesign } from "@/components/ui/ThemedIcons";
 import TopAppBar from "@/components/AppBars/TopAppBar/TopAppBar";
 import { useAppContext } from "@/context/AppContext";
 

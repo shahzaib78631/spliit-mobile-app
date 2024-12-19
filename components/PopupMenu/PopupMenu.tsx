@@ -11,7 +11,7 @@ import { SheetManager } from "react-native-actions-sheet";
 import { useRouter } from "expo-router";
 
 // Services
-import { removeRecentGroup } from "@/services/recentGroups";
+import { removeRecentGroup } from "@/storage/recentGroups";
 
 // Context
 import { useAppContext } from "@/context/AppContext";

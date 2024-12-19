@@ -3,41 +3,82 @@ import React from "react";
 // Components
 import ThemedList from "@/components/ui/ThemedList";
 import { useAppContext } from "@/context/AppContext";
-import GroupListCard from "@/components/cards/GroupListCard/GroupListCard";
-import { GroupListItem } from "@/utils/trpc";
+import { Expense } from "@/utils/trpc";
 import { getString } from "@/strings/translations";
+import { useGroupExpenses } from "@/hooks/useGroupExpenses";
+import { ThemedText } from "@/components/ui";
+import { ExpensesListCard } from "@/components/cards";
+import { View } from "react-native";
+import { commonStyles } from "@/theme/styles";
+import { useRouter } from "expo-router";
 
 /**
- * Screen for creating a new group
+ * Screen for Expenses
  *
  * @component
- * @returns {React.ReactElement} Renders the group creation form within a themed view
+ * @returns {React.ReactElement} Renders the expenses list
  */
-export default function Groups(): React.ReactElement {
-  const { recentGroupsList, archivedGroups, starredGroups } = useAppContext();
+export default function Expenses(): React.ReactElement {
+  const { activeGroup } = useAppContext();
+  const { sections, deleteExpense } = useGroupExpenses({
+    groupId: activeGroup?.id || "",
+  });
 
-  const data = recentGroupsList.groups?.filter(
-    (group) =>
-      !(
-        starredGroups?.includes(group?.id) ||
-        archivedGroups?.includes(group?.id)
-      )
-  );
+  const router = useRouter();
+
+  const handleExpenseDelete = (id: string) => {
+    // deleteExpense(id);
+  };
+
+  const handleExpenseOpen = (expenseId: string) => {
+    // Open expense details screen
+    router.push({
+      pathname: `/[groupId]/expenses/[expenseId]`,
+      params: { groupId: activeGroup?.id || "", expenseId },
+    });
+  };
 
   return (
     <>
       <ThemedList
-        data={data || []}
-        renderItem={({ item }: { item: GroupListItem }) => {
-          return <GroupListCard group={item} page="recent" />;
+        type="sectionlist"
+        data={sections}
+        renderItem={({ item }: { item: Expense | string }) => {
+          if (typeof item === "string") {
+            return (
+              <ThemedText fontSize="md" color="onBackground">
+                {getString(`expenses.groups.${item}`.toLowerCase() as any)}
+              </ThemedText>
+            );
+          }
+
+          return (
+            <ExpensesListCard
+              group={activeGroup}
+              expense={item}
+              onDelete={handleExpenseDelete}
+              onPress={handleExpenseOpen}
+            />
+          );
         }}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item: any) => item?.id || item}
+        estimatedItemSize={100}
         searchEnabled
+        renderSectionHeader={({ section: { title } }) => (
+          <View
+            style={[
+              commonStyles.paddingVerticalLg,
+              commonStyles.backgroundColor("background"),
+            ]}
+          >
+            <ThemedText fontSize="md" color="onBackground">
+              {getString(`expenses.groups.${title}`.toLowerCase() as any)}
+            </ThemedText>
+          </View>
+        )}
         searchConfig={{
-          extractSearchableText: (item) => item.name, // Search by name
-          placeholder: getString("groups.searchplaceholder", {
-            name: getString("common.recent"),
-          }),
+          extractSearchableText: (item: any) => item?.title ?? item, // Search by title
+          placeholder: getString("expenses.searchplaceholder"),
         }}
       />
     </>

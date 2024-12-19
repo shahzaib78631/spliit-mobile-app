@@ -212,7 +212,7 @@ const ThemedList = <T,>({
       return data;
     }
 
-    if (Array.isArray(data) && type === "flatlist") {
+    if (Array.isArray(data) && (type === "flatlist" || type === "flashlist")) {
       return data.filter((item) =>
         searchConfig
           .extractSearchableText(item)

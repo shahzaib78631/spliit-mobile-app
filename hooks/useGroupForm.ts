@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Group, GroupDetails, trpc } from "@/utils/trpc";
 import { groupFormSchema, GroupFormValues } from "spliit-api/src/lib/schemas";
-import { addRecentGroup, updateRecentGroup } from "@/services/recentGroups";
+import { addRecentGroup, updateRecentGroup } from "@/storage/recentGroups";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 

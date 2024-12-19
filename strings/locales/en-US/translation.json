@@ -55,7 +55,7 @@
     }
   },
   "expensecard": {
-    "paidby": "Paid by <strong>{paidBy}</strong> for <paidFor></paidFor>",
+    "paidby": "Paid by <strong>{{paidBy}}</strong> for <strong>{{paidFor}}</strong>",
     "receivedby": "Received by <strong>{paidBy}</strong> for <paidFor></paidFor>",
     "yourbalance": "Your balance:"
   },

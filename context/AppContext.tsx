@@ -9,18 +9,18 @@ import React, {
   useMemo,
 } from "react";
 import { useGroupsList } from "@/hooks/useGroupsList";
-import { RecentGroup } from "@/services/recentGroups";
+import { RecentGroup } from "@/storage/recentGroups";
 import { Category, GroupDetails, GroupList } from "@/utils/trpc";
 import {
   getStarredGroups,
   starGroup as addStarGroup,
   unstarGroup as removeStarGroup,
-} from "@/services/staredGroups";
+} from "@/storage/staredGroups";
 import {
   getArchivedGroups,
   archiveGroup as addArchiveGroup,
   unarchiveGroup as removeArchiveGroup,
-} from "@/services/archivedGroups";
+} from "@/storage/archivedGroups";
 import { useCategoriesList } from "@/hooks/useCategoriesList";
 
 // Define the interface for the context's value

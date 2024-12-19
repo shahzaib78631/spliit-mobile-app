@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { trpc } from "@/utils/trpc";
-import { addRecentGroup } from "@/services/recentGroups";
+import { addRecentGroup } from "@/storage/recentGroups";
 import { useState } from "react";
 
 /**

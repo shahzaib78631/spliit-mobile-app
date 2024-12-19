@@ -13,6 +13,7 @@ import { useThemeContext } from "@/context/ThemeContext";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import { ThemedMaterialIcons } from "@/components/ui/ThemedIcons";
 import ThemedButton from "../ThemedButton";
+import ThemedActivityIndicator from "../ThemedActivityIndicator";
 
 const ThemedKeyboardAwareScrollView = withUnistyles(KeyboardAwareScrollView);
 
@@ -27,6 +28,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
   goBackEnabled = true,
   statusbarBackgroundColor = "background",
   actions = [],
+  loading = false,
   ...props
 }: ThemedViewProps): React.ReactElement => {
   const { commonStyles } = useThemeContext();
@@ -136,7 +138,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
           bottomOffset={20}
           showsVerticalScrollIndicator={false}
         >
-          {children}
+          {loading ? <ThemedActivityIndicator /> : children}
         </ThemedKeyboardAwareScrollView>
       )}
       {!scrollEnabled && (
@@ -147,7 +149,7 @@ const ThemedView: React.FC<ThemedViewProps> = ({
             style,
           ]}
         >
-          {children}
+          {loading ? <ThemedActivityIndicator /> : children}
         </View>
       )}
     </View>
@@ -168,6 +170,7 @@ interface ThemedViewProps extends ViewProps, ScrollViewProps {
   actions?: { icon: React.ReactNode; onPress: () => void }[];
   titleAlignment?: "left" | "center" | "right"; // New prop
   size?: "regular" | "large"; // New prop
+  loading?: boolean;
 }
 
 // Updated Styles
@@ -186,6 +189,7 @@ const styles = StyleSheet.create((theme, rt) => ({
   contentContainer: {
     gap: theme.spacing.md,
     paddingVertical: theme.padding.lg,
+    flexGrow: 1,
   },
   title: {
     flex: 1,
