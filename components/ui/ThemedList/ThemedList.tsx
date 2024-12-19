@@ -157,6 +157,10 @@ export interface ThemedListProps<T> {
   horizontal?: boolean;
 
   showsHorizontalScrollIndicator?: boolean;
+
+  refreshing?: boolean;
+
+  onRefresh?: () => void;
 }
 
 /**
@@ -254,6 +258,8 @@ const ThemedList = <T,>({
       ItemSeparatorComponent={() => <View style={styles.itemSeperator} />}
       showsVerticalScrollIndicator={showsVerticalScrollIndicator}
       keyboardShouldPersistTaps="handled"
+      refreshing={props.refreshing}
+      onRefresh={props.onRefresh}
       {...props}
     />
   );
@@ -277,6 +283,8 @@ const ThemedList = <T,>({
       estimatedItemSize={estimatedItemSize}
       extraData={extraData}
       contentContainerStyle={contentContainerStyle as any}
+      refreshing={props.refreshing}
+      onRefresh={props.onRefresh}
       {...props}
     />
   );
@@ -301,6 +309,8 @@ const ThemedList = <T,>({
       showsVerticalScrollIndicator={showsVerticalScrollIndicator}
       stickySectionHeadersEnabled={true}
       keyboardShouldPersistTaps="handled"
+      refreshing={props.refreshing}
+      onRefresh={props.onRefresh}
       {...props}
     />
   );

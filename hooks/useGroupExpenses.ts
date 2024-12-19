@@ -29,6 +29,9 @@ export function useGroupExpenses({ groupId }: Params) {
     data: queryData,
     fetchNextPage,
     refetch,
+    isLoading,
+    isFetching,
+    isRefetching,
   } = trpc.groups.expenses.list.useInfiniteQuery(
     { groupId, limit: PAGE_SIZE },
     { getNextPageParam: ({ nextCursor }) => nextCursor }
@@ -73,23 +76,8 @@ export function useGroupExpenses({ groupId }: Params) {
     fetchNextPage,
     deleteExpense: deleteExpenseAsync,
     refetch,
+    isLoading,
+    isFetching,
+    isRefetching,
   };
-}
-
-/**
- * Map group key to a readable section title.
- *
- * @param key - Group identifier key.
- * @returns Readable title.
- */
-function mapGroupKeyToTitle(key: string): string {
-  return match(key)
-    .with("upcoming", () => "Upcoming")
-    .with("thisWeek", () => "This Week")
-    .with("earlierThisMonth", () => "Earlier This Month")
-    .with("lastMonth", () => "Last Month")
-    .with("earlierThisYear", () => "Earlier This Year")
-    .with("lastYear", () => "Last Year")
-    .with("older", () => "Older")
-    .otherwise(() => key);
 }

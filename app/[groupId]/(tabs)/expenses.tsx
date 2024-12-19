@@ -20,7 +20,14 @@ import { useRouter } from "expo-router";
  */
 export default function Expenses(): React.ReactElement {
   const { activeGroup } = useAppContext();
-  const { sections, deleteExpense } = useGroupExpenses({
+  const {
+    sections,
+    deleteExpense,
+    refetch,
+    isLoading,
+    isFetching,
+    isRefetching,
+  } = useGroupExpenses({
     groupId: activeGroup?.id || "",
   });
 
@@ -45,7 +52,7 @@ export default function Expenses(): React.ReactElement {
       renderItem={({ item }: { item: Expense | string }) => {
         if (typeof item === "string") {
           return (
-            <ThemedText fontSize="md" color="onBackground">
+            <ThemedText type="medium" fontSize="md" color="onBackground">
               {getString(`expenses.groups.${item}`.toLowerCase() as any)}
             </ThemedText>
           );
@@ -63,6 +70,7 @@ export default function Expenses(): React.ReactElement {
       keyExtractor={(item: any) => item?.id || item}
       estimatedItemSize={100}
       searchEnabled
+      showsVerticalScrollIndicator={false}
       renderSectionHeader={({ section: { title } }) => (
         <View
           style={[
@@ -70,11 +78,13 @@ export default function Expenses(): React.ReactElement {
             commonStyles.backgroundColor("background"),
           ]}
         >
-          <ThemedText fontSize="md" color="onBackground">
+          <ThemedText type="medium" fontSize="md" color="onBackground">
             {getString(`expenses.groups.${title}`.toLowerCase() as any)}
           </ThemedText>
         </View>
       )}
+      refreshing={isLoading || isFetching || isRefetching}
+      onRefresh={() => refetch()}
       searchConfig={{
         extractSearchableText: (item: any) => item?.title ?? item, // Search by title
         placeholder: getString("expenses.searchplaceholder"),

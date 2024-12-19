@@ -1,6 +1,6 @@
 import { Text, TouchableNativeFeedback, View } from "react-native";
 import React from "react";
-import { Expense, GroupDetails } from "@/utils/trpc";
+import { Expense, Group } from "@/utils/trpc";
 import { ThemedButton, ThemedText } from "@/components/ui";
 import { StyleSheet } from "react-native-unistyles";
 import { Trans } from "react-i18next";
@@ -17,7 +17,7 @@ import { commonStyles } from "@/theme/styles";
 
 interface ExpensesListCardProps {
   expense: Expense;
-  group: GroupDetails | null | undefined;
+  group: Group | null | undefined;
   onPress: (expenseId: string) => void;
   onDelete: (expenseId: string) => void;
 }
@@ -80,7 +80,7 @@ const ExpensesListCard = ({
         <View style={styles.container}>
           <View style={styles.contentContainer}>
             <View style={commonStyles.gapSm}>
-              <ThemedText type="bold" fontSize="md">
+              <ThemedText type="regular" fontSize="md">
                 {expense.title}
               </ThemedText>
               <ThemedText color="onSurface" fontSize="sm">
