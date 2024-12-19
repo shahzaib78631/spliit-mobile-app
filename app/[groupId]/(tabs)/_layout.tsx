@@ -5,13 +5,25 @@ import { AntDesign } from "@expo/vector-icons";
 
 // Translation
 import { getString } from "@/strings/translations";
-import { ThemedAntDesign } from "@/components/ui/ThemedIcons";
+import { ThemedMaterialIcons } from "@/components/ui/ThemedIcons";
 import TopAppBar from "@/components/AppBars/TopAppBar/TopAppBar";
 import { useAppContext } from "@/context/AppContext";
+import { useRouter } from "expo-router";
 
 export default function TabLayout() {
-  const { activeGroup, toggleStarActiveGroup, isActiveGroupStarred } =
-    useAppContext();
+  const { activeGroup } = useAppContext();
+
+  const router = useRouter();
+
+  const openGroupSettings = () => {
+    if (activeGroup) {
+      // Navigate to the settings page for the specific group
+      router.push({
+        pathname: "/[groupId]/settings",
+        params: { groupId: activeGroup.id },
+      });
+    }
+  };
 
   return (
     <TopAppBar
@@ -21,17 +33,13 @@ export default function TabLayout() {
       actions={[
         {
           icon: (
-            <ThemedAntDesign
-              color="onSurface"
+            <ThemedMaterialIcons
+              color="secondary"
               size={18}
-              name={isActiveGroupStarred ? "star" : "staro"}
+              name={"settings"}
             />
           ),
-          onPress: () => toggleStarActiveGroup(),
-        },
-        {
-          icon: <ThemedAntDesign color="onSurface" size={18} name="link" />,
-          onPress: () => console.log("Add member"),
+          onPress: () => openGroupSettings(),
         },
       ]}
       tabs={[

@@ -1,13 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
 import {
   expenseFormSchema,
   ExpenseFormValues,
 } from "spliit-api/src/lib/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ExpenseFormProps } from "@/components/forms/types";
-import { ExpenseDetails, Group, Reimbursement } from "@/utils/trpc";
+import { ExpenseDetails, Group, Reimbursement, trpc } from "@/utils/trpc";
+import { useRouter } from "expo-router";
 
 interface Params {
   expense: ExpenseDetails | null;
@@ -20,6 +18,9 @@ export default function useExpenseForm({
   reimbursementParams,
   group,
 }: Params) {
+  /**
+   * Initialize form state
+   */
   const {
     control,
     handleSubmit,
@@ -73,8 +74,34 @@ export default function useExpenseForm({
     resolver: zodResolver(expenseFormSchema),
   });
 
-  const submitForm = (expense: ExpenseFormValues) => {
-    console.log(expense);
+  // Create mutation
+  const { mutateAsync: createExpenseMutation } =
+    trpc.groups.expenses.create.useMutation();
+  const { mutateAsync: updateExpenseMutation } =
+    trpc.groups.expenses.update.useMutation();
+
+  const router = useRouter();
+
+  const utils = trpc.useUtils();
+
+  const createExpense = async (expenseFormValues: ExpenseFormValues) => {
+    if (group) {
+      await createExpenseMutation({ groupId: group?.id, expenseFormValues });
+      await utils.groups.invalidate();
+      router.back();
+    }
+  };
+
+  const updateExpense = async (expenseFormValues: ExpenseFormValues) => {
+    if (group && expense) {
+      await updateExpenseMutation({
+        groupId: group?.id,
+        expenseId: expense?.id,
+        expenseFormValues,
+      });
+      await utils.groups.invalidate();
+      router.back();
+    }
   };
 
   const splitMode = watch("splitMode");
@@ -89,6 +116,7 @@ export default function useExpenseForm({
     isSubmitting,
     watch,
     splitMode,
-    submitForm,
+    createExpense,
+    updateExpense,
   };
 }

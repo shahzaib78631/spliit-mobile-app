@@ -16,7 +16,7 @@ import { GroupForm } from "@/components/forms";
  */
 const EditGroup: React.FC = () => {
   /** Access active group from context */
-  const { activeGroup } = useAppContext();
+  const { activeGroup, activeGroupDetails } = useAppContext();
 
   /** Show loading indicator if no active group */
   if (!activeGroup) {
@@ -29,7 +29,11 @@ const EditGroup: React.FC = () => {
       statusbarBackgroundColor="surface2"
       title={activeGroup?.name}
     >
-      <GroupForm groupDetails={activeGroup} isEditing={true} />
+      <GroupForm
+        participantWithExpenses={activeGroupDetails?.participantsWithExpenses}
+        group={activeGroup}
+        isEditing={true}
+      />
     </ThemedView>
   );
 };

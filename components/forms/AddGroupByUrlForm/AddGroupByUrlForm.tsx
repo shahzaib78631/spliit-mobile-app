@@ -11,6 +11,7 @@ import {
 } from "@/hooks/useAddGroupFromUrlForm";
 import { useAppContext } from "@/context/AppContext";
 import { ThemedMaterialIcons } from "@/components/ui/ThemedIcons";
+import { SheetManager } from "react-native-actions-sheet";
 
 /**
  * AddGroupByUrlForm component allows users to add a group by providing a URL.
@@ -49,7 +50,11 @@ const AddGroupByUrlForm: React.FC = (): JSX.Element => {
    * @param {AddGroupFromUrlFormParams} data - The form data containing the URL.
    */
   const handleAddGroup = (data: AddGroupFromUrlFormParams) => {
-    handleAddGroupFromUrl(data).then(fetchGroups);
+    handleAddGroupFromUrl(data)
+      .then(fetchGroups)
+      .then(() => {
+        SheetManager.hide("AddGroupByUrlSheet");
+      });
   };
 
   return (
@@ -76,6 +81,7 @@ const AddGroupByUrlForm: React.FC = (): JSX.Element => {
         onPress={handleSubmit(handleAddGroup)}
         loading={isSubmitting}
         disabled={isSubmitting}
+        buttonStyle={{ height: 40 }}
       />
     </View>
   );

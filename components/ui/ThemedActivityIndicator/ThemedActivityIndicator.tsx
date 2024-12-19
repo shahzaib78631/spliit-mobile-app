@@ -8,8 +8,14 @@ interface ThemedActivityIndicatorProps {
 
 const ThemedActivityIndicator = ({ color }: ThemedActivityIndicatorProps) => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <ActivityIndicator size={"small"} />
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <ActivityIndicator size={"small"} style={{ width: 12, height: 12 }} />
     </View>
   );
 };

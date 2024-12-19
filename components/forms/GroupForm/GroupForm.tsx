@@ -27,7 +27,11 @@ import {
   ThemedMaterialCommunityIcons,
 } from "@/components/ui/ThemedIcons";
 
-const GroupForm = ({ groupDetails, isEditing }: GroupFormProps) => {
+const GroupForm = ({
+  group,
+  isEditing,
+  participantWithExpenses = [],
+}: GroupFormProps) => {
   const { commonStyles } = useThemeContext();
 
   // Use custom hook to handle form logic
@@ -39,7 +43,7 @@ const GroupForm = ({ groupDetails, isEditing }: GroupFormProps) => {
     errors,
     isSubmitting,
   } = useGroupForm({
-    groupDetails,
+    group,
   });
 
   // Manage participants with react-hook-form
@@ -61,10 +65,10 @@ const GroupForm = ({ groupDetails, isEditing }: GroupFormProps) => {
 
   // Handle form submission
   const handleFormSubmit = () => {
-    if (isEditing && groupDetails) {
+    if (isEditing && group) {
       // Handle editing group
       handleSubmit((data: GroupFormValues) =>
-        handleUpdateGroup(groupDetails.id, data)
+        handleUpdateGroup(group.id, data)
       )();
     } else {
       // Handle creating a new group
@@ -159,7 +163,11 @@ const GroupForm = ({ groupDetails, isEditing }: GroupFormProps) => {
                 <ThemedMaterialCommunityIcons
                   name="delete"
                   size={18}
-                  color={"error"}
+                  color={
+                    participantWithExpenses.includes(field?.id as string)
+                      ? "secondary"
+                      : "error"
+                  }
                 />
               </TouchableOpacity>
             }

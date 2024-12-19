@@ -12,7 +12,7 @@ import { useState } from "react";
  */
 interface Params {
   /** Optional existing group details for editing */
-  groupDetails?: GroupDetails | null;
+  group?: Group | null;
 }
 
 /**
@@ -36,7 +36,7 @@ const defaultValues: GroupFormValues = {
  * const { control, errors, isSubmitting, handleSubmit, handleSaveGroup, handleUpdateGroup, } = useGroupForm({});
  * ```
  */
-export function useGroupForm({ groupDetails }: Params) {
+export function useGroupForm({ group }: Params) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
@@ -59,12 +59,12 @@ export function useGroupForm({ groupDetails }: Params) {
     /**
      * Set initial values based on existing group or defaults
      */
-    defaultValues: groupDetails
+    defaultValues: group
       ? {
-          name: groupDetails.name,
-          information: groupDetails.information ?? "",
-          currency: groupDetails.currency,
-          participants: groupDetails.participants,
+          name: group.name,
+          information: group.information ?? "",
+          currency: group.currency,
+          participants: group.participants,
         }
       : defaultValues,
 

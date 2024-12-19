@@ -49,18 +49,27 @@ export default function ExpenseForm({
   expense,
   group,
   reimbursementParams,
+  isEditing = false,
 }: ExpenseFormProps) {
   const { commonStyles } = useThemeContext();
   const { categoriesList } = useAppContext();
-  // Some where in your sheet's component tree.
+
+  // Participants sheet reference
   const ref = useSheetRef("ParticipantsSheet");
 
-  const { control, errors, splitMode, handleSubmit, isSubmitting, submitForm } =
-    useExpenseForm({
-      expense,
-      group,
-      reimbursementParams,
-    });
+  const {
+    control,
+    errors,
+    splitMode,
+    handleSubmit,
+    isSubmitting,
+    createExpense,
+    updateExpense,
+  } = useExpenseForm({
+    expense,
+    group,
+    reimbursementParams,
+  });
 
   // Manage participants with react-hook-form
   const { fields, append, remove } = useFieldArray({
@@ -85,6 +94,17 @@ export default function ExpenseForm({
   };
 
   const handleRemovePaidFor = (index: number) => remove(index);
+
+  // Handle form submission
+  const handleFormSubmit = () => {
+    if (isEditing && group && expense) {
+      // Handle editing expense
+      handleSubmit(updateExpense)();
+    } else {
+      // Handle creating a new expense
+      handleSubmit(createExpense)();
+    }
+  };
 
   const getSplitModeIcon = useMemo(() => {
     switch (splitMode) {
@@ -371,7 +391,7 @@ export default function ExpenseForm({
 
       <ThemedButton
         title={getString("expenseform.save")}
-        onPress={handleSubmit(submitForm)}
+        onPress={handleFormSubmit}
         loading={isSubmitting}
       />
 

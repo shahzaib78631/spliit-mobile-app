@@ -81,6 +81,8 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: theme.borderRadius[radius],
   }),
   container: {
+    borderWidth: 1,
+    borderColor: "transparent",
     variants: {
       type: {
         primary: { backgroundColor: theme.colors.primary },

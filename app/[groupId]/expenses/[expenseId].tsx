@@ -5,7 +5,6 @@ import { ThemedView } from "@/components/ui";
 import { ExpenseForm } from "@/components/forms";
 import { useAppContext } from "@/context/AppContext";
 import { useGlobalSearchParams } from "expo-router";
-import { useGroupExpenses } from "@/hooks/useGroupExpenses";
 import { useExpenseDetails } from "@/hooks/useExpenseDetails";
 import { ExpenseDetails } from "@/utils/trpc";
 
@@ -36,7 +35,11 @@ export default function ExpenseInfo(): React.ReactElement {
       loading={isLoading || isFetching || isRefetching}
     >
       {/* Expense form */}
-      <ExpenseForm expense={data as ExpenseDetails} group={activeGroup} />
+      <ExpenseForm
+        isEditing={true}
+        expense={data as ExpenseDetails}
+        group={activeGroup}
+      />
     </ThemedView>
   );
 }

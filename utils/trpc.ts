@@ -24,11 +24,15 @@ export type GroupList = NonNullable<AppRouterOutput["groups"]["list"]>;
 export type GroupListItem = NonNullable<
   AppRouterOutput["groups"]["list"]["groups"][number]
 >;
-export type GroupDetails = AppRouterOutput["groups"]["getDetails"]["group"];
+export type GroupDetails = AppRouterOutput["groups"]["getDetails"];
+
+// Participants
 export type Participants =
   AppRouterOutput["groups"]["getDetails"]["group"]["participants"];
 export type Participant =
   AppRouterOutput["groups"]["getDetails"]["group"]["participants"][number];
+export type ParticipantsWithExpenses =
+  AppRouterOutput["groups"]["getDetails"]["participantsWithExpenses"];
 
 // Category Types
 export type Category =

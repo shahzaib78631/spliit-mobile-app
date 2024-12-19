@@ -288,7 +288,13 @@ const ThemedList = <T,>({
       keyExtractor={keyExtractor}
       ListHeaderComponent={ListHeaderComponent}
       ListFooterComponent={ListFooterComponent}
-      ListEmptyComponent={ListEmptyComponent}
+      ListEmptyComponent={
+        ListEmptyComponent ? (
+          ListEmptyComponent
+        ) : (
+          <ThemedListEmptyComponent {...emptyListProps} />
+        )
+      }
       style={[styles.list, style]}
       contentContainerStyle={[{ flexGrow: 1 }, contentContainerStyle]}
       ItemSeparatorComponent={() => <View style={styles.itemSeperator} />}

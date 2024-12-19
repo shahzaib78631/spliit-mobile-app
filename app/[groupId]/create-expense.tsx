@@ -4,6 +4,7 @@ import React from "react";
 import { ThemedView } from "@/components/ui";
 import { ExpenseForm } from "@/components/forms";
 import { useAppContext } from "@/context/AppContext";
+import { useLocalSearchParams } from "expo-router";
 
 /**
  * Screen for creating a new expense
@@ -13,6 +14,19 @@ import { useAppContext } from "@/context/AppContext";
  */
 export default function CreateExpenseScreen(): React.ReactElement {
   const { activeGroup } = useAppContext();
+  const params = useLocalSearchParams();
+
+  let reimbursementParams = undefined;
+
+  // Check if the expense is a reimbursement
+  if (params.isReimbursement) {
+    reimbursementParams = {
+      title: params.title as string,
+      paidBy: params.paidBy as string,
+      paidFor: params.paidFor as string,
+      amount: Number(params.amount),
+    };
+  }
 
   return (
     <ThemedView
@@ -20,7 +34,12 @@ export default function CreateExpenseScreen(): React.ReactElement {
       scrollEnabled
       statusbarBackgroundColor="surface2"
     >
-      <ExpenseForm expense={null} group={activeGroup} />
+      <ExpenseForm
+        isEditing={false}
+        expense={null}
+        group={activeGroup}
+        reimbursementParams={reimbursementParams}
+      />
     </ThemedView>
   );
 }

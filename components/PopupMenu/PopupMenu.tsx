@@ -74,9 +74,9 @@ const PopupMenu: React.FC<PopupMenuProps> = ({ groupId }) => {
         </View>
       ),
       handle: () => {
-        // Navigate to the edit page for the specific group
+        // Navigate to the settings page for the specific group
         router.push({
-          pathname: `/[groupId]/edit`,
+          pathname: `/[groupId]/settings`,
           params: { groupId },
         });
       },

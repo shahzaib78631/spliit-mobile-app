@@ -43,7 +43,7 @@ const EditGroup: React.FC<EditGroupProps> = () => {
    * Context hook to manage the active group state across screens.
    * Provides methods to set and retrieve the currently active group.
    */
-  const { setActiveGroup, activeGroup } = useAppContext();
+  const { setActiveGroupDetails, activeGroup } = useAppContext();
 
   /**
    * Effect hook that updates the active group whenever group details are fetched
@@ -53,11 +53,11 @@ const EditGroup: React.FC<EditGroupProps> = () => {
   useEffect(() => {
     // Set the active group if the current groupId matches the fetched data
     if (activeGroup?.id && activeGroup?.id !== groupId) {
-      setActiveGroup(null); // Reset active group if IDs don't match
-    } else if (data?.id === groupId) {
-      setActiveGroup(data as GroupDetails); // Set active group if IDs match
+      setActiveGroupDetails(null); // Reset active group if IDs don't match
+    } else if (data?.group?.id === groupId) {
+      setActiveGroupDetails(data as GroupDetails); // Set active group if IDs match
     }
-  }, [data, groupId, activeGroup, setActiveGroup]);
+  }, [data, groupId, activeGroup, setActiveGroupDetails]);
 
   return (
     <Stack
@@ -66,7 +66,7 @@ const EditGroup: React.FC<EditGroupProps> = () => {
       }}
     >
       <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="edit" />
+      <Stack.Screen name="settings" />
       <Stack.Screen name="create-expense" />
     </Stack>
   );

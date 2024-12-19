@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import { useGroupsList } from "@/hooks/useGroupsList";
 import { RecentGroup } from "@/storage/recentGroups";
-import { Category, GroupDetails, GroupList } from "@/utils/trpc";
+import { Category, Group, GroupDetails, GroupList } from "@/utils/trpc";
 import {
   getStarredGroups,
   starGroup as addStarGroup,
@@ -25,8 +25,9 @@ import { useCategoriesList } from "@/hooks/useCategoriesList";
 
 // Define the interface for the context's value
 interface AppContextProps {
-  activeGroup: GroupDetails | null | undefined;
-  setActiveGroup: Dispatch<SetStateAction<GroupDetails | null | undefined>>;
+  activeGroup: Group | undefined;
+  setActiveGroupDetails: Dispatch<SetStateAction<GroupDetails | null>>;
+  activeGroupDetails: GroupDetails | null;
   recentGroups: RecentGroup[] | null;
   recentGroupsList: GroupList;
   refetch: () => void;
@@ -60,9 +61,8 @@ export const GroupProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   const { categoriesList, refetch: refetchCategories } = useCategoriesList();
 
-  const [activeGroup, setActiveGroup] = useState<
-    GroupDetails | null | undefined
-  >(null);
+  const [activeGroupDetails, setActiveGroupDetails] =
+    useState<GroupDetails | null>(null);
 
   const [starredGroups, setStarredGroups] = useState<string[]>([]);
   const [archivedGroups, setArchivedGroups] = useState<string[]>([]);
@@ -106,6 +106,10 @@ export const GroupProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   const isGroupArchived = (groupId: string) => archivedGroups.includes(groupId);
 
+  const activeGroup = useMemo(() => {
+    return activeGroupDetails?.group;
+  }, [activeGroupDetails]);
+
   const toggleStarActiveGroup = () => {
     if (activeGroup) {
       if (isGroupStarred(activeGroup.id)) {
@@ -124,7 +128,7 @@ export const GroupProvider: React.FC<AppProviderProps> = ({ children }) => {
     <AppContext.Provider
       value={{
         activeGroup,
-        setActiveGroup,
+        setActiveGroupDetails,
         recentGroups,
         recentGroupsList,
         refetch,
@@ -141,6 +145,7 @@ export const GroupProvider: React.FC<AppProviderProps> = ({ children }) => {
         refetchCategories,
         isActiveGroupStarred,
         toggleStarActiveGroup,
+        activeGroupDetails,
       }}
     >
       {children}

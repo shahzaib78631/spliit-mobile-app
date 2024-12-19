@@ -34,8 +34,6 @@ export default function Home() {
 
   const { recentGroups } = useAppContext();
 
-  const { setTheme } = useThemeContext();
-
   /** Dummy data for demonstration */
   const dummyData = {
     friends: [{ name: "John Doe" }, { name: "Jane Doe" }],

@@ -39,48 +39,46 @@ export default function Expenses(): React.ReactElement {
   };
 
   return (
-    <>
-      <ThemedList
-        type="sectionlist"
-        data={sections}
-        renderItem={({ item }: { item: Expense | string }) => {
-          if (typeof item === "string") {
-            return (
-              <ThemedText fontSize="md" color="onBackground">
-                {getString(`expenses.groups.${item}`.toLowerCase() as any)}
-              </ThemedText>
-            );
-          }
-
+    <ThemedList
+      type="sectionlist"
+      data={sections}
+      renderItem={({ item }: { item: Expense | string }) => {
+        if (typeof item === "string") {
           return (
-            <ExpensesListCard
-              group={activeGroup}
-              expense={item}
-              onDelete={handleExpenseDelete}
-              onPress={handleExpenseOpen}
-            />
-          );
-        }}
-        keyExtractor={(item: any) => item?.id || item}
-        estimatedItemSize={100}
-        searchEnabled
-        renderSectionHeader={({ section: { title } }) => (
-          <View
-            style={[
-              commonStyles.paddingVerticalLg,
-              commonStyles.backgroundColor("background"),
-            ]}
-          >
             <ThemedText fontSize="md" color="onBackground">
-              {getString(`expenses.groups.${title}`.toLowerCase() as any)}
+              {getString(`expenses.groups.${item}`.toLowerCase() as any)}
             </ThemedText>
-          </View>
-        )}
-        searchConfig={{
-          extractSearchableText: (item: any) => item?.title ?? item, // Search by title
-          placeholder: getString("expenses.searchplaceholder"),
-        }}
-      />
-    </>
+          );
+        }
+
+        return (
+          <ExpensesListCard
+            group={activeGroup}
+            expense={item}
+            onDelete={handleExpenseDelete}
+            onPress={handleExpenseOpen}
+          />
+        );
+      }}
+      keyExtractor={(item: any) => item?.id || item}
+      estimatedItemSize={100}
+      searchEnabled
+      renderSectionHeader={({ section: { title } }) => (
+        <View
+          style={[
+            commonStyles.paddingVerticalLg,
+            commonStyles.backgroundColor("background"),
+          ]}
+        >
+          <ThemedText fontSize="md" color="onBackground">
+            {getString(`expenses.groups.${title}`.toLowerCase() as any)}
+          </ThemedText>
+        </View>
+      )}
+      searchConfig={{
+        extractSearchableText: (item: any) => item?.title ?? item, // Search by title
+        placeholder: getString("expenses.searchplaceholder"),
+      }}
+    />
   );
 }

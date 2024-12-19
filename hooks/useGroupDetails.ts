@@ -21,13 +21,13 @@ interface Params {
  */
 export function useGroupDetails({ groupId }: Params) {
   /** Fetch group details via TRPC query */
-  const { data, refetch } = trpc.groups.get.useQuery({
+  const { data, refetch } = trpc.groups.getDetails.useQuery({
     groupId: groupId,
   });
 
   /** Return group details and refetch method */
   return {
-    data: data?.group,
+    data: data,
     refetch,
   };
 }

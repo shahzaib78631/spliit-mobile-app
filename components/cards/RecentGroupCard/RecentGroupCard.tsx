@@ -6,11 +6,11 @@ import ThemedButton from "@/components/ui/ThemedButton";
 import { StackedAvatars } from "@/components/Avatars";
 import { getString } from "@/strings/translations";
 import { useGroupStats } from "@/hooks/useGroupStats";
-import { useGroupDetails } from "@/hooks/useGroupDetails";
 import PopupMenu from "@/components/PopupMenu";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { StyleSheet } from "react-native-unistyles";
 import { BaseCard } from "@/components/base";
+import { useGroup } from "@/hooks/useGroup";
 
 const { width } = Dimensions.get("window");
 
@@ -25,7 +25,7 @@ const RecentGroupCard: React.FC<RecentGroupCardProps> = ({
   onSplitBtnPress,
 }) => {
   const { data: stats, refetch: refetchStats } = useGroupStats({ groupId });
-  const { data: details, refetch: refetchDetails } = useGroupDetails({
+  const { data: details, refetch: refetchDetails } = useGroup({
     groupId,
   });
 

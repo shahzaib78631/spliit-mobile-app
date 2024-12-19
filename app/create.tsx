@@ -18,7 +18,7 @@ function CreateGroupScreen(): React.ReactElement {
       scrollEnabled
       statusbarBackgroundColor="surface2"
     >
-      <GroupForm groupDetails={null} isEditing={false} />
+      <GroupForm group={null} isEditing={false} />
     </ThemedView>
   );
 }

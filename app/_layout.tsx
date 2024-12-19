@@ -38,6 +38,7 @@ import { commonStyles } from "@/theme/styles";
 
 // Components
 import { ThemedActivityIndicator } from "@/components/ui";
+import { initRecentGroup } from "@/storage/recentGroups";
 
 /**
  * Root application component

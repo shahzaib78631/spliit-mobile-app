@@ -32,10 +32,8 @@ const ThemedListEmptyComponent: React.FC<ThemedListEmptyComponentProps> = ({
   title = "Yo~ It's empty here!",
   subtitle = "Please check back later or try refreshing.",
   containerStyle,
-  titleStyle,
-  subtitleStyle,
 }) => {
-  const { commonStyles, theme } = useThemeContext();
+  const { commonStyles } = useThemeContext();
 
   /**
    * Default icon component to display when no custom icon is provided.
