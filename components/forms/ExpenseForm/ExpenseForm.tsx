@@ -1,22 +1,37 @@
 import { TouchableOpacity, View } from "react-native";
 import React, { useMemo } from "react";
-import { ExpenseFormProps } from "@/components/forms/types";
-import useExpenseForm from "@/hooks/useExpenseForm";
-import { useThemeContext } from "@/context/ThemeContext";
-import ThemedText from "@/components/ui/ThemedText";
-import { getString } from "@/strings/translations";
-import { useAppContext } from "@/context/AppContext";
-import { CategoriesList, ParticipantsList } from "@/components/lists";
-import ThemedButton from "@/components/ui/ThemedButton";
-import { getColorWithAlpha } from "@/utils/colors";
+
+// React hook form
 import { useFieldArray } from "react-hook-form";
-import ParticipantsSheet from "@/components/sheets/ParticipantsSheet/ParticipantsSheet";
+
+// Utils
 import { Expense, Participant, Participants } from "@/utils/trpc";
-import Seperator from "@/components/Seperator/Seperator";
+import { getColorWithAlpha } from "@/utils/colors";
+
+// Translations
+import { getString } from "@/strings/translations";
+
+// Hooks
+import useExpenseForm from "@/hooks/useExpenseForm";
+
+// Context
+import { useAppContext } from "@/context/AppContext";
+import { useThemeContext } from "@/context/ThemeContext";
+
+// Action sheet
+import { useSheetRef } from "react-native-actions-sheet";
+
+// Styles
+import { StyleSheet } from "react-native-unistyles";
+
+// Components
+import Seperator from "@/components/Seperator";
+import { ExpenseFormProps } from "@/components/forms/types";
+import { ParticipantsSheet } from "@/components/sheets";
+import { CategoriesList, ParticipantsList } from "@/components/lists";
+import { ThemedButton, ThemedText } from "@/components/ui";
 import { enforceCurrencyPattern } from "@/utils/formatCurrency";
 import { ErrorMessage, FormField } from "@/components/forms/components";
-import { StyleSheet } from "react-native-unistyles";
-import { SheetManager, useSheetRef } from "react-native-actions-sheet";
 import {
   ThemedAntDesign,
   ThemedMaterialCommunityIcons,
@@ -88,7 +103,11 @@ export default function ExpenseForm({
     <View style={commonStyles.gapMd}>
       {/* Group Information Section */}
       <View style={commonStyles.marginBottomLg}>
-        <ThemedText type="bold">{getString("expenses.create")}</ThemedText>
+        <ThemedText type="bold">
+          {expense
+            ? getString("expenseform.expense.edit")
+            : getString("expenses.create")}
+        </ThemedText>
       </View>
       <FormField
         control={control}
